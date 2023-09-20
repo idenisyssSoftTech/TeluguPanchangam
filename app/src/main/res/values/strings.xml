@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name" translatable="true">Telugu Panchangamu 2023</string>
     <string name="samskaram" translatable="true">నమస్కారం</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>
