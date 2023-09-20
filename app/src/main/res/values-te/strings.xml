@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="app_name" translatable="true">తెలుగు పంచాంగం</string>
-
-    <string name="samskaram">నమస్కారం</string>
+    <string name="app_name">తెలుగు పంచాంగము</string>
+    <string name="title_home">పంచాంగం</string>
+    <string name="title_dashboard" >పండుగలు</string>
+    <string name="title_notifications">నోటిఫికేషన్‌లు</string>
 </resources>

@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name" translatable="true">Telugu Panchangamu 2023</string>
-    <string name="samskaram" translatable="true">నమస్కారం</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name" translatable="true">Telugu Panchangamu</string>
+    <string name="samskaram" translatable="false">నమస్కారం</string>
+    <string name="title_activity_home" translatable="false">HomeActivity</string>
+    <string name="i_agree_to" translatable="false">"I agree to the "</string>
+    <string name="menu_terms_condition" translatable="false">Terms &amp; Conditions</string>
+    <string name="title_home" translatable="true">Panchangam</string>
+    <string name="title_dashboard" translatable="true">Festivals</string>
+    <string name="title_notifications" translatable="true">Notifications</string>
+    <string name="app_name_tel" translatable="false">తెలుగు పంచాంగము</string>
+    <string name="privacy_policy" translatable="false">Privacy Policy</string>
 
 
 </resources>
