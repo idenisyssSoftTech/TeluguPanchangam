@@ -5,4 +5,7 @@
     <string name="title_home">పంచాంగం</string>
     <string name="title_dashboard" >పండుగలు</string>
     <string name="title_notifications">నోటిఫికేషన్‌లు</string>
+
+    <string name="settings_desc" translatable="true">ఈ సెట్టింగ్‌ని ఉపయోగించడం ద్వారా, మీరు భాష మార్చండి.. మొదలైన యాప్ ఫీచర్‌లను మార్చవచ్చు.
+దీనిలో, మేము యాప్ నిబంధనలు మరియు విధానాలను కూడా చూడవచ్చు.</string>
 </resources>

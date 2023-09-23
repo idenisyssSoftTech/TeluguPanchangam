@@ -6,4 +6,88 @@
     android:layout_height="match_parent"
     tools:context=".activities.SettingsActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"></TextView>
+
+    <RelativeLayout
+        android:id="@+id/setting_relaytive"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/two_hundred_dp"
+        android:background="@color/purple_500"
+        android:padding="@dimen/twenty_dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="wrap_content"
+            android:layout_toLeftOf="@id/circularImageView"
+            android:layout_alignParentStart="true"
+            android:layout_margin="@dimen/twenty_dp"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/Settings_name_tv"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editText2"
+                android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/Settings_email_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_below="@+id/editText2"
+                android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/Settings_number_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editText2"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+
+
+        <!-- Circular ImageView with Camera Button -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circularImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/telugu_app_icon"
+            app:civ_border_color="@color/gold"
+            app:civ_border_width="@dimen/two_dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:layout_alignParentBottom="true"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="@dimen/one_dp"
+            android:padding="@dimen/two_dp"
+            android:src="@drawable/camera">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/settings_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/setting_relaytive">
+    </androidx.recyclerview.widget.RecyclerView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

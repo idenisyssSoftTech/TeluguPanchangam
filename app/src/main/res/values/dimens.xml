@@ -27,6 +27,9 @@
     <dimen name="eighteen_sp">18sp</dimen>
     <dimen name="ten_sp">10sp</dimen>
     <dimen name="one_fifty_dp">150dp</dimen>
+    <dimen name="two_dp">2dp</dimen>
+    <dimen name="one_dp">1dp</dimen>
+    <dimen name="ten_dp">10dp</dimen>
 
 
 </resources>
