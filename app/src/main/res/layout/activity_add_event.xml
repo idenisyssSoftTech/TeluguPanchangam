@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddEvent_Activity">
+
+            <LinearLayout
+                android:id="@+id/toplinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/ten_dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dateTitle"
+                    android:textColor="@color/purple_700"
+                    />
+                <TextView
+                    android:id="@+id/eventdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginStart="@dimen/three_dp"
+                    android:textColor="@android:color/darker_gray"
+                    />
+            </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toplinear">
+        <Spinner
+            android:id="@+id/select_Event"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_margin="@dimen/ten_dp"
+            android:background="@drawable/arrow_dropdown"
+            android:dropDownVerticalOffset="?attr/dropdownListPreferredItemHeight"
+            android:paddingStart="@dimen/eight_dp"
+            tools:ignore="RtlSymmetry" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textIn1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_name"
+                app:boxBackgroundColor="#FFFFFF"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="#039BE5"
+                app:endIconMode="clear_text"
+                app:endIconTint="#696768"
+                android:layout_margin="@dimen/ten_dp"
+                app:hintTextColor="#039BE5">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/EventName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:padding="@dimen/fifteen_dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/relat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ten_dp"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/event_time"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#039BE5"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="#696768"
+                    app:hintTextColor="#039BE5"
+                    android:layout_weight="2">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/eTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:padding="@dimen/fifteen_dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/eTime_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/time"
+                    app:tint="@color/white"
+                    app:maxImageSize="@dimen/forty_dp"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:backgroundTint="@color/purple_200"
+                    android:contentDescription="@string/todo" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textIn2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                app:boxBackgroundColor="#FFFFFF"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="#039BE5"
+                app:endIconMode="clear_text"
+                app:endIconTint="#696768"
+                android:layout_margin="@dimen/ten_dp"
+                app:hintTextColor="#039BE5">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:maxLines="5"
+                    android:padding="@dimen/fifteen_dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/thirty_dp"
+            android:text="@string/save_event"
+            android:textAllCaps="false"
+            android:textSize="@dimen/eighteen_sp"
+            android:layout_gravity="center"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

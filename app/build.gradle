@@ -41,6 +41,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.7.2'
     implementation 'androidx.navigation:navigation-ui:2.7.2'
 
+    implementation 'androidx.room:room-runtime:2.5.2'
+    implementation 'androidx.room:room-common:2.5.2'
+    annotationProcessor 'androidx.room:room-compiler:2.5.2'
+
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 

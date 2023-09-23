@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name" translatable="true">Telugu Panchangamu</string>
     <string name="samskaram" translatable="false">నమస్కారం</string>
     <string name="title_activity_home" translatable="false">HomeActivity</string>
@@ -8,11 +7,28 @@
     <string name="title_home" translatable="true">Panchangam</string>
     <string name="title_dashboard" translatable="true">Festivals</string>
     <string name="title_notifications" translatable="true">Notifications</string>
+    <string name="app_name_tel" translatable="false">తెలుగు పంచాంగము</string>
     <string name="privacy_policy" translatable="false">Privacy Policy</string>
 
     <string name="settings_desc" translatable="true">By using this setting ,you can change the App features like Change Language..etc.,
 in this ,we can also go through the app terms and policies. </string>
 
+
+    <string name="todo" translatable="false">TODO</string>
+    <!--  Actionbar strings   -->
+    <string name="action_event" translatable="false">Events</string>
+    <string name="action_addEvent" translatable="false">Add Event</string>
+
+    <!--   addEvent Strings  -->
+    <string name="event" translatable="false">EVENTS</string>
+    <string name="dateTitle" translatable="false">Date:- </string>
+    <string name="event_name" translatable="false">Enter Name</string>
+    <string name="event_time" translatable="false">Enter Time</string>
+    <string name="description" translatable="false">Description</string>
+    <string name="save_event" translatable="false">Save Event</string>
+
+    <string name="ok" translatable="false">OK</string>
+    <string name="cancel" translatable="false">Cancel</string>
 
 
 

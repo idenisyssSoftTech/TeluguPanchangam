@@ -2,6 +2,7 @@ package com.soumya.telugupanchangam.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,6 +18,7 @@ import com.soumya.telugupanchangam.utils.PanchangSharedPref;
 
 import java.util.Locale;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG_NAME = SplashActivity.class.getName();
@@ -37,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         privacy_tv = findViewById(R.id.privacy_textview);
         terms_check = findViewById(R.id.termsCheckbox);
         // Retrieve the checkbox state from shared preferences and set it
-        String languangecode = sharedPreferences.getStringVal(PanchangConstants.SLECTEDLAUNGE_CODE, PanchangConstants.LANG_TELUGU);
+        String languangecode = sharedPreferences.getStringVal(PanchangConstants.SELECTEDLAUNGE_CODE, PanchangConstants.LANG_TELUGU);
         if(languangecode != null && !languangecode.isEmpty()){
             changeAppLanguage(getApplicationContext(),languangecode);
             app_title_tv.setText(R.string.app_name);

@@ -1,5 +1,6 @@
 package com.soumya.telugupanchangam.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.soumya.telugupanchangam.R;
+import com.soumya.telugupanchangam.activities.EventActivity;
 import com.soumya.telugupanchangam.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -26,6 +30,8 @@ public class HomeFragment extends Fragment {
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        ExtendedFloatingActionButton fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
         return root;
     }
 
