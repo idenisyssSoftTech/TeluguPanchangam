@@ -10,6 +10,7 @@
     import android.content.Intent;
     import android.content.pm.PackageManager;
     import android.os.Build;
+    import android.util.Log;
 
     import androidx.core.app.ActivityCompat;
     import androidx.core.app.NotificationCompat;
@@ -22,9 +23,10 @@
 
     public class EventReminderReceiver extends BroadcastReceiver {
 
-
+        String TAG_NAME = "EventReminderReceiver";
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG_NAME,"Broadcast start");
             String eventName = intent.getStringExtra(AppConstants.eventName);
             String description = intent.getStringExtra(AppConstants.eventDesc);
             String eventType = intent.getStringExtra(AppConstants.eventType);
@@ -39,6 +41,7 @@
             );
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Log.d(TAG_NAME,"create channel start");
                 NotificationChannel channel = new NotificationChannel(
                         AppConstants.CHANNEL_ID,
                         AppConstants.CHANNEL_NAME,
@@ -46,9 +49,11 @@
                 );
                 channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
                 NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+                Log.d(TAG_NAME,"create notification_manager");
                 notificationManager.createNotificationChannel(channel);
             }
 
+            Log.d(TAG_NAME,"create notificationCompat");
             // Create the notification
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, AppConstants.CHANNEL_ID)
                     .setSmallIcon(R.drawable.app_icon_om)
@@ -66,6 +71,7 @@
                 return;
             }
             notificationManager.notify(utils.generateNotificationId(), builder.build());
+            Log.d(TAG_NAME,"send notification");
         }
 
 

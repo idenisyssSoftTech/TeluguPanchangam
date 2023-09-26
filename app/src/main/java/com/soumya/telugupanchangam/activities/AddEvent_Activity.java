@@ -4,11 +4,15 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.AlarmManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -20,7 +24,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,7 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.databases.dbtables.Eventdata;
 import com.soumya.telugupanchangam.databases.livedatamodel.EventLiveData;
-import com.soumya.telugupanchangam.services.NotificationService;
+import com.soumya.telugupanchangam.receivers.EventReminderReceiver;
 import com.soumya.telugupanchangam.utils.AppConstants;
 import com.soumya.telugupanchangam.utils.PermissionUtils;
 import com.soumya.telugupanchangam.utils.utils;
@@ -39,6 +42,8 @@ import de.hdodenhof.circleimageview.BuildConfig;
 
 public class AddEvent_Activity extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG_NAME = "AddEvent_Activity";
+
     private FloatingActionButton timePicker;
     private MaterialButton btn_saveEvent;
     private TextInputEditText eventName, eventTime, eventDescription;
@@ -47,6 +52,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
     ArrayAdapter<String> adapterItems;
 
     private EventLiveData eventLiveData;
+    private int selectedHour, selectedMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +97,15 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
 
     }
     private void showTimePickerDialog() {
-        int hour = AppConstants.calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = AppConstants.calendar.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute1) -> setTimeToTextView(hourOfDay, minute1), hour, minute, false // 24-hour format (change to true for 24-hour format)
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute1)
+                -> {
+            selectedHour = hourOfDay;   // Set the selected hour
+            selectedMinute = minute1;
+            setTimeToTextView(hourOfDay,minute1);
+            }, hour, minute, false // 24-hour format (change to true for 24-hour format)
         );
         timePickerDialog.show();
     }
@@ -101,9 +113,8 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
     private void setTimeToTextView(int hourOfDay, int minute) {
         AppConstants.calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         AppConstants.calendar.set(Calendar.MINUTE, minute);
-        eventTime.setText(AppConstants.timeFormat.format(AppConstants.calendar.getTime()));
+        eventTime.setText("Selected Time : "+AppConstants.timeFormat.format(AppConstants.calendar.getTime()));
     }
-    @SuppressLint("ScheduleExactAlarm")
     private void saveEvent() {
         String name = eventName.getText().toString();
         String date = eventDate.getText().toString();
@@ -131,13 +142,60 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
             });
         }).start();
 
-        long eventTimeInMillis = AppConstants.calendar.getTimeInMillis();
-            Intent notificationServiceIntent = new Intent(this, NotificationService.class);
-            notificationServiceIntent.putExtra(AppConstants.eventName, name);
-            notificationServiceIntent.putExtra(AppConstants.eventDesc, description);
-            notificationServiceIntent.putExtra(AppConstants.eventType, selectedEventType);
-            notificationServiceIntent.putExtra(AppConstants.eventTime, eventTimeInMillis);
-            startService(notificationServiceIntent);
+        scheduleNotificationTime(name,description,selectedEventType);
+
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    private void scheduleNotificationTime(String name, String description, String selectedEventType) {
+        // Calculate the delay based on the selected time
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+        calendar.set(Calendar.MINUTE, selectedMinute);
+        calendar.set(Calendar.SECOND,0);
+        long selectedTimeMillis = calendar.getTimeInMillis();
+        long currentTimeMillis = System.currentTimeMillis();
+
+
+        Intent notificationIntent = new Intent(this, EventReminderReceiver.class);
+        notificationIntent.putExtra(AppConstants.eventName, name);
+        notificationIntent.putExtra(AppConstants.eventDesc, description);
+        notificationIntent.putExtra(AppConstants.eventType, selectedEventType);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                utils.generateNotificationId(),
+                notificationIntent,
+                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+        );
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Log.d(TAG_NAME,"system current time : "+currentTimeMillis);
+        if (selectedTimeMillis > currentTimeMillis) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Log.d(TAG_NAME,"current time : "+selectedTimeMillis);
+                AlarmManagerCompat.setExactAndAllowWhileIdle(
+                        alarmManager,
+                        AlarmManager.RTC_WAKEUP,
+                        selectedTimeMillis,
+                        pendingIntent
+                );
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Log.d(TAG_NAME,"current time : "+selectedTimeMillis);
+                alarmManager.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        selectedTimeMillis,
+                        pendingIntent
+                );
+            } else {
+                Log.d(TAG_NAME,"current time : "+selectedTimeMillis);
+                alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        selectedTimeMillis,
+                        pendingIntent
+                );
+            }
+        } else {
+            Toast.makeText(this, "Event time has already passed", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
@@ -157,14 +215,12 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
 
     private final ActivityResultLauncher<String[]> multiPermissionLancher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
             result -> {
-                Log.d("vfdcs", "vfc" + result);
-
                 boolean allGranted = true;
                 for (String key : result.keySet()) {
                     allGranted = allGranted && Boolean.TRUE.equals(result.get(key));
                 }
                 if (allGranted) {
-                    Log.d("ALL PERMISSIONS","ALL Permissions granted");
+                    Log.d(TAG_NAME,"ALL Permissions granted");
                 } else {
                     showPermissionSettingsDialog();
                 }
