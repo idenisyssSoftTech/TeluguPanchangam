@@ -22,6 +22,7 @@
         android:background="@color/purple_500"
         app:layout_constraintTop_toBottomOf="@id/settings_title_tv"
         android:layout_margin="@dimen/four_dp"
-        android:layout_height="@dimen/one_dp"></View>
+        android:layout_height="@dimen/one_dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
