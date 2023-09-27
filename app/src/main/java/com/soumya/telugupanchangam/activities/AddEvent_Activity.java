@@ -22,11 +22,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.databases.dbtables.Eventdata;
@@ -42,15 +42,15 @@ import de.hdodenhof.circleimageview.BuildConfig;
 
 public class AddEvent_Activity extends AppCompatActivity implements View.OnClickListener {
 
-    private String TAG_NAME = "AddEvent_Activity";
+    private final String TAG_NAME = "AddEvent_Activity";
 
-    private FloatingActionButton timePicker;
-    private MaterialButton btn_saveEvent;
-    private TextInputEditText eventName, eventTime, eventDescription;
-    private TextView eventDate;
+    private ImageButton timePicker;
+    private Button btn_saveEvent;
+    private TextInputEditText eventName, eventDescription;
+    private TextView eventDate, eventTime;
     private Spinner eventType;
     ArrayAdapter<String> adapterItems;
-
+    private String[] items;
     private EventLiveData eventLiveData;
     private int selectedHour, selectedMinute;
 
@@ -68,14 +68,14 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         btn_saveEvent = findViewById(R.id.btnSaveEvent);
         btn_saveEvent.setOnClickListener(this);
         eventName = findViewById(R.id.EventName);
-        eventTime = findViewById(R.id.eTime);
+        eventTime = findViewById(R.id.EventTime);
         eventDescription  = findViewById(R.id.Description);
         eventDate = findViewById(R.id.eventdate);
         eventType = findViewById(R.id.select_Event);
-        timePicker = findViewById(R.id.eTime_fab);
+        timePicker = findViewById(R.id.eTime_btn);
         timePicker.setOnClickListener(this);
-
-        adapterItems = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, AppConstants.items);
+        items = getResources().getStringArray(R.array.event_types);
+        adapterItems = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
         adapterItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eventType.setAdapter(adapterItems);
 
@@ -91,7 +91,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
             if(checkPermissionMethod()) {
                 saveEvent();
             }
-        }else if(v.getId()==R.id.eTime_fab){
+        }else if(v.getId()==R.id.eTime_btn){
             showTimePickerDialog();
         }
 
@@ -113,7 +113,9 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
     private void setTimeToTextView(int hourOfDay, int minute) {
         AppConstants.calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         AppConstants.calendar.set(Calendar.MINUTE, minute);
-        eventTime.setText("Selected Time : "+AppConstants.timeFormat.format(AppConstants.calendar.getTime()));
+        String selectedTime = AppConstants.timeFormat.format(AppConstants.calendar.getTime());
+        eventTime.setText(selectedTime);
+
     }
     private void saveEvent() {
         String name = eventName.getText().toString();

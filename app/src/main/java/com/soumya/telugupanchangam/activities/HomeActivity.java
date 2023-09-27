@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,11 +28,14 @@ import com.soumya.telugupanchangam.utils.PermissionUtils;
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
+    private final String TAG_NAME = "HomeActivity";
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // NightMode off
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -56,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (Environment.isExternalStorageManager()) {
                     // If you don't have access, launch a new activity to show the user the system's dialog
                     // to allow access to the external storage
-                    Log.d("ALL second PERMISSIONS","ALL Permissions granted");
+                    Log.d(TAG_NAME,"ALL Permissions granted");
                 } else {
                     Intent intent = new Intent();
                     intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
@@ -77,16 +81,14 @@ public class HomeActivity extends AppCompatActivity {
 
     private final ActivityResultLauncher<String[]> multiPermissionLancher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
             result -> {
-                Log.d("vfdcs", "vfc" + result);
-
                 boolean allGranted = true;
                 for (String key : result.keySet()) {
                     allGranted = allGranted && Boolean.TRUE.equals(result.get(key));
                 }
                 if (allGranted) {
-                    Log.d("ALL PERMISSIONS","ALL Permissions granted");
+                    Log.d(TAG_NAME,"ALL Permissions granted");
                 } else {
-                    Log.d("ALL NOT PERMISSIONS","ALL Permissions not granted");
+                    Log.d(TAG_NAME,"ALL Permissions not granted");
                 }
 
             });

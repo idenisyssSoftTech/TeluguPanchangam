@@ -48,7 +48,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     private void initViews() {
         //actionBar Title
-        utils.setupActionBar(this,getResources().getString(R.string.action_event));
+        utils.setupActionBar(this,getResources().getString(R.string.events));
         eventCalenderView = findViewById(R.id.EventCalenderView);
         eventResult = findViewById(R.id.event_result);
         event_fab = findViewById(R.id.event_fab);
@@ -94,10 +94,10 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         Log.d("EventActivity", "updateEventList called with " + events.size() + " events");
         StringBuilder eventStringBuilder = new StringBuilder();
         for (Eventdata event : events) {
-            eventStringBuilder.append("Name: ").append(event.getName()).append("\n");
-            eventStringBuilder.append("Time: ").append(event.getTime()).append("\n");
-            eventStringBuilder.append("Description: ").append(event.getDescription()).append("\n");
-            eventStringBuilder.append("Event Type: ").append(event.getEventType()).append("\n\n");
+            eventStringBuilder.append(getResources().getString(R.string.name)).append(" ").append(event.getName()).append("\n");
+            eventStringBuilder.append(getResources().getString(R.string.time)).append(" ").append(event.getTime()).append("\n");
+            eventStringBuilder.append(getResources().getString(R.string.description)).append(" ").append(event.getDescription()).append("\n");
+            eventStringBuilder.append(getResources().getString(R.string.eventType)).append(" ").append(event.getEventType()).append("\n\n");
         }
         eventResult.setText(eventStringBuilder.toString());
     }

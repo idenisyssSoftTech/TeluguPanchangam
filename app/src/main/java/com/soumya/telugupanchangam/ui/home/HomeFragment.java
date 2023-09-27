@@ -19,7 +19,7 @@ import com.soumya.telugupanchangam.databinding.FragmentHomeBinding;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-
+    private ExtendedFloatingActionButton fab;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        ExtendedFloatingActionButton fab = root.findViewById(R.id.fab);
+        fab = root.findViewById(R.id.fab);
         fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
         return root;
     }
