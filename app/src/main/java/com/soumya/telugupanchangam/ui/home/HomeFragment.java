@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -63,8 +64,8 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear, currentDay));
 
         gridLayoutManager = new GridLayoutManager(getActivity(),7);
-        List<CalenderItem> calendarItems = generateSampleData(currentYear,currentMonth);
-        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems,this,currentMonth,currentYear);
+        List<CalenderItem> calendarItems = generateSampleData(currentYear,currentMonth,currentDay);
+        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems,this,currentMonth,currentYear,currentDay);
         calenderRecyclerview.setLayoutManager(gridLayoutManager);
         calenderRecyclerview.setAdapter(calenderViewAdapter);
 
@@ -76,7 +77,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         return root;
     }
 
-    private List<CalenderItem> generateSampleData(int year, int month) {
+    private List<CalenderItem> generateSampleData(int year, int month,int iday) {
         // Generate your calendar data here, e.g., for a single month
         List<CalenderItem> items = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -85,17 +86,17 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         for (int i = 1; i <= daysInMonth; i++) {
-            String day = String.valueOf(i);
-            String event = "Event for day " + day; // You can customize this
+            String daynum = String.valueOf(i);
+            String event = "Event for daynum " + daynum; // You can customize this
 
-            items.add(new CalenderItem(day, event));
+            items.add(new CalenderItem(iday,year,month,daynum, event));
         }
         return items;
 
     }
-    private void updateCalendar(int year, int month) {
-        List<CalenderItem> calendarItems = generateSampleData(year, month);
-        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(), calendarItems,this,month,year);
+    private void updateCalendar(int year, int month,int day) {
+        List<CalenderItem> calendarItems = generateSampleData(year, month,day);
+        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(), calendarItems,this,month,year,day);
         calenderRecyclerview.setAdapter(calenderViewAdapter);
         updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear,currentDay));
     }
@@ -108,7 +109,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
             currentMonth--;
         }
 
-        updateCalendar(currentYear, currentMonth);
+        updateCalendar(currentYear, currentMonth,currentDay);
     }
 
     private void onNextMonthClicked() {
@@ -119,7 +120,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
             currentMonth++;
         }
 
-        updateCalendar(currentYear, currentMonth);
+        updateCalendar(currentYear, currentMonth,currentDay);
     }
 
     @Override
@@ -129,14 +130,16 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     }
 
     @Override
-    public void onDateChanged(int day, int month, int year) {
+    public void onDateChanged(int day, int month, int year,int iday) {
         // Handle item click here, for example, update the displayed day, month, and year
         currentDay = day;
         currentMonth = month;
         currentYear = year;
 
         // Update the calendar and month text
-        updateCalendar(currentYear, currentMonth);
+        updateCalendar(currentYear, currentMonth,day);
         updateTextMonth.setText(utils.updateMonth(currentMonth, currentYear, currentDay));
+        Toast.makeText(getActivity(), iday+"", Toast.LENGTH_SHORT).show();
     }
+
 }

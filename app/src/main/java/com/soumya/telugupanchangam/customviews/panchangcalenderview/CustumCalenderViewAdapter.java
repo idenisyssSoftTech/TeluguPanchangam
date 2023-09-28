@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.soumya.telugupanchangam.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalenderViewAdapter.MYCalenderItemView> {
@@ -19,15 +21,16 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
     private final List<CalenderItem> items;
     private final Context context;
     private final int currentMonth;
-    private final int currentYear;
+    private final int currentYear,day;
     OnDateChangedCallBack onDateChangedCallBack;
 
-    public CustumCalenderViewAdapter(Context context , List<CalenderItem> items,OnDateChangedCallBack onDateChangedCallBack, int currentMonth, int currentYear) {
+    public CustumCalenderViewAdapter(Context context , List<CalenderItem> items,OnDateChangedCallBack onDateChangedCallBack, int currentMonth, int currentYear,int day) {
         this.context = context;
         this.items = items;
         this.onDateChangedCallBack = onDateChangedCallBack;
         this.currentMonth = currentMonth;
         this.currentYear = currentYear;
+        this.day = day;
     }
 
 
@@ -42,15 +45,28 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
     @Override
     public void onBindViewHolder(@NonNull CustumCalenderViewAdapter.MYCalenderItemView holder, int position) {
         CalenderItem item = items.get(position);
-        holder.dayTextView.setText(item.getDay());
+
+        // Set the formatted month and year as the TextView's text
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,  item.getYear());
+        calendar.set(Calendar.MONTH,  item.getMonth());
+        calendar.set(Calendar.DAY_OF_MONTH, item.getIday());
+
+        SimpleDateFormat monthFormat = new SimpleDateFormat("EEE");
+        monthFormat.format(calendar.getTime());
+
+
+        holder.dayTextView.setText(item.getDaynumber());
         holder.eventTextView.setText(item.getEvent());
+
+
         // Handle item click
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onDateChangedCallBack != null) {
-                    int day = Integer.parseInt(item.getDay());
-                    onDateChangedCallBack.onDateChanged(day, currentMonth, currentYear);
+                    int day = Integer.parseInt(item.getDaynumber());
+                    onDateChangedCallBack.onDateChanged(day, currentMonth, currentYear,item.getIday());
                 }
             }
         });

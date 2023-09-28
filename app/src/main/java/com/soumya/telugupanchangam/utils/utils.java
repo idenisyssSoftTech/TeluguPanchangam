@@ -26,7 +26,7 @@ public class utils {
         // Set the locale to Telugu
         Locale teluguLocale = new Locale("te");
         // Create a DateFormat to display the month name
-        SimpleDateFormat monthFormat = new SimpleDateFormat("EEEE, MMMM yyyy", teluguLocale);
+        SimpleDateFormat monthFormat = new SimpleDateFormat("EEEE, MMMM , yyyy", teluguLocale);
 
         // Set the formatted month and year as the TextView's text
         Calendar calendar = Calendar.getInstance();
