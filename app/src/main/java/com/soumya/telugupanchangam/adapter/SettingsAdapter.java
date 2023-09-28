@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.activityadpatera;
+package com.soumya.telugupanchangam.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

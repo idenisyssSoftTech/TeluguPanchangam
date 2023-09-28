@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.LocaleList;
 
 import com.soumya.telugupanchangam.R;
-import com.soumya.telugupanchangam.activityadpatera.SettingsAdapter;
+import com.soumya.telugupanchangam.adapter.SettingsAdapter;
 import com.soumya.telugupanchangam.models.SettingsModel;
 
 import java.util.ArrayList;

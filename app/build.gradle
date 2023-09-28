@@ -44,6 +44,11 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.5.2'
     implementation 'androidx.room:room-common:2.5.2'
     annotationProcessor 'androidx.room:room-compiler:2.5.2'
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-runtime:2.3.1"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10'
     implementation 'de.hdodenhof:circleimageview:3.1.0'

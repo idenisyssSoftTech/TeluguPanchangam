@@ -25,6 +25,8 @@ public interface EventDao {
     @Query("SELECT * FROM eventsdata")
     LiveData<List<Eventdata>> getAllEvents();
 
+
+
     @Query("SELECT * FROM eventsdata WHERE date = :date")
     LiveData<List<Eventdata>> getEventsByDate(String date);
 }
