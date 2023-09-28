@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/ten_dp"
+    app:cardCornerRadius="@dimen/ten_dp"
+    app:cardElevation="@dimen/five_dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten_dp">
+
+        <!-- LinearLayout to hold TextViews horizontal -->
+        <LinearLayout
+            android:id="@+id/event_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal">
+
+            <!-- Title TextView -->
+            <TextView
+                android:id="@+id/event_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_700"
+                android:text="@string/eventType"
+                android:textSize="@dimen/sixteen_sp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                tools:ignore="NestedWeights" />
+
+            <!-- time TextView -->
+            <TextView
+                android:id="@+id/event_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:textAlignment="textEnd"
+                android:text="@string/time"
+                android:textSize="@dimen/foruteen_sp" />
+
+        </LinearLayout>
+
+        <!-- name TextView -->
+       <TextView
+           android:id="@+id/event_name"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/event_name"
+           android:layout_below="@+id/event_linear"
+           android:textColor="@color/black"
+           android:textSize="@dimen/eighteen_sp"
+           android:layout_marginTop="@dimen/ten_dp"/>
+
+        <!-- Description TextView -->
+        <TextView
+            android:id="@+id/event_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_below="@+id/event_name"/>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

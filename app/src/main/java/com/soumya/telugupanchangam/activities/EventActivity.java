@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.soumya.telugupanchangam.R;
+import com.soumya.telugupanchangam.adapters.EventAdapter;
 import com.soumya.telugupanchangam.databases.dbtables.Eventdata;
 import com.soumya.telugupanchangam.databases.livedatamodel.EventLiveData;
 import com.soumya.telugupanchangam.databases.repos.EventRepos;
@@ -27,11 +30,12 @@ import java.util.List;
 public class EventActivity extends AppCompatActivity implements View.OnClickListener {
     private CalendarView eventCalenderView;
     private FloatingActionButton event_fab;
-    private TextView eventResult;
 
     private String selectedDateString;
     private EventRepos eventRepos;
     private EventLiveData eventLiveData;
+    private RecyclerView eventRecyclerView;
+    private EventAdapter eventAdapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -50,56 +54,44 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         //actionBar Title
         utils.setupActionBar(this,getResources().getString(R.string.events));
         eventCalenderView = findViewById(R.id.EventCalenderView);
-        eventResult = findViewById(R.id.event_result);
         event_fab = findViewById(R.id.event_fab);
         event_fab.setOnClickListener(this);
 
-        eventCalenderView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar selectedDate = Calendar.getInstance();
-                selectedDate.set(year, month, dayOfMonth);
-                selectedDateString = AppConstants.dateFormat.format(selectedDate.getTime());
-                // Update the LiveData observation when the user selects a date
-                updateLiveDataObservation(selectedDateString);
-            }
+        eventRecyclerView = findViewById(R.id.event_recyc);
+        eventAdapter = new EventAdapter();
+        eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        eventRecyclerView.setAdapter(eventAdapter);
+
+        eventCalenderView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            Calendar selectedDate = Calendar.getInstance();
+            selectedDate.set(year, month, dayOfMonth);
+            selectedDateString = AppConstants.dateFormat.format(selectedDate.getTime());
+            // Update the LiveData observation when the user selects a date
+            updateLiveDataObservation(selectedDateString);
         });
 
     }
     private void updateLiveDataObservation(String selectedDate) {
         if (selectedDate != null && !selectedDate.isEmpty()) {
             // Observe events filtered by selected date
-            eventLiveData.getEventsByDate(selectedDate).observe(this, new Observer<List<Eventdata>>() {
-                @Override
-                public void onChanged(List<Eventdata> events) {
-                    Log.d("EventActivity", "Filtered LiveData onChanged with " + events.size() + " events");
-                    // Update the event list when any changes occur
-                    updateEventList(events);
-                }
+            eventLiveData.getEventsByDate(selectedDate).observe(this, events -> {
+                Log.d("EventActivity", "Filtered LiveData onChanged with " + events.size() + " events");
+                // Update the event list when any changes occur
+                updateEventList(events);
             });
         } else {
             // If no date is selected, display events for the current date
             String currentDate = utils.currentDate();
-            eventLiveData.getEventsByDate(currentDate).observe(this, new Observer<List<Eventdata>>() {
-                @Override
-                public void onChanged(List<Eventdata> events) {
-                    Log.d("EventActivity", "Filtered LiveData onChanged with " + events.size() + " events");
-                    updateEventList(events);
-                }
+            eventLiveData.getEventsByDate(currentDate).observe(this, events -> {
+                Log.d("EventActivity", "Filtered LiveData onChanged with " + events.size() + " events");
+                updateEventList(events);
             });
         }
     }
 
     private void updateEventList(List<Eventdata> events) {
         Log.d("EventActivity", "updateEventList called with " + events.size() + " events");
-        StringBuilder eventStringBuilder = new StringBuilder();
-        for (Eventdata event : events) {
-            eventStringBuilder.append(getResources().getString(R.string.name)).append(" ").append(event.getName()).append("\n");
-            eventStringBuilder.append(getResources().getString(R.string.time)).append(" ").append(event.getTime()).append("\n");
-            eventStringBuilder.append(getResources().getString(R.string.description)).append(" ").append(event.getDescription()).append("\n");
-            eventStringBuilder.append(getResources().getString(R.string.eventType)).append(" ").append(event.getEventType()).append("\n\n");
-        }
-        eventResult.setText(eventStringBuilder.toString());
+        eventAdapter.submitList(events);
     }
 
     @Override

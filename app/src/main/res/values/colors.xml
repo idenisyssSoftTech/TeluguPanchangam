@@ -5,6 +5,8 @@
     <color name="purple_700">#F7492F02</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#E53935</color>
+    <color name="blue">#039BE5</color>
 
     <!--gradiat button-->
 

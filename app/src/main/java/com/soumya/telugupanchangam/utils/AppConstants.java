@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class AppConstants {
-
     public static Calendar calendar = Calendar.getInstance();
     public static String CHANNEL_ID = "event_channel_id";
     public static String CHANNEL_NAME = "EventNotifications";

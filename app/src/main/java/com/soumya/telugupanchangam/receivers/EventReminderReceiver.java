@@ -15,6 +15,7 @@
     import androidx.core.app.ActivityCompat;
     import androidx.core.app.NotificationCompat;
     import androidx.core.app.NotificationManagerCompat;
+    import androidx.core.content.ContextCompat;
 
     import com.soumya.telugupanchangam.R;
     import com.soumya.telugupanchangam.activities.EventActivity;
@@ -55,11 +56,12 @@
 
             Log.d(TAG_NAME,"create notificationCompat");
             // Create the notification
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, AppConstants.CHANNEL_ID)
+         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, AppConstants.CHANNEL_ID)
                     .setSmallIcon(R.drawable.app_icon_om)
                     .setContentTitle(eventName)
                     .setContentText(description)
                     .setSubText(eventType)
+                    .setColor(ContextCompat.getColor(context, R.color.purple_500))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_EVENT)
                     .setContentIntent(contentIntent)
@@ -73,7 +75,4 @@
             notificationManager.notify(utils.generateNotificationId(), builder.build());
             Log.d(TAG_NAME,"send notification");
         }
-
-
-
     }

@@ -55,20 +55,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/event_name"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="@color/white"
                     app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="#039BE5"
+                    app:boxStrokeColor="@color/blue"
                     app:endIconMode="clear_text"
-                    app:endIconTint="#039BE5"
+                    app:endIconTint="@color/blue"
                     app:boxCornerRadiusBottomStart="@dimen/five_dp"
                     app:boxCornerRadiusBottomEnd="@dimen/five_dp"
                     android:layout_margin="@dimen/ten_dp"
-                    app:hintTextColor="#039BE5">
+                    app:hintTextColor="@color/blue">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/EventName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="text"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:padding="@dimen/fifteen_dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -95,6 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/eighteen_sp"
+                    android:textColor="@color/blue"
                     android:layout_marginStart="@dimen/five_dp" />
 
                 <ImageButton
@@ -102,7 +104,7 @@
                     android:layout_width="@dimen/forty_four_dp"
                     android:layout_height="@dimen/forty_four_dp"
                     android:backgroundTint="@color/white"
-                    android:contentDescription="@string/todo"
+                    android:contentDescription="@string/ok"
                     android:src="@drawable/time"
                     android:scaleType="centerCrop"
                     android:layout_marginStart="@dimen/five_dp"
@@ -117,21 +119,22 @@
                 android:hint="@string/description"
                 app:boxBackgroundColor="#FFFFFF"
                 app:boxBackgroundMode="outline"
-                app:boxStrokeColor="#039BE5"
+                app:boxStrokeColor="@color/blue"
                 app:endIconMode="clear_text"
                 app:boxCornerRadiusBottomStart="@dimen/five_dp"
                 app:boxCornerRadiusBottomEnd="@dimen/five_dp"
                 app:boxCornerRadiusTopStart="@dimen/five_dp"
                 app:boxCornerRadiusTopEnd="@dimen/five_dp"
-                app:endIconTint="#696768"
+                app:endIconTint="@color/blue"
                 android:layout_margin="@dimen/ten_dp"
-                app:hintTextColor="#039BE5">
+                app:hintTextColor="@color/blue">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/Description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
                     android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:minLines="3"
                     android:maxLines="5"
                     android:padding="@dimen/fifteen_dp"/>
@@ -147,7 +150,7 @@
                 android:textSize="@dimen/eighteen_sp"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
-                android:contentDescription="@string/todo"/>
+                android:contentDescription="@string/cancel"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
