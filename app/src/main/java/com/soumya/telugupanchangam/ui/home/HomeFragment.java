@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,7 @@ import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.activities.EventActivity;
 import com.soumya.telugupanchangam.customviews.panchangcalenderview.CalenderItem;
 import com.soumya.telugupanchangam.customviews.panchangcalenderview.CustumCalenderViewAdapter;
+import com.soumya.telugupanchangam.utils.utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +35,7 @@ public class HomeFragment extends Fragment {
     private int currentYear;
     GridLayoutManager gridLayoutManager;
     ImageButton prevButton,nextButton;
+    private TextView updateTextMonth;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,6 +55,8 @@ public class HomeFragment extends Fragment {
         calenderRecyclerview = root.findViewById(R.id.calender_view);
         prevButton = root.findViewById(R.id.previous_month);
         nextButton = root.findViewById(R.id.next_month);
+        updateTextMonth = root.findViewById(R.id.monthName);
+        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
         gridLayoutManager = new GridLayoutManager(getActivity(),7);
         List<CalenderItem> calendarItems = generateSampleData(currentYear,currentMonth);
         calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems);
@@ -98,6 +103,7 @@ public class HomeFragment extends Fragment {
         }
 
         updateCalendar(currentYear, currentMonth);
+        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
     }
 
     private void onNextMonthClicked() {
@@ -110,6 +116,7 @@ public class HomeFragment extends Fragment {
 
         updateCalendar(currentYear, currentMonth);
         // Handle next month navigation
+        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
     }
 
     @Override
