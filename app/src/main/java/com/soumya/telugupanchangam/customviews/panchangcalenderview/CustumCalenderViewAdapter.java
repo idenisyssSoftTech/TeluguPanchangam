@@ -16,14 +16,18 @@ import java.util.List;
 
 public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalenderViewAdapter.MYCalenderItemView> {
 
-    private List<CalenderItem> items;
-    private  Context context;
+    private final List<CalenderItem> items;
+    private final Context context;
+    private final int currentMonth;
+    private final int currentYear;
     OnDateChangedCallBack onDateChangedCallBack;
 
-    public CustumCalenderViewAdapter(Context context , List<CalenderItem> items,OnDateChangedCallBack onDateChangedCallBack) {
+    public CustumCalenderViewAdapter(Context context , List<CalenderItem> items,OnDateChangedCallBack onDateChangedCallBack, int currentMonth, int currentYear) {
         this.context = context;
         this.items = items;
         this.onDateChangedCallBack = onDateChangedCallBack;
+        this.currentMonth = currentMonth;
+        this.currentYear = currentYear;
     }
 
 
@@ -40,18 +44,16 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
         CalenderItem item = items.get(position);
         holder.dayTextView.setText(item.getDay());
         holder.eventTextView.setText(item.getEvent());
-        holder.date_view_layout.setOnClickListener(new View.OnClickListener() {
+        // Handle item click
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onDateChangedCallBack != null) {
-                    int position = getItemCount();
-                    if (position != RecyclerView.NO_POSITION) {
-                        onDateChangedCallBack.onDateChanged(position,"Date:"+item.getDay());
-                    }
+                    int day = Integer.parseInt(item.getDay());
+                    onDateChangedCallBack.onDateChanged(day, currentMonth, currentYear);
                 }
             }
         });
-
 
     }
 
@@ -60,7 +62,7 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
         return items.size();
     }
 
-    public class MYCalenderItemView extends RecyclerView.ViewHolder {
+    public static class MYCalenderItemView extends RecyclerView.ViewHolder {
         TextView dayTextView;
         TextView eventTextView;
         LinearLayout date_view_layout;

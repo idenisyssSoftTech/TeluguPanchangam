@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,12 +26,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnDateChangedCallBack {
+public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
 
     private ExtendedFloatingActionButton fab;
     private RecyclerView calenderRecyclerview;
     private CustumCalenderViewAdapter calenderViewAdapter;
+    private int currentDay;
     private int currentMonth;
     private int currentYear;
     GridLayoutManager gridLayoutManager;
@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack {
 
         // Initialize the current month and year
         Calendar calendar = Calendar.getInstance();
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         currentMonth = calendar.get(Calendar.MONTH);
         currentYear = calendar.get(Calendar.YEAR);
 
@@ -57,11 +58,13 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack {
         calenderRecyclerview = root.findViewById(R.id.calender_view);
         prevButton = root.findViewById(R.id.previous_month);
         nextButton = root.findViewById(R.id.next_month);
+
         updateTextMonth = root.findViewById(R.id.monthName);
-        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
+        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear, currentDay));
+
         gridLayoutManager = new GridLayoutManager(getActivity(),7);
         List<CalenderItem> calendarItems = generateSampleData(currentYear,currentMonth);
-        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems,this);
+        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems,this,currentMonth,currentYear);
         calenderRecyclerview.setLayoutManager(gridLayoutManager);
         calenderRecyclerview.setAdapter(calenderViewAdapter);
 
@@ -92,10 +95,9 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack {
     }
     private void updateCalendar(int year, int month) {
         List<CalenderItem> calendarItems = generateSampleData(year, month);
-        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(), calendarItems,this);
+        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(), calendarItems,this,month,year);
         calenderRecyclerview.setAdapter(calenderViewAdapter);
-        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
-
+        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear,currentDay));
     }
     private void onPreviousMonthClicked() {
         // Handle previous month navigation
@@ -118,8 +120,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack {
         }
 
         updateCalendar(currentYear, currentMonth);
-        // Handle next month navigation
-
     }
 
     @Override
@@ -129,7 +129,14 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack {
     }
 
     @Override
-    public void onDateChanged(int date, String datacontent) {
-        Toast.makeText(getActivity(),datacontent,Toast.LENGTH_SHORT).show();
+    public void onDateChanged(int day, int month, int year) {
+        // Handle item click here, for example, update the displayed day, month, and year
+        currentDay = day;
+        currentMonth = month;
+        currentYear = year;
+
+        // Update the calendar and month text
+        updateCalendar(currentYear, currentMonth);
+        updateTextMonth.setText(utils.updateMonth(currentMonth, currentYear, currentDay));
     }
 }

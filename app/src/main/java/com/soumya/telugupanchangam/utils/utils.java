@@ -22,14 +22,17 @@ public class utils {
         }
     }
 
-    public static String updateMonth(int currentMonth, int currentYear){
+    public static String updateMonth(int currentMonth, int currentYear, int currentDay){
+        // Set the locale to Telugu
+        Locale teluguLocale = new Locale("te");
         // Create a DateFormat to display the month name
-        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("EEEE, MMMM yyyy", teluguLocale);
 
         // Set the formatted month and year as the TextView's text
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, currentYear);
         calendar.set(Calendar.MONTH, currentMonth);
+        calendar.set(Calendar.DAY_OF_MONTH, currentDay);
         return monthFormat.format(calendar.getTime());
     }
     public static int generateNotificationId() {
