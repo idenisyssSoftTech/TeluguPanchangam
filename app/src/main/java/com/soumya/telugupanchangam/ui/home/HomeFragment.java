@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,13 +20,14 @@ import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.activities.EventActivity;
 import com.soumya.telugupanchangam.customviews.panchangcalenderview.CalenderItem;
 import com.soumya.telugupanchangam.customviews.panchangcalenderview.CustumCalenderViewAdapter;
+import com.soumya.telugupanchangam.customviews.panchangcalenderview.OnDateChangedCallBack;
 import com.soumya.telugupanchangam.utils.utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnDateChangedCallBack {
 
 
     private ExtendedFloatingActionButton fab;
@@ -59,7 +61,7 @@ public class HomeFragment extends Fragment {
         updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
         gridLayoutManager = new GridLayoutManager(getActivity(),7);
         List<CalenderItem> calendarItems = generateSampleData(currentYear,currentMonth);
-        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems);
+        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems,this);
         calenderRecyclerview.setLayoutManager(gridLayoutManager);
         calenderRecyclerview.setAdapter(calenderViewAdapter);
 
@@ -90,8 +92,10 @@ public class HomeFragment extends Fragment {
     }
     private void updateCalendar(int year, int month) {
         List<CalenderItem> calendarItems = generateSampleData(year, month);
-        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(), calendarItems);
+        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(), calendarItems,this);
         calenderRecyclerview.setAdapter(calenderViewAdapter);
+        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
+
     }
     private void onPreviousMonthClicked() {
         // Handle previous month navigation
@@ -103,7 +107,6 @@ public class HomeFragment extends Fragment {
         }
 
         updateCalendar(currentYear, currentMonth);
-        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
     }
 
     private void onNextMonthClicked() {
@@ -116,12 +119,17 @@ public class HomeFragment extends Fragment {
 
         updateCalendar(currentYear, currentMonth);
         // Handle next month navigation
-        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear));
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
+    }
+
+    @Override
+    public void onDateChanged(int date, String datacontent) {
+        Toast.makeText(getActivity(),datacontent,Toast.LENGTH_SHORT).show();
     }
 }

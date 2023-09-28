@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,10 +18,12 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
 
     private List<CalenderItem> items;
     private  Context context;
+    OnDateChangedCallBack onDateChangedCallBack;
 
-    public CustumCalenderViewAdapter(Context context , List<CalenderItem> items) {
+    public CustumCalenderViewAdapter(Context context , List<CalenderItem> items,OnDateChangedCallBack onDateChangedCallBack) {
         this.context = context;
         this.items = items;
+        this.onDateChangedCallBack = onDateChangedCallBack;
     }
 
 
@@ -37,6 +40,17 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
         CalenderItem item = items.get(position);
         holder.dayTextView.setText(item.getDay());
         holder.eventTextView.setText(item.getEvent());
+        holder.date_view_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDateChangedCallBack != null) {
+                    int position = getItemCount();
+                    if (position != RecyclerView.NO_POSITION) {
+                        onDateChangedCallBack.onDateChanged(position,"Date:"+item.getDay());
+                    }
+                }
+            }
+        });
 
 
     }
@@ -49,10 +63,12 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
     public class MYCalenderItemView extends RecyclerView.ViewHolder {
         TextView dayTextView;
         TextView eventTextView;
+        LinearLayout date_view_layout;
         public MYCalenderItemView(@NonNull View itemView) {
             super(itemView);
             dayTextView = itemView.findViewById(R.id.dayTextView);
             eventTextView = itemView.findViewById(R.id.eventTextView);
+            date_view_layout = itemView.findViewById(R.id.date_view_layout);
         }
     }
 }
