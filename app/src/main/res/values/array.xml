@@ -5,4 +5,14 @@
         <item>@string/birthday</item>
         <item>@string/anniversary</item>
     </string-array>
+
+    <string-array name="week_names">
+        <item>@string/sun</item>
+        <item>@string/mon</item>
+        <item>@string/tue</item>
+        <item>@string/wed</item>
+        <item>@string/thu</item>
+        <item>@string/fri</item>
+        <item>@string/sat</item>
+    </string-array>
 </resources>

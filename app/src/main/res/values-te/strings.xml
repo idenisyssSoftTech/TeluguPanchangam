@@ -22,6 +22,14 @@
     <string name="time">సమయం: </string>
     <string name="eventType">ఈవెంట్ రకం: </string>
 
+    <!--  week names  -->
+    <string name="sun">ఆది</string>
+    <string name="mon">సోమ</string>
+    <string name="tue">మంగ</string>
+    <string name="wed">బుధ</string>
+    <string name="thu">గురు</string>
+    <string name="fri">శుక్ర</string>
+    <string name="sat">శని</string>
 
     <string name="action_addEvent">ఈవెంట్ జోడించండి</string>
 

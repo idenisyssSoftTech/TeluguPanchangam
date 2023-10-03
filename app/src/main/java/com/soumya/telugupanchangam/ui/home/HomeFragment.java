@@ -33,9 +33,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     private ExtendedFloatingActionButton fab;
     private RecyclerView calenderRecyclerview;
     private CustumCalenderViewAdapter calenderViewAdapter;
-    private int currentDay;
-    private int currentMonth;
-    private int currentYear;
+    private int currentDay, currentMonth, currentYear;
     GridLayoutManager gridLayoutManager;
     ImageButton prevButton,nextButton;
     private TextView updateTextMonth;
@@ -48,33 +46,32 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
         View root =inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Initialize the current month and year
+        initViews(root);
+        setListeners();
+        updateCalendar(currentYear, currentMonth,currentDay);
+
+        return root;
+    }
+
+    private void setListeners() {
+        fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
+        prevButton.setOnClickListener(view -> onMonthChange(-1));
+        nextButton.setOnClickListener(view -> onMonthChange(1));
+    }
+
+    private void initViews(View root) {
         Calendar calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);
         currentMonth = calendar.get(Calendar.MONTH);
         currentYear = calendar.get(Calendar.YEAR);
-
-
         fab = root.findViewById(R.id.fab);
         calenderRecyclerview = root.findViewById(R.id.calender_view);
         prevButton = root.findViewById(R.id.previous_month);
         nextButton = root.findViewById(R.id.next_month);
-
         updateTextMonth = root.findViewById(R.id.monthName);
-        updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear, currentDay));
 
         gridLayoutManager = new GridLayoutManager(getActivity(),7);
-        List<CalenderItem> calendarItems = generateSampleData(currentYear,currentMonth,currentDay);
-        calenderViewAdapter = new CustumCalenderViewAdapter(getActivity(),calendarItems,this,currentMonth,currentYear,currentDay);
         calenderRecyclerview.setLayoutManager(gridLayoutManager);
-        calenderRecyclerview.setAdapter(calenderViewAdapter);
-
-
-        fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
-        prevButton.setOnClickListener(view -> onPreviousMonthClicked());
-        nextButton.setOnClickListener(view -> onNextMonthClicked());
-
-        return root;
     }
 
     private List<CalenderItem> generateSampleData(int year, int month,int iday) {
@@ -83,13 +80,24 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, 1);
 
+        int startDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        // Add week names as the first row
+        String[] weekNames = getResources().getStringArray(R.array.week_names);
+        for (String weekName : weekNames) {
+            items.add(new CalenderItem(weekName, ""));
+        }
+
+        // Add empty items for the days before the start day
+        for (int i = 1; i < startDayOfWeek; i++) {
+            items.add(new CalenderItem("", ""));
+        }
 
         for (int i = 1; i <= daysInMonth; i++) {
-            String daynum = String.valueOf(i);
-            String event = "Event for daynum " + daynum; // You can customize this
+            String day = String.valueOf(i);
+            String event = "Event for day " + day; // You can customize this
 
-            items.add(new CalenderItem(iday,year,month,daynum, event));
+            items.add(new CalenderItem(day, event));
         }
         return items;
 
@@ -100,27 +108,23 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         calenderRecyclerview.setAdapter(calenderViewAdapter);
         updateTextMonth.setText(utils.updateMonth(currentMonth,currentYear,currentDay));
     }
-    private void onPreviousMonthClicked() {
-        // Handle previous month navigation
-        if (currentMonth == 0) {
-            currentYear--;
-            currentMonth = 11;
+
+    private void onMonthChange(int change) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(currentYear, currentMonth, 1);
+        calendar.add(Calendar.MONTH, change);
+
+        int newYear = calendar.get(Calendar.YEAR);
+        int newMonth = calendar.get(Calendar.MONTH);
+
+        // Check if the new month is within the allowed range (2023 and 2024)
+        if (newYear == 2022 || newYear == 2023 && newMonth <= 11) {
+            currentYear = newYear;
+            currentMonth = newMonth;
+            updateCalendar(currentYear, currentMonth, currentDay);
         } else {
-            currentMonth--;
+            Toast.makeText(requireContext(), "సమాచారం అందుబాటులో లేదు", Toast.LENGTH_SHORT).show();
         }
-
-        updateCalendar(currentYear, currentMonth,currentDay);
-    }
-
-    private void onNextMonthClicked() {
-        if (currentMonth == 11) {
-            currentYear++;
-            currentMonth = 0;
-        } else {
-            currentMonth++;
-        }
-
-        updateCalendar(currentYear, currentMonth,currentDay);
     }
 
     @Override
@@ -130,16 +134,12 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     }
 
     @Override
-    public void onDateChanged(int day, int month, int year,int iday) {
+    public void onDateChanged(int day, int month, int year) {
         // Handle item click here, for example, update the displayed day, month, and year
         currentDay = day;
         currentMonth = month;
         currentYear = year;
-
         // Update the calendar and month text
-        updateCalendar(currentYear, currentMonth,day);
-        updateTextMonth.setText(utils.updateMonth(currentMonth, currentYear, currentDay));
-        Toast.makeText(getActivity(), iday+"", Toast.LENGTH_SHORT).show();
+        updateCalendar(currentYear, currentMonth,currentDay);
     }
-
 }

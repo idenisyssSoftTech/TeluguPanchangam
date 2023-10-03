@@ -1,6 +1,8 @@
 package com.soumya.telugupanchangam.customviews.panchangcalenderview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.soumya.telugupanchangam.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalenderViewAdapter.MYCalenderItemView> {
@@ -23,6 +24,7 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
     private final int currentMonth;
     private final int currentYear,day;
     OnDateChangedCallBack onDateChangedCallBack;
+    private int selectedItemPosition = -1; // Initially, no item is selected
 
     public CustumCalenderViewAdapter(Context context , List<CalenderItem> items,OnDateChangedCallBack onDateChangedCallBack, int currentMonth, int currentYear,int day) {
         this.context = context;
@@ -38,36 +40,33 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
     @Override
     public CustumCalenderViewAdapter.MYCalenderItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.calender_date_list,parent,false);
-
         return new MYCalenderItemView(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustumCalenderViewAdapter.MYCalenderItemView holder, int position) {
+    public void onBindViewHolder(@NonNull CustumCalenderViewAdapter.MYCalenderItemView holder, @SuppressLint("RecyclerView") int position) {
         CalenderItem item = items.get(position);
-
-        // Set the formatted month and year as the TextView's text
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,  item.getYear());
-        calendar.set(Calendar.MONTH,  item.getMonth());
-        calendar.set(Calendar.DAY_OF_MONTH, item.getIday());
-
-        SimpleDateFormat monthFormat = new SimpleDateFormat("EEE");
-        monthFormat.format(calendar.getTime());
-
-
-        holder.dayTextView.setText(item.getDaynumber());
+        holder.dayTextView.setText(item.getDay());
         holder.eventTextView.setText(item.getEvent());
 
+        if (position < 7) {
+            if (position == selectedItemPosition) {
+            			holder.date_view_layout.setBackgroundColor(Color.parseColor("#FF5733")); // Change to your desired color
+       			 } else {
+          			holder.date_view_layout.setBackgroundColor(Color.TRANSPARENT); // Default color
+        		 }
+            holder.dayTextView.setTextColor(ContextCompat.getColor(context, android.R.color.white));
+        }
 
-        // Handle item click
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onDateChangedCallBack != null) {
-                    int day = Integer.parseInt(item.getDaynumber());
-                    onDateChangedCallBack.onDateChanged(day, currentMonth, currentYear,item.getIday());
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (position >= 7 && onDateChangedCallBack != null ) {
+          int previousSelectedItemPosition = selectedItemPosition;
+                selectedItemPosition = position;
+                notifyItemChanged(previousSelectedItemPosition); // Deselect the previous item
+                notifyItemChanged(selectedItemPosition); // Select the clicked item
+
+                int clickedDay = Integer.parseInt(item.getDay());
+                onDateChangedCallBack.onDateChanged(clickedDay, currentMonth, currentYear);
             }
         });
 

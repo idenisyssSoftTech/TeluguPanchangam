@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.adapter;
+package com.soumya.telugupanchangam.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -42,7 +42,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MySett
         return settingsModels.size();
     }
 
-    public class MySettingHolderView extends RecyclerView.ViewHolder {
+    public static class MySettingHolderView extends RecyclerView.ViewHolder {
         TextView settings_title_tv;
         public MySettingHolderView(@NonNull View itemView) {
             super(itemView);

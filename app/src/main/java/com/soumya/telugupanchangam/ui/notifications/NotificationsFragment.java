@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,14 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.soumya.telugupanchangam.R;
-import com.soumya.telugupanchangam.adapter.Notificationadapter;
+import com.soumya.telugupanchangam.adapters.Notificationadapter;
 import com.soumya.telugupanchangam.database2.callbacksinterfaces.DeleteNotiftyItemCallback;
 import com.soumya.telugupanchangam.database2.entities.NotificationsTable;
 import com.soumya.telugupanchangam.database2.viewmodels.NotifyViewModel;
-import com.soumya.telugupanchangam.databases.AppDatabase;
-import com.soumya.telugupanchangam.databases.daos.EventDao;
-import com.soumya.telugupanchangam.databases.dbtables.Eventdata;
-import com.soumya.telugupanchangam.databinding.FragmentNotificationsBinding;
 
 import java.util.List;
 

@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.soumya.telugupanchangam.ui.dashboard.DashboardFragment"
+        android:name="com.soumya.telugupanchangam.ui.festivals.FestivalFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_festivals" />
 
     <fragment
         android:id="@+id/navigation_notifications"

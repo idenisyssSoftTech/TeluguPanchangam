@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.LocaleList;
 
 import com.soumya.telugupanchangam.R;
-import com.soumya.telugupanchangam.adapter.SettingsAdapter;
+import com.soumya.telugupanchangam.adapters.SettingsAdapter;
 import com.soumya.telugupanchangam.models.SettingsModel;
 
 import java.util.ArrayList;

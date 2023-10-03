@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.adapter;
+package com.soumya.telugupanchangam.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,9 +20,9 @@ import java.util.List;
 
 public class Notificationadapter extends RecyclerView.Adapter<Notificationadapter.MyNotificationAdapter> {
     private List<NotificationsTable> dataList = new ArrayList<>();
-    private Context context;
+    private final Context context;
     private NotifyViewModel viewModel;
-    private DeleteNotiftyItemCallback deleteNotiftyItemCallback;
+    private final DeleteNotiftyItemCallback deleteNotiftyItemCallback;
 
     public Notificationadapter(Context context, NotifyViewModel viewModel,DeleteNotiftyItemCallback deleteNotiftyItemCallback) {
         this.context = context;
@@ -55,36 +55,29 @@ public class Notificationadapter extends RecyclerView.Adapter<Notificationadapte
 
     public class MyNotificationAdapter extends RecyclerView.ViewHolder {
 
-        private TextView dataTextView;
-        private ImageButton deleteButton;
-        private ImageButton editButton;
+        private final TextView dataTextView;
+        private final ImageButton editButton;
 
         public MyNotificationAdapter(@NonNull View itemView) {
             super(itemView);
 
             dataTextView = itemView.findViewById(R.id.text_view_data);
-            deleteButton = itemView.findViewById(R.id.button_delete);
+            ImageButton deleteButton = itemView.findViewById(R.id.button_delete);
             editButton = itemView.findViewById(R.id.button_edit);
 
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        NotificationsTable entity = dataList.get(position);
-                        //viewModel.delete(entity);
-                        deleteNotiftyItemCallback.onDeleteItem(entity);
-                    }
+            deleteButton.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    NotificationsTable entity = dataList.get(position);
+                    //viewModel.delete(entity);
+                    deleteNotiftyItemCallback.onDeleteItem(entity);
                 }
             });
 
-            editButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        // Handle edit functionality here
-                    }
+            editButton.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    // Handle edit functionality here
                 }
             });
         }

@@ -6,50 +6,21 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class CalenderItem implements Parcelable {
-    private String daynumber;
-    private int iday;
-    private int year;
-    private int month;
+    private String day;
     private String event;
 
-    public CalenderItem(int iday, int year, int month, String daynum, String event) {
-        this.daynumber = daynum;
-        this.iday = iday;
-        this.year = year;
-        this.month = month;
+
+    public CalenderItem(String day, String event) {
+        this.day = day;
         this.event = event;
     }
 
-    public String getDaynumber() {
-        return daynumber;
+    public String getDay() {
+        return day;
     }
 
-    public void setDaynumber(String daynumber) {
-        this.daynumber = daynumber;
-    }
-
-    public int getIday() {
-        return iday;
-    }
-
-    public void setIday(int iday) {
-        this.iday = iday;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public String getEvent() {
@@ -61,7 +32,7 @@ public class CalenderItem implements Parcelable {
     }
 
     protected CalenderItem(Parcel in) {
-        daynumber = in.readString();
+        day = in.readString();
         event = in.readString();
     }
 
@@ -84,7 +55,7 @@ public class CalenderItem implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(daynumber);
+        dest.writeString(day);
         dest.writeString(event);
     }
 }

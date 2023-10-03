@@ -1,6 +1,7 @@
 package com.soumya.telugupanchangam.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -23,12 +24,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.databinding.ActivityHomeBinding;
+import com.soumya.telugupanchangam.sqliteDB.database.FestivalDBHelper;
 import com.soumya.telugupanchangam.utils.PermissionUtils;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
     private final String TAG_NAME = "HomeActivity";
+    private Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
@@ -36,6 +39,13 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // NightMode off
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        try {
+            FestivalDBHelper dbHelper = new FestivalDBHelper(this);
+            dbHelper.copyDatabaseFromAssets();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
