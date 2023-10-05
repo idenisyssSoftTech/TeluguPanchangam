@@ -1,13 +1,13 @@
-package com.soumya.telugupanchangam.database2.repos;
+package com.soumya.telugupanchangam.databases.repos;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.soumya.telugupanchangam.database2.PanchangamDataBase;
-import com.soumya.telugupanchangam.database2.dao.NotificationDAO;
-import com.soumya.telugupanchangam.database2.entities.NotificationsTable;
+import com.soumya.telugupanchangam.databases.PanchangamDataBase;
+import com.soumya.telugupanchangam.databases.daos.NotificationDAO;
+import com.soumya.telugupanchangam.databases.dbtables.NotificationsTable;
 
 import java.util.List;
 

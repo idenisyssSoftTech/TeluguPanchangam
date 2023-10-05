@@ -42,7 +42,7 @@ import de.hdodenhof.circleimageview.BuildConfig;
 
 public class AddEvent_Activity extends AppCompatActivity implements View.OnClickListener {
 
-    private final String TAG_NAME = "AddEvent_Activity";
+    private final String TAG_NAME = AddEvent_Activity.class.getName();
 
     private ImageButton timePicker;
     private Button btn_saveEvent;

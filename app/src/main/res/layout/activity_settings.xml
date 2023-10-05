@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_margin="@dimen/twenty_dp"
-            android:layout_toLeftOf="@id/circularImageView"
+            android:layout_toStartOf="@id/circularImageView"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -37,21 +37,21 @@
                 android:id="@+id/Settings_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/sixteen_dp"
                 android:visibility="gone" />
 
             <TextView
                 android:id="@+id/Settings_email_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/sixteen_dp"
                 android:visibility="gone" />
 
             <TextView
                 android:id="@+id/Settings_number_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/sixteen_dp" />
 
         </LinearLayout>
 

@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class EventActivity extends AppCompatActivity implements View.OnClickListener {
+    private final String TAG_NAME = EventActivity.class.getName();
     private CalendarView eventCalenderView;
     private FloatingActionButton event_fab;
 
@@ -72,7 +73,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         if (selectedDate != null && !selectedDate.isEmpty()) {
             // Observe events filtered by selected date
             eventLiveData.getEventsByDate(selectedDate).observe(this, events -> {
-                Log.d("EventActivity", "Filtered LiveData onChanged with " + events.size() + " events");
+                Log.d(TAG_NAME, "Filtered LiveData onChanged with " + events.size() + " events");
                 // Update the event list when any changes occur
                 updateEventList(events);
             });
@@ -80,14 +81,14 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
             // If no date is selected, display events for the current date
             String currentDate = utils.currentDate();
             eventLiveData.getEventsByDate(currentDate).observe(this, events -> {
-                Log.d("EventActivity", "Filtered LiveData onChanged with " + events.size() + " events");
+                Log.d(TAG_NAME, "Filtered LiveData onChanged with " + events.size() + " events");
                 updateEventList(events);
             });
         }
     }
 
     private void updateEventList(List<Eventdata> events) {
-        Log.d("EventActivity", "updateEventList called with " + events.size() + " events");
+        Log.d(TAG_NAME, "updateEventList called with " + events.size() + " events");
         eventAdapter.submitList(events);
     }
 

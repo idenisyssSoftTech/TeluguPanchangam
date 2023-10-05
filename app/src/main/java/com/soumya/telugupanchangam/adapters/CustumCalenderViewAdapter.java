@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.customviews.panchangcalenderview;
+package com.soumya.telugupanchangam.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.soumya.telugupanchangam.R;
+import com.soumya.telugupanchangam.customviews.panchangcalenderview.CalenderItem;
+import com.soumya.telugupanchangam.customviews.panchangcalenderview.OnDateChangedCallBack;
 
 import java.util.List;
 

@@ -32,6 +32,7 @@
     <string name="sat">శని</string>
 
     <string name="action_addEvent">ఈవెంట్ జోడించండి</string>
+    <string name="nodatafound">సమాచారం అందుబాటులో లేదు</string>
 
 
     <string name="settings_desc" translatable="true">ఈ సెట్టింగ్‌ని ఉపయోగించడం ద్వారా, మీరు భాష మార్చండి.. మొదలైన యాప్ ఫీచర్‌లను మార్చవచ్చు.

@@ -24,13 +24,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.databinding.ActivityHomeBinding;
-import com.soumya.telugupanchangam.sqliteDB.database.FestivalDBHelper;
+import com.soumya.telugupanchangam.sqliteDB.database.SqliteDBHelper;
 import com.soumya.telugupanchangam.utils.PermissionUtils;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
-    private final String TAG_NAME = "HomeActivity";
+    private final String TAG_NAME = HomeActivity.class.getName();
     private Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.S)
@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         // NightMode off
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         try {
-            FestivalDBHelper dbHelper = new FestivalDBHelper(this);
+            SqliteDBHelper dbHelper = new SqliteDBHelper(this);
             dbHelper.copyDatabaseFromAssets();
         }catch (Exception e){
             e.printStackTrace();

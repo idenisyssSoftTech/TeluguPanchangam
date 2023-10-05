@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.database2.viewmodels;
+package com.soumya.telugupanchangam.databases.livedatamodel;
 
 import android.app.Application;
 
@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.soumya.telugupanchangam.database2.entities.NotificationsTable;
-import com.soumya.telugupanchangam.database2.repos.MyNotifyRepo;
+import com.soumya.telugupanchangam.databases.dbtables.NotificationsTable;
+import com.soumya.telugupanchangam.databases.repos.MyNotifyRepo;
 
 import java.util.List;
 

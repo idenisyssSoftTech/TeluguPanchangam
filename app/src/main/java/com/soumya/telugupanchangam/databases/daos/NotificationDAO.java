@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.database2.dao;
+package com.soumya.telugupanchangam.databases.daos;
 
 import androidx.lifecycle.LiveData;
 
@@ -8,7 +8,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.soumya.telugupanchangam.database2.entities.NotificationsTable;
+import com.soumya.telugupanchangam.databases.dbtables.NotificationsTable;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@
         android:id="@+id/festivalDates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_sp"
         android:textColor="@color/purple_700"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,9 +19,9 @@
         android:id="@+id/festivalNames"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="@dimen/five_dp"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="@dimen/eighteen_sp"
         app:layout_constraintTop_toBottomOf="@+id/festivalDates" />
 
     <View

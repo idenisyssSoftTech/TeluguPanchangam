@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.soumya.telugupanchangam.R;
-import com.soumya.telugupanchangam.database2.callbacksinterfaces.DeleteNotiftyItemCallback;
-import com.soumya.telugupanchangam.database2.entities.NotificationsTable;
-import com.soumya.telugupanchangam.database2.viewmodels.NotifyViewModel;
+import com.soumya.telugupanchangam.databases.callbacksinterfaces.DeleteNotiftyItemCallback;
+import com.soumya.telugupanchangam.databases.dbtables.NotificationsTable;
+import com.soumya.telugupanchangam.databases.livedatamodel.NotifyViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

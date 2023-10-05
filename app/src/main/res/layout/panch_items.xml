@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/panch_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Panchangam:"
+        android:textColor="@color/black"
+        android:background="@drawable/panch_title"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:paddingStart="@dimen/twenty_dp"
+        android:textSize="@dimen/eighteen_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/panch_title">
+
+        <TextView
+            android:id="@+id/Date_vaaram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp" />
+        <TextView
+            android:id="@+id/yearName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fourteen_sp" />
+        <TextView
+            android:id="@+id/ruthuName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fourteen_sp" />
+        <TextView
+            android:id="@+id/paksham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fourteen_sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

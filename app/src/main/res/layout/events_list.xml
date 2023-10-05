@@ -44,7 +44,7 @@
                 android:layout_marginEnd="@dimen/ten_dp"
                 android:textAlignment="textEnd"
                 android:text="@string/time"
-                android:textSize="@dimen/foruteen_sp" />
+                android:textSize="@dimen/fourteen_sp" />
 
         </LinearLayout>
 

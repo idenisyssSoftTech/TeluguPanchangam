@@ -39,6 +39,8 @@ in this ,we can also go through the app terms and policies. </string>
     <string name="ok" translatable="false">OK</string>
     <string name="cancel" translatable="false">Cancel</string>
 
+    <string name="nodatafound" translatable="true">No Data Found?..</string>
+
     <!--    week Names-->
     <string name="sun" translatable="true">Sun</string>
     <string name="mon" translatable="true">Mon</string>

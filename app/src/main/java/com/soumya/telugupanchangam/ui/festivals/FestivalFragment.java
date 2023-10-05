@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.adapters.FestivalAdapter;
-import com.soumya.telugupanchangam.sqliteDB.database.FestivalDBHelper;
+import com.soumya.telugupanchangam.sqliteDB.database.SqliteDBHelper;
 import com.soumya.telugupanchangam.utils.utils;
 
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class FestivalFragment extends Fragment {
-    private final String TAG_NAME = "FestivalFragment";
-    private FestivalDBHelper dbHelper;
+    private final String TAG_NAME = FestivalFragment.class.getName();
+    private SqliteDBHelper dbHelper;
     private int currentDay, currentMonth, currentYear;
     private ImageButton prevButton,nextButton;
     private TextView updateTextMonth;
@@ -37,13 +37,13 @@ public class FestivalFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root =inflater.inflate(R.layout.fragment_festivals, container, false);
-        dbHelper = new FestivalDBHelper(requireContext());
+        dbHelper = new SqliteDBHelper(requireContext());
         dbHelper.copyDatabaseFromAssets();
 
         intiViews(root);
         setListeners();
         // Log the database path
-        String dbPath = requireContext().getDatabasePath(FestivalDBHelper.DATABASE_NAME).getPath();
+        String dbPath = requireContext().getDatabasePath(SqliteDBHelper.DATABASE_NAME).getPath();
         Log.d(TAG_NAME, "Database Path: " + dbPath);
 
         return root;

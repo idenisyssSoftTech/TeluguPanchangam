@@ -24,7 +24,7 @@
 
     public class EventReminderReceiver extends BroadcastReceiver {
 
-        String TAG_NAME = "EventReminderReceiver";
+        String TAG_NAME = EventReminderReceiver.class.getName();
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG_NAME,"Broadcast start");

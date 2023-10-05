@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.database2;
+package com.soumya.telugupanchangam.databases;
 
 
 import android.app.Application;
@@ -7,10 +7,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.soumya.telugupanchangam.database2.dao.NotificationDAO;
-import com.soumya.telugupanchangam.database2.entities.NotificationsTable;
+import com.soumya.telugupanchangam.databases.daos.NotificationDAO;
+import com.soumya.telugupanchangam.databases.dbtables.NotificationsTable;
 
-@Database(entities = {NotificationsTable.class}, version = 1)
+@Database(entities = {NotificationsTable.class}, version = 1, exportSchema = false)
 public abstract class PanchangamDataBase extends RoomDatabase {
     private static PanchangamDataBase instance;
     public static synchronized PanchangamDataBase getInstance(Application application) {

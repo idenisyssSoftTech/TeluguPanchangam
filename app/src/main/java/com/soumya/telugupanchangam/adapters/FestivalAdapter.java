@@ -14,7 +14,7 @@ import com.soumya.telugupanchangam.R;
 import java.util.List;
 
 public class FestivalAdapter  extends RecyclerView.Adapter<FestivalAdapter.ViewHolder> {
-    private final String TAG_NAME = "FestivalAdapter";
+    private final String TAG_NAME = FestivalAdapter.class.getName();
     private final List<String> festivalList;
 
     public FestivalAdapter(List<String> festivalList) {

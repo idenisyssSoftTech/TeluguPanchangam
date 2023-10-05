@@ -30,7 +30,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/events"
                             android:textColor="@color/purple_700"
-                            android:textSize="18sp"
+                            android:textSize="@dimen/eighteen_sp"
                             android:layout_marginTop="@dimen/ten_dp"
                             android:textStyle="bold"
                             android:layout_marginStart="@dimen/twenty_dp"

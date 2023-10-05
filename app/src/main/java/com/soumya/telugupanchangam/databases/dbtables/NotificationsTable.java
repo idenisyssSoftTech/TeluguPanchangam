@@ -1,4 +1,4 @@
-package com.soumya.telugupanchangam.database2.entities;
+package com.soumya.telugupanchangam.databases.dbtables;
 
 
 import androidx.room.ColumnInfo;

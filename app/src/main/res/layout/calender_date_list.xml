@@ -4,7 +4,7 @@
     android:id="@+id/date_view_layout"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/eight_dp">
 
     <TextView
         android:id="@+id/weekTextView"
