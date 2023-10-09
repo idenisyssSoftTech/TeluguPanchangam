@@ -101,8 +101,8 @@
 
                 <ImageButton
                     android:id="@+id/eTime_btn"
-                    android:layout_width="@dimen/forty_four_dp"
-                    android:layout_height="@dimen/forty_four_dp"
+                    android:layout_width="@dimen/forty_eight_dp"
+                    android:layout_height="@dimen/forty_eight_dp"
                     android:backgroundTint="@color/white"
                     android:contentDescription="@string/ok"
                     android:src="@drawable/time"

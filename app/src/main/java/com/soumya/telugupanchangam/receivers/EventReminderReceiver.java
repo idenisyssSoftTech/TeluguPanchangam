@@ -1,6 +1,7 @@
     package com.soumya.telugupanchangam.receivers;
 
     import android.Manifest;
+    import android.app.Application;
     import android.app.Notification;
     import android.app.NotificationChannel;
     import android.app.NotificationManager;
@@ -18,7 +19,9 @@
     import androidx.core.content.ContextCompat;
 
     import com.soumya.telugupanchangam.R;
-    import com.soumya.telugupanchangam.activities.EventActivity;
+    import com.soumya.telugupanchangam.activities.HomeActivity;
+    import com.soumya.telugupanchangam.databases.dbtables.NotificationsTable;
+    import com.soumya.telugupanchangam.databases.repos.MyNotifyRepo;
     import com.soumya.telugupanchangam.utils.AppConstants;
     import com.soumya.telugupanchangam.utils.utils;
 
@@ -31,9 +34,13 @@
             String eventName = intent.getStringExtra(AppConstants.eventName);
             String description = intent.getStringExtra(AppConstants.eventDesc);
             String eventType = intent.getStringExtra(AppConstants.eventType);
+            String eventTime = intent.getStringExtra(AppConstants.eventTime);
+            String eventDate = intent.getStringExtra(AppConstants.eventDate);
 
-            Intent openAppIntent = new Intent(context, EventActivity.class);
+            Intent openAppIntent = new Intent(context, HomeActivity.class);
             openAppIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            openAppIntent.putExtra(AppConstants.EXTRA_FRAGMENT_TO_SHOW, AppConstants.FRAGMENT_NOTIFICATIONS);
+
             PendingIntent contentIntent = PendingIntent.getActivity(
                     context,
                     utils.generateNotificationId(),
@@ -42,16 +49,7 @@
             );
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d(TAG_NAME,"create channel start");
-                NotificationChannel channel = new NotificationChannel(
-                        AppConstants.CHANNEL_ID,
-                        AppConstants.CHANNEL_NAME,
-                        NotificationManager.IMPORTANCE_HIGH
-                );
-                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-                NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-                Log.d(TAG_NAME,"create notification_manager");
-                notificationManager.createNotificationChannel(channel);
+                createNotificationChannel(context);
             }
 
             Log.d(TAG_NAME,"create notificationCompat");
@@ -74,5 +72,35 @@
             }
             notificationManager.notify(utils.generateNotificationId(), builder.build());
             Log.d(TAG_NAME,"send notification");
+            // Insert notification data into the database
+            insertNotificationData(context, eventName, description, eventType, eventTime, eventDate);
+
+        }
+
+        private void createNotificationChannel(Context context) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(
+                        AppConstants.CHANNEL_ID,
+                        AppConstants.CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_HIGH
+                );
+                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
+                NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
+        private void insertNotificationData(Context context, String eventName, String description, String eventType, String eventTime, String eventDate) {
+            NotificationsTable item = new NotificationsTable();
+            item.setNotify_event_name(eventName);
+            item.setNotify_description(description);
+            item.setNotify_eventtype(eventType);
+            item.setNotify_time(eventTime);
+            item.setNotify_date(eventDate);
+
+            // Initialize the repository and insert the data
+            MyNotifyRepo repo = new MyNotifyRepo((Application) context.getApplicationContext());
+            repo.insertNotification(item);
         }
     }

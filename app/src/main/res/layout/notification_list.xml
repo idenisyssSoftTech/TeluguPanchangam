@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- your_item_layout.xml -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/eight_dp">
 
     <TextView
         android:id="@+id/text_view_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="@dimen/eighteen_sp"
         android:textColor="@android:color/black"
         android:layout_marginBottom="8dp"/>
 
@@ -23,20 +23,14 @@
         android:gravity="end">
 
         <ImageButton
-            android:id="@+id/button_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit"
-            android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="Edit"/>
-
-        <ImageButton
             android:id="@+id/button_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/forty_eight_dp"
+            android:layout_height="@dimen/forty_eight_dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
             android:src="@android:drawable/ic_menu_delete"
+            app:tint="@android:color/holo_red_dark"
             android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="Delete"
-            android:layout_marginLeft="8dp"/>
+            android:contentDescription="@string/delete"
+            android:layout_marginStart="@dimen/eight_dp"/>
     </LinearLayout>
 </LinearLayout>

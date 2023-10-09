@@ -1,60 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/panch_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Panchangam:"
-        android:textColor="@color/black"
+        android:text="@string/panch_title"
+        android:textColor="@color/purple_700"
         android:background="@drawable/panch_title"
-        android:layout_margin="5dp"
-        android:padding="5dp"
+        android:layout_margin="@dimen/five_dp"
+        android:padding="@dimen/five_dp"
         android:paddingStart="@dimen/twenty_dp"
         android:textSize="@dimen/eighteen_sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"
         tools:ignore="RtlSymmetry" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/panch_title">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/Date_vaaram"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/eighteen_sp" />
+            android:textStyle="bold"
+            android:textColor="@color/purple_700"
+            android:textSize="@dimen/twentythree_sp" />
         <TextView
             android:id="@+id/yearName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="@dimen/fourteen_sp" />
+            android:textSize="@dimen/eighteen_sp" />
         <TextView
             android:id="@+id/ruthuName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="@dimen/fourteen_sp" />
+            android:textSize="@dimen/eighteen_sp" />
         <TextView
             android:id="@+id/paksham"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="@dimen/fourteen_sp" />
+            android:textSize="@dimen/eighteen_sp" />
+        <TextView
+            android:id="@+id/tithi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp" />
+        <TextView
+            android:id="@+id/nakshatram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp" />
+        <TextView
+            android:id="@+id/yogam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eighteen_sp" />
+        <TextView
+            android:id="@+id/karan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:textSize="@dimen/eighteen_sp" />
+
+        <TextView
+            android:id="@+id/surya_gamanam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/surya_gamanam"
+            android:textColor="@color/purple_700"
+            android:background="@drawable/panch_title"
+            android:layout_margin="@dimen/five_dp"
+            android:padding="@dimen/five_dp"
+            android:paddingStart="@dimen/twenty_dp"
+            android:textSize="@dimen/eighteen_sp"
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/twentyfive_dp"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sunrise"
+                    tools:ignore="ContentDescription" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sunrise"
+                    android:textColor="@color/purple_700"
+                    android:textSize="@dimen/eighteen_sp" />
+                <TextView
+                    android:id="@+id/sunrise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/eighteen_sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/twentyfive_dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="RelativeOverlap">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sunset"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sunset"
+                    android:textColor="@color/purple_700"
+                    android:textSize="@dimen/eighteen_sp" />
+
+                <TextView
+                    android:id="@+id/sunset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/eighteen_sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
+
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -121,7 +121,7 @@ public class SqliteDBHelper extends SQLiteOpenHelper {
         return festivalDataList;
     }
 
-
+    @SuppressLint("Range")
     public List<String> getPanchTeDataForDate(String Vaaram, String DateName) {
         List<String> panchTeDataList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -133,19 +133,40 @@ public class SqliteDBHelper extends SQLiteOpenHelper {
             cursor = db.rawQuery(query, new String[]{Vaaram, DateName});
             Log.d(TAG_NAME, "Vaaram : " + Vaaram);
             Log.d(TAG_NAME, "DateName : " + DateName);
-            if (cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    @SuppressLint("Range") String column1Data = cursor.getString(cursor.getColumnIndex("Vaaram"));
-                    @SuppressLint("Range") String column2Data = cursor.getString(cursor.getColumnIndex("DateName"));
-                    @SuppressLint("Range") String column3Data = cursor.getString(cursor.getColumnIndex("YearName"));
-                    @SuppressLint("Range") String column4Data = cursor.getString(cursor.getColumnIndex("Ayanam"));
-                    @SuppressLint("Range") String column5Data = cursor.getString(cursor.getColumnIndex("RuthuvuName"));
-                    @SuppressLint("Range") String column6Data = cursor.getString(cursor.getColumnIndex("MonthName"));
-                    @SuppressLint("Range") String column7Data = cursor.getString(cursor.getColumnIndex("Paksha"));
+                    String c0 = cursor.getString(cursor.getColumnIndex("Vaaram"));
+                    String c1 = cursor.getString(cursor.getColumnIndex("DateName"));
+                    String c2 = cursor.getString(cursor.getColumnIndex("YearName"));
+                    String c3 = cursor.getString(cursor.getColumnIndex("Ayanam"));
+                    String c4 = cursor.getString(cursor.getColumnIndex("RuthuvuName"));
+                    String c5 = cursor.getString(cursor.getColumnIndex("MonthName"));
+                    String c6 = cursor.getString(cursor.getColumnIndex("Paksha"));
+                    String c7 = cursor.getString(cursor.getColumnIndex("Tithi1"));
+                    String c8 = cursor.getString(cursor.getColumnIndex("Nakshatram1"));
+                    String c9 = cursor.getString(cursor.getColumnIndex("Yogam1"));
+                    String c10 = cursor.getString(cursor.getColumnIndex("Karan1"));
+                    String c11 = cursor.getString(cursor.getColumnIndex("Karan2"));
+                    String c12 = cursor.getString(cursor.getColumnIndex("Sunrise"));
+                    String c13 = cursor.getString(cursor.getColumnIndex("Sunset"));
+                    String c14 = cursor.getString(cursor.getColumnIndex("BrahmaMuhurt"));
+                    String c15 = cursor.getString(cursor.getColumnIndex("Yamagandam"));
+                    String c16 = cursor.getString(cursor.getColumnIndex("RahuKalam"));
+                    String c17 = cursor.getString(cursor.getColumnIndex("Durmuhurtham1"));
+                    String c18 = cursor.getString(cursor.getColumnIndex("Durmuhurtham2"));
+                    String c19 = cursor.getString(cursor.getColumnIndex("Varjam1"));
+                    String c20 = cursor.getString(cursor.getColumnIndex("AmritKalam1"));
+                    String c21 = cursor.getString(cursor.getColumnIndex("AmritKalam2"));
+                    String c22 = cursor.getString(cursor.getColumnIndex("AbhijitMuhurt"));
+                    String c23 = cursor.getString(cursor.getColumnIndex("GulikaKalam"));
+                    String c24 = cursor.getString(cursor.getColumnIndex("FestivalName"));
 
-                    // Concatenate the data as needed and add to the list
-                    String formattedData = column1Data + " - " + column2Data + " - " + column3Data + " - "
-                            + column4Data + " - " + column5Data + " - " + column6Data + " - " + column7Data;
+
+                    String formattedData = (c0 + " - " + c1 + " - " +c2 + " - " +c3 + " - " +c4 + " - " + c5 + " - " + c6 + " - "+
+                            c7 + " - " + c8 + " - " + c9+ " - " + c10+ " - " + c11+ " - " + c12+ " - " + c13+ " - " + c14+ " - " + c15+ " - "+
+                            c16 + " - " + c17 + " - " + c18 + " - " + c19 + " - " + c20 + " - " + c21 + " - " + c22 + " - " + c23 + " - " + c24);
+
+
                     panchTeDataList.add(formattedData);
                 } while (cursor.moveToNext());
             }

@@ -12,9 +12,15 @@ public class AppConstants {
     public static String eventName = "eventName";
     public static String eventDesc = "description";
     public static String eventTime = "eventTime";
+    public static String eventDate = "eventDate";
     public static String eventType = "eventType";
     public static String emptyFields = "Please fill in all fields";
     public static String selectedDate = "selectedDate";
     public static String saveEvent = "Event saved!";
-    public static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+    public static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale. getDefault());
+
+    public static final String EXTRA_FRAGMENT_TO_SHOW = "fragment_to_show";
+
+    // Define constants for fragments
+    public static final int FRAGMENT_NOTIFICATIONS = 1;
 }

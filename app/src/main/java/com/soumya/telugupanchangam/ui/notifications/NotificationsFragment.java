@@ -49,45 +49,8 @@ public class NotificationsFragment extends Fragment implements DeleteNotiftyItem
                 }
             });
         }
-
-        insertFourItems();
+//        insertFourItems();
         return root;
-    }
-
-    // Insert four items into the database
-    private void insertFourItems() {
-        NotificationsTable item1 = new NotificationsTable();
-        item1.setNotify_event_id(16);
-        item1.setNotify_date("27-09-2023");
-        item1.setNotify_time("17:58");
-        item1.setNotify_description("Item 1h hello hi ");
-        item1.setNotify_event_name("Item 1");
-
-        NotificationsTable item2 = new NotificationsTable();
-        item2.setNotify_event_id(17);
-        item2.setNotify_date("27-09-2023");
-        item2.setNotify_time("18:18");
-        item2.setNotify_description("Item 2h hello hi ");
-        item2.setNotify_event_name("Item 2");
-
-        NotificationsTable item3 = new NotificationsTable();
-        item3.setNotify_event_id(18);
-        item3.setNotify_date("27-09-2023");
-        item3.setNotify_time("18:48");
-        item3.setNotify_description("Item 3h hello hi ");
-        item3.setNotify_event_name("Item 3");
-
-        NotificationsTable item4 = new NotificationsTable();
-        item4.setNotify_event_id(19);
-        item4.setNotify_date("27-09-2023");
-        item4.setNotify_time("18:58");
-        item4.setNotify_description("Item 4h hello hi ");
-        item4.setNotify_event_name("Item 4");
-
-        notifyViewModel.insert(item1);
-        notifyViewModel.insert(item2);
-        notifyViewModel.insert(item3);
-        notifyViewModel.insert(item4);
     }
 
     @Override

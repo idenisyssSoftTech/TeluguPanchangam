@@ -128,28 +128,6 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
             Toast.makeText(this, AppConstants.emptyFields, Toast.LENGTH_SHORT).show();
             return;
         }
-        Eventdata event = new Eventdata();
-        event.setName(name);
-        event.setDate(date);
-        event.setTime(time);
-        event.setDescription(description);
-        event.setEventType(selectedEventType);
-
-        // Insert the event into the database using a background thread
-        new Thread(() -> {
-            eventLiveData.insert(event);
-            runOnUiThread(() -> {
-                Toast.makeText(this, AppConstants.saveEvent, Toast.LENGTH_SHORT).show();
-                finish();
-            });
-        }).start();
-
-        scheduleNotificationTime(name,description,selectedEventType);
-
-    }
-
-    @SuppressLint("ScheduleExactAlarm")
-    private void scheduleNotificationTime(String name, String description, String selectedEventType) {
         // Calculate the delay based on the selected time
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
@@ -157,12 +135,38 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         calendar.set(Calendar.SECOND,0);
         long selectedTimeMillis = calendar.getTimeInMillis();
         long currentTimeMillis = System.currentTimeMillis();
+        if (selectedTimeMillis > currentTimeMillis) {
+            Eventdata event = new Eventdata();
+            event.setName(name);
+            event.setDate(date);
+            event.setTime(time);
+            event.setDescription(description);
+            event.setEventType(selectedEventType);
 
+            // Insert the event into the database using a background thread
+            new Thread(() -> {
+                eventLiveData.insert(event);
+                runOnUiThread(() -> {
+                    Toast.makeText(this, AppConstants.saveEvent, Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+            }).start();
 
+            scheduleNotificationTime(name, description, selectedEventType, time, date, selectedTimeMillis, currentTimeMillis);
+            }else {
+                Toast.makeText(this, "Event time has already passed, please select feature time!..", Toast.LENGTH_LONG).show();
+            }
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    private void scheduleNotificationTime(String name, String description, String selectedEventType, String time,
+                                          String date, long selectedTimeMillis, long currentTimeMillis) {
         Intent notificationIntent = new Intent(this, EventReminderReceiver.class);
         notificationIntent.putExtra(AppConstants.eventName, name);
         notificationIntent.putExtra(AppConstants.eventDesc, description);
         notificationIntent.putExtra(AppConstants.eventType, selectedEventType);
+        notificationIntent.putExtra(AppConstants.eventTime, time);
+        notificationIntent.putExtra(AppConstants.eventDate, date);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
                 utils.generateNotificationId(),
@@ -171,7 +175,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         );
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Log.d(TAG_NAME,"system current time : "+currentTimeMillis);
-        if (selectedTimeMillis > currentTimeMillis) {
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 Log.d(TAG_NAME,"current time : "+selectedTimeMillis);
                 AlarmManagerCompat.setExactAndAllowWhileIdle(
@@ -195,9 +199,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
                         pendingIntent
                 );
             }
-        } else {
-            Toast.makeText(this, "Event time has already passed", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)

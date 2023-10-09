@@ -1,5 +1,6 @@
 package com.soumya.telugupanchangam.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ public class Notificationadapter extends RecyclerView.Adapter<Notificationadapte
         holder.bind(entity);
 
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void setDataList(List<NotificationsTable> dataList) {
         this.dataList = dataList;
         notifyDataSetChanged();
@@ -56,14 +58,12 @@ public class Notificationadapter extends RecyclerView.Adapter<Notificationadapte
     public class MyNotificationAdapter extends RecyclerView.ViewHolder {
 
         private final TextView dataTextView;
-        private final ImageButton editButton;
 
         public MyNotificationAdapter(@NonNull View itemView) {
             super(itemView);
 
             dataTextView = itemView.findViewById(R.id.text_view_data);
             ImageButton deleteButton = itemView.findViewById(R.id.button_delete);
-            editButton = itemView.findViewById(R.id.button_edit);
 
             deleteButton.setOnClickListener(v -> {
                 int position = getAdapterPosition();
@@ -74,12 +74,6 @@ public class Notificationadapter extends RecyclerView.Adapter<Notificationadapte
                 }
             });
 
-            editButton.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    // Handle edit functionality here
-                }
-            });
         }
 
         void bind(NotificationsTable entity) {

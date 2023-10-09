@@ -41,6 +41,4 @@
             android:contentDescription="@string/previoues_month_but"/>
 
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

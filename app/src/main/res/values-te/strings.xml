@@ -23,16 +23,37 @@
     <string name="eventType">ఈవెంట్ రకం: </string>
 
     <!--  week names  -->
-    <string name="sun">ఆది</string>
-    <string name="mon">సోమ</string>
-    <string name="tue">మంగ</string>
-    <string name="wed">బుధ</string>
-    <string name="thu">గురు</string>
-    <string name="fri">శుక్ర</string>
-    <string name="sat">శని</string>
+    <string name="sun">ఆ</string>
+    <string name="mon">సో</string>
+    <string name="tue">మ</string>
+    <string name="wed">బు</string>
+    <string name="thu">గు</string>
+    <string name="fri">శు</string>
+    <string name="sat">శ</string>
 
     <string name="action_addEvent">ఈవెంట్ జోడించండి</string>
     <string name="nodatafound">సమాచారం అందుబాటులో లేదు</string>
+
+    <!--  panchangamItems Strings  -->
+    <string name="panch_title">పంచాంగం:</string>
+    <string name="tithi">తిథి:</string>
+    <string name="nakshatram">నక్షత్రం:</string>
+    <string name="yogam">యోగం:</string>
+    <string name="karan">కరణం:</string>
+    <string name="surya_gamanam">సూర్య గమనం:</string>
+    <string name="sunrise">సూర్యోదయం:</string>
+    <string name="sunset">సూర్యాస్తమయం:</string>
+    <string name="brahma_muhurt">బ్రహ్మ ముహూర్తం:</string>
+    <string name="yamagandam">యమగండం:</string>
+    <string name="rahuKalam">రాహుకాలం:</string>
+    <string name="durmuhurtham">దుర్ముహూర్తం:</string>
+    <string name="varjam">వర్జ్యం:</string>
+    <string name="amritKalam">అమృత కాలం:</string>
+    <string name="abhijitMuhurt">అభిజిత్ ముహూర్తం:</string>
+    <string name="gulikaKalam">గుళికకాలం:</string>
+    <string name="festival">పండుగ:</string>
+    <string name="note">గమనిక: "+" అనగా మరుసటి రోజున</string>
+
 
 
     <string name="settings_desc" translatable="true">ఈ సెట్టింగ్‌ని ఉపయోగించడం ద్వారా, మీరు భాష మార్చండి.. మొదలైన యాప్ ఫీచర్‌లను మార్చవచ్చు.

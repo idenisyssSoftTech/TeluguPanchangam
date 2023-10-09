@@ -13,8 +13,8 @@ import java.util.List;
 
 public class NotifyViewModel extends AndroidViewModel {
 
-    private MyNotifyRepo repository;
-    private LiveData<List<NotificationsTable>> allData;
+    private final MyNotifyRepo repository;
+    private final LiveData<List<NotificationsTable>> allData;
 
 
     public NotifyViewModel(@NonNull Application application) {
@@ -27,7 +27,7 @@ public class NotifyViewModel extends AndroidViewModel {
     }
 
     public void insert(NotificationsTable entity) {
-        repository.insert(entity);
+        repository.insertNotification(entity);
     }
 
     public void update(NotificationsTable entity) {

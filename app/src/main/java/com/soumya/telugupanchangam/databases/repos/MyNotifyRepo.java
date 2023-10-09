@@ -13,8 +13,8 @@ import java.util.List;
 
 public class MyNotifyRepo {
 
-    private NotificationDAO notificationDAO;
-    private LiveData<List<NotificationsTable>> all_notify_data_list;
+    private final NotificationDAO notificationDAO;
+    private final LiveData<List<NotificationsTable>> all_notify_data_list;
 
     public MyNotifyRepo(Application application){
         PanchangamDataBase database = PanchangamDataBase.getInstance(application);
@@ -27,7 +27,7 @@ public class MyNotifyRepo {
         return all_notify_data_list;
     }
 
-    public void insert(NotificationsTable entity) {
+    public void insertNotification(NotificationsTable entity) {
         new InsertAsyncTask(notificationDAO).execute(entity);
     }
 
@@ -43,7 +43,7 @@ public class MyNotifyRepo {
     }
 
     private static class InsertAsyncTask extends AsyncTask<NotificationsTable, Void, Void> {
-        private NotificationDAO yourDao;
+        private final NotificationDAO yourDao;
 
         private InsertAsyncTask(NotificationDAO yourDao) {
             this.yourDao = yourDao;
@@ -57,7 +57,7 @@ public class MyNotifyRepo {
     }
 
     private static class UpdateAsyncTask extends AsyncTask<NotificationsTable, Void, Void> {
-        private NotificationDAO yourDao;
+        private final NotificationDAO yourDao;
 
         private UpdateAsyncTask(NotificationDAO yourDao) {
             this.yourDao = yourDao;
@@ -71,7 +71,7 @@ public class MyNotifyRepo {
     }
 
     private static class DeleteAsyncTask extends AsyncTask<NotificationsTable, Void, Void> {
-        private NotificationDAO yourDao;
+        private final NotificationDAO yourDao;
 
         private DeleteAsyncTask(NotificationDAO yourDao) {
             this.yourDao = yourDao;

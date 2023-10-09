@@ -1,5 +1,6 @@
 package com.soumya.telugupanchangam.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +46,11 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     GridLayoutManager gridLayoutManager;
     ImageButton prevButton,nextButton;
     private TextView updateTextMonth;
+    private ScrollView scrollView;
+    private boolean isTextVisible = true;
 
     private Context context;
+    private int selectedDatePosition = -1;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,6 +68,21 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     }
 
     private void setListeners() {
+        scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY) {
+                // Scrolling down
+                if (isTextVisible) {
+                    fab.shrink();
+                    isTextVisible = false;
+                }
+            } else if (scrollY < oldScrollY) {
+                // Scrolling up
+                if (!isTextVisible) {
+                    fab.extend();
+                    isTextVisible = true;
+                }
+            }
+        });
         fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
         prevButton.setOnClickListener(view -> onMonthChange(-1));
         nextButton.setOnClickListener(view -> onMonthChange(1));
@@ -80,7 +100,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         calenderRecyclerview.setLayoutManager(gridLayoutManager);
 
         panchTeRecyclerView = root.findViewById(R.id.panchTeRecyclerView);
-        panchTeAdapter = new PanchTeAdapter(new ArrayList<>());
+        panchTeAdapter = new PanchTeAdapter(requireContext(),new ArrayList<>());
         panchTeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         panchTeRecyclerView.setAdapter(panchTeAdapter);
 
@@ -88,35 +108,30 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         nextButton = root.findViewById(R.id.next_month);
         updateTextMonth = root.findViewById(R.id.monthName);
 
-
+        scrollView = root.findViewById(R.id.home_scrollView);
 
         dbHelper = new SqliteDBHelper(requireContext());
         dbHelper.copyDatabaseFromAssets();
     }
 
     private List<CalenderItem> generateSampleData(int year, int month,int iday) {
-        // Generate your calendar data here, e.g., for a single month
         List<CalenderItem> items = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, 1);
 
         int startDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        // Add week names as the first row
         String[] weekNames = getResources().getStringArray(R.array.week_names);
         for (String weekName : weekNames) {
             items.add(new CalenderItem(weekName, ""));
         }
-
         // Add empty items for the days before the start day
         for (int i = 1; i < startDayOfWeek; i++) {
             items.add(new CalenderItem("", ""));
         }
-
         for (int i = 1; i <= daysInMonth; i++) {
             String day = String.valueOf(i);
-            String event = "Event for day " + day; // You can customize this
-
+            String event = "Event for day " + day;
             items.add(new CalenderItem(day, event));
         }
         return items;
@@ -161,16 +176,28 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
     }
 
     @Override
     public void onDateChanged(int day, int month, int year) {
-        // Handle item click here, for example, update the displayed day, month, and year
+        Log.d(TAG_NAME, "Date changed: " + day + "/" + (month + 1) + "/" + year);
         currentDay = day;
         currentMonth = month;
         currentYear = year;
-        // Update the calendar and month text
         updateCalendar(currentYear, currentMonth,currentDay);
+        String selectedValue = calculateSelectedValue(day, month, year);
+        int position = PanchTeAdapter.panchTeList.indexOf(selectedValue);
+        Log.d(TAG_NAME, "Selected Position: " + position);
+        panchTeAdapter.highlightDate(position);
+        selectedDatePosition = position;
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String calculateSelectedValue(int day, int month, int year) {
+         String formattedDay = String.format("%02d", day);
+        String formattedMonth = String.format("%02d", month + 1);
+        String selectedValue = formattedDay + "/" + formattedMonth + "/" + year; // Adjust the format as needed
+        Log.d(TAG_NAME, "Selected Value: " + selectedValue);
+        return selectedValue;
     }
 }

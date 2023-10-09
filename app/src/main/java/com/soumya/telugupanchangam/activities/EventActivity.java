@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.ScrollView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.soumya.telugupanchangam.R;
@@ -28,12 +29,13 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     private final String TAG_NAME = EventActivity.class.getName();
     private CalendarView eventCalenderView;
     private FloatingActionButton event_fab;
-
+    private ScrollView scrollView;
     private String selectedDateString;
     private EventRepos eventRepos;
     private EventLiveData eventLiveData;
     private RecyclerView eventRecyclerView;
     private EventAdapter eventAdapter;
+    private boolean isTextVisible = true;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,6 +56,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         eventCalenderView = findViewById(R.id.EventCalenderView);
         event_fab = findViewById(R.id.event_fab);
         event_fab.setOnClickListener(this);
+        scrollView = findViewById(R.id.eventScrollview);
 
         eventRecyclerView = findViewById(R.id.event_recyc);
         eventAdapter = new EventAdapter();
@@ -66,6 +69,24 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
             selectedDateString = AppConstants.dateFormat.format(selectedDate.getTime());
             // Update the LiveData observation when the user selects a date
             updateLiveDataObservation(selectedDateString);
+        });
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    // Scrolling down
+                    if (isTextVisible) {
+                        event_fab.hide();
+                        isTextVisible = false;
+                    }
+                } else if (scrollY < oldScrollY) {
+                    // Scrolling up
+                    if (!isTextVisible) {
+                        event_fab.show();
+                        isTextVisible = true;
+                    }
+                }
+            }
         });
 
     }

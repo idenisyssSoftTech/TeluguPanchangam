@@ -10,8 +10,6 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
@@ -21,12 +19,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.databinding.ActivityHomeBinding;
 import com.soumya.telugupanchangam.sqliteDB.database.SqliteDBHelper;
 import com.soumya.telugupanchangam.utils.PermissionUtils;
 
+import java.util.Objects;
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
@@ -45,20 +43,17 @@ public class HomeActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+            AppBarConfiguration appBarConfiguration1 = new AppBarConfiguration.Builder(
+                    R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                    .build();
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
+            NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration1);
+            NavigationUI.setupWithNavController(binding.navView, navController);
 
         checkPermissionMethod();
     }
@@ -68,18 +63,11 @@ public class HomeActivity extends AppCompatActivity {
         if(PermissionUtils.checkPermissions(this)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 if (Environment.isExternalStorageManager()) {
-                    // If you don't have access, launch a new activity to show the user the system's dialog
-                    // to allow access to the external storage
                     Log.d(TAG_NAME,"ALL Permissions granted");
                 } else {
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-                    intent.setData(uri);
-                    startActivity(intent);
+                    openAllFilesAccessSettings();
                 }
             }
-
         }else{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 multiPermissionLancher.launch(new String[] { Manifest.permission.POST_NOTIFICATIONS});
@@ -87,6 +75,14 @@ public class HomeActivity extends AppCompatActivity {
                 multiPermissionLancher.launch(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
             }
         }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    private void openAllFilesAccessSettings() {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private final ActivityResultLauncher<String[]> multiPermissionLancher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),

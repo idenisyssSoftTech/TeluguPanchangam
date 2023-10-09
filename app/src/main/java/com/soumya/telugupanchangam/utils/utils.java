@@ -1,8 +1,17 @@
 package com.soumya.telugupanchangam.utils;
 
+import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+
+import com.soumya.telugupanchangam.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,6 +56,28 @@ public class utils {
         calendar.set(Calendar.YEAR, currentYear);
         calendar.set(Calendar.MONTH, currentMonth);
         return monthFormat.format(calendar.getTime());
+    }
+
+    public static SpannableStringBuilder spanString(Context context, String eventsText, String textToColor){
+        SpannableStringBuilder  spannableString = new SpannableStringBuilder (eventsText + textToColor);
+        int customColor = ContextCompat.getColor(context, R.color.purple_500);
+        // Set text color for "events" part
+        spannableString.setSpan(
+                new ForegroundColorSpan(customColor),
+                0,
+                eventsText.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        // Set bold style for the entire span
+        StyleSpan boldSpan = new StyleSpan(android.graphics.Typeface.BOLD);
+        spannableString.setSpan(
+                boldSpan,
+                0,
+                eventsText.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        return spannableString;
     }
     public static int generateNotificationId() {
         return (int) System.currentTimeMillis();

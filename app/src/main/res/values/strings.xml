@@ -51,4 +51,25 @@ in this ,we can also go through the app terms and policies. </string>
     <string name="sat" translatable="true">Sat</string>
     <string name="previoues_month_but" translatable="false">previouesmonth</string>
 
+    <!--  panchangamItem strings  -->
+    <string name="panch_title" translatable="true">Panchangam:</string>
+    <string name="tithi" translatable="true">Tithi:</string>
+    <string name="nakshatram" translatable="true">Nakshatram:</string>
+    <string name="yogam" translatable="true">Yogam:</string>
+    <string name="karan" translatable="true">Karan:</string>
+    <string name="surya_gamanam" translatable="true">Surya Gamanam:</string>
+    <string name="sunrise" translatable="true">Sunrise:</string>
+    <string name="sunset" translatable="true">Sunset:</string>
+    <string name="brahma_muhurt" translatable="true">BrahmaMuhurt:</string>
+    <string name="yamagandam" translatable="true">Yamagandam:</string>
+    <string name="rahuKalam" translatable="true">RahuKalam:</string>
+    <string name="durmuhurtham" translatable="true">Durmuhurtham:</string>
+    <string name="varjam" translatable="true">Varjam:</string>
+    <string name="amritKalam" translatable="true">AmritKalam:</string>
+    <string name="abhijitMuhurt" translatable="true">AbhijitMuhurt:</string>
+    <string name="gulikaKalam" translatable="true">GulikaKalam:</string>
+    <string name="festival" translatable="true">Festival:</string>
+    <string name="note" translatable="true">Note: "+" Means Next Day</string>
+    <string name="delete" translatable="false">Delete</string>
+    <string name="edit" translatable="false">Edit</string>
 </resources>

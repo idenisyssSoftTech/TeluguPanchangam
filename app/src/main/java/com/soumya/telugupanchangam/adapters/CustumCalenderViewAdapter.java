@@ -45,6 +45,7 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
         return new MYCalenderItemView(v);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(@NonNull CustumCalenderViewAdapter.MYCalenderItemView holder, @SuppressLint("RecyclerView") int position) {
         CalenderItem item = items.get(position);
@@ -53,11 +54,11 @@ public class CustumCalenderViewAdapter extends RecyclerView.Adapter<CustumCalend
 
         if (position < 7) {
             if (position == selectedItemPosition) {
-            			holder.date_view_layout.setBackgroundColor(Color.parseColor("#FF5733")); // Change to your desired color
+                holder.date_view_layout.setBackgroundColor(Color.WHITE); // Change to your desired color
        			 } else {
           			holder.date_view_layout.setBackgroundColor(Color.TRANSPARENT); // Default color
         		 }
-            holder.dayTextView.setTextColor(ContextCompat.getColor(context, android.R.color.white));
+            holder.dayTextView.setTextColor(ContextCompat.getColor(context,R.color.purple_700));
         }
 
         holder.itemView.setOnClickListener(v -> {
