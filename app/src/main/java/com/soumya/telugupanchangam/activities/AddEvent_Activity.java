@@ -1,12 +1,5 @@
 package com.soumya.telugupanchangam.activities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.AlarmManagerCompat;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -27,6 +20,14 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.AlarmManagerCompat;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.databases.dbtables.Eventdata;
@@ -52,6 +53,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
     ArrayAdapter<String> adapterItems;
     private String[] items;
     private EventLiveData eventLiveData;
+    private Eventdata eventToEdit;
     private int selectedHour, selectedMinute;
 
     @Override
@@ -59,9 +61,9 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
         //actionBar Title
-        utils.setupActionBar(this,getResources().getString(R.string.action_addEvent));
+        utils.setupActionBar(this, getResources().getString(R.string.action_addEvent));
         initViews();
-
+        loadEventToEdit();
     }
 
     private void initViews() {
@@ -69,33 +71,57 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         btn_saveEvent.setOnClickListener(this);
         eventName = findViewById(R.id.EventName);
         eventTime = findViewById(R.id.EventTime);
-        eventDescription  = findViewById(R.id.Description);
+        eventDescription = findViewById(R.id.Description);
         eventDate = findViewById(R.id.eventdate);
         eventType = findViewById(R.id.select_Event);
         timePicker = findViewById(R.id.eTime_btn);
         timePicker.setOnClickListener(this);
         items = getResources().getStringArray(R.array.event_types);
-        adapterItems = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
+        adapterItems = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         adapterItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eventType.setAdapter(adapterItems);
 
         eventLiveData = new ViewModelProvider(this).get(EventLiveData.class);
         String dateString = getIntent().getStringExtra(AppConstants.selectedDate);
         eventDate.setText(dateString);
+
+    }
+
+    // Load event data for editing if provided in the intent
+    private void loadEventToEdit() {
+        eventToEdit = (Eventdata) getIntent().getSerializableExtra(AppConstants.EXTRA_EVENT_DATA);
+        if (eventToEdit != null) {
+            populateEventData(eventToEdit);
+        }
+    }
+
+    // Populate UI fields with event data
+    private void populateEventData(Eventdata event) {
+        // Pre-fill UI fields with event data for editing
+        eventName.setText(eventToEdit.getName());
+        eventTime.setText(eventToEdit.getTime());
+        eventDescription.setText(eventToEdit.getDescription());
+        // Set the selected date from the event data
+        eventDate.setText(eventToEdit.getDate());
+        // Set the selected event type from the event data
+        String eventTypeToEdit = eventToEdit.getEventType();
+        int spinnerPosition = adapterItems.getPosition(eventTypeToEdit);
+        eventType.setSelection(spinnerPosition);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btnSaveEvent){
-            if(checkPermissionMethod()) {
+        if (v.getId() == R.id.btnSaveEvent) {
+            if (checkPermissionMethod()) {
                 saveEvent();
             }
-        }else if(v.getId()==R.id.eTime_btn){
+        } else if (v.getId() == R.id.eTime_btn) {
             showTimePickerDialog();
         }
 
     }
+
     private void showTimePickerDialog() {
         Calendar currentTime = Calendar.getInstance();
         int hour = currentTime.get(Calendar.HOUR_OF_DAY);
@@ -104,8 +130,8 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
                 -> {
             selectedHour = hourOfDay;   // Set the selected hour
             selectedMinute = minute1;
-            setTimeToTextView(hourOfDay,minute1);
-            }, hour, minute, false // 24-hour format (change to true for 24-hour format)
+            setTimeToTextView(hourOfDay, minute1);
+        }, hour, minute, false // 24-hour format (change to true for 24-hour format)
         );
         timePickerDialog.show();
     }
@@ -117,6 +143,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         eventTime.setText(selectedTime);
 
     }
+
     private void saveEvent() {
         String name = eventName.getText().toString();
         String date = eventDate.getText().toString();
@@ -132,74 +159,131 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
         calendar.set(Calendar.MINUTE, selectedMinute);
-        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.SECOND, 0);
         long selectedTimeMillis = calendar.getTimeInMillis();
         long currentTimeMillis = System.currentTimeMillis();
+
         if (selectedTimeMillis > currentTimeMillis) {
-            Eventdata event = new Eventdata();
-            event.setName(name);
-            event.setDate(date);
-            event.setTime(time);
-            event.setDescription(description);
-            event.setEventType(selectedEventType);
-
-            // Insert the event into the database using a background thread
-            new Thread(() -> {
-                eventLiveData.insert(event);
-                runOnUiThread(() -> {
-                    Toast.makeText(this, AppConstants.saveEvent, Toast.LENGTH_SHORT).show();
-                    finish();
-                });
-            }).start();
-
-            scheduleNotificationTime(name, description, selectedEventType, time, date, selectedTimeMillis, currentTimeMillis);
-            }else {
-                Toast.makeText(this, "Event time has already passed, please select feature time!..", Toast.LENGTH_LONG).show();
+            if (eventToEdit == null) {
+                // New event: Insert the event into the Room Database
+                insertEvent(name, date, time, description, selectedEventType, selectedTimeMillis);
+            } else {
+                // Edit existing event: Update the event in the Room Database
+                updateEvent(name, date, time, description, selectedEventType, selectedTimeMillis);
             }
+        } else {
+            Toast.makeText(this, "Event time has already passed, please select a future time!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void insertEvent(String name, String date, String time, String description, String selectedEventType, long selectedTimeMillis) {
+        Eventdata event = new Eventdata();
+        event.setName(name);
+        event.setDate(date);
+        event.setTime(time);
+        event.setDescription(description);
+        event.setEventType(selectedEventType);
+        event.setSelectedTimeMillis(selectedTimeMillis);
+
+        new Thread(() -> {
+            eventLiveData.insertEvent(event);
+            runOnUiThread(() -> {
+                Toast.makeText(this, AppConstants.saveEvent, Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        }).start();
+
+        scheduleNotificationTime(event);
+    }
+
+    private void updateEvent(String name, String date, String time,
+                             String description, String selectedEventType, long selectedTimeMillis) {
+        eventToEdit.setName(name);
+        eventToEdit.setDate(date);
+        eventToEdit.setTime(time);
+        eventToEdit.setDescription(description);
+        eventToEdit.setEventType(selectedEventType);
+        eventToEdit.setSelectedTimeMillis(selectedTimeMillis);
+
+        new Thread(() -> {
+            eventLiveData.updateEvent(eventToEdit);
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Event updated", Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        }).start();
+
+        cancelAndRescheduleNotification(eventToEdit);
     }
 
     @SuppressLint("ScheduleExactAlarm")
-    private void scheduleNotificationTime(String name, String description, String selectedEventType, String time,
-                                          String date, long selectedTimeMillis, long currentTimeMillis) {
+    private void scheduleNotificationTime(Eventdata event) {
         Intent notificationIntent = new Intent(this, EventReminderReceiver.class);
-        notificationIntent.putExtra(AppConstants.eventName, name);
-        notificationIntent.putExtra(AppConstants.eventDesc, description);
-        notificationIntent.putExtra(AppConstants.eventType, selectedEventType);
-        notificationIntent.putExtra(AppConstants.eventTime, time);
-        notificationIntent.putExtra(AppConstants.eventDate, date);
+        notificationIntent.putExtra(AppConstants.EXTRA_EVENT_DATA, event);
+
+
+        int notificationId = utils.generateNotificationId();
+        Log.d(TAG_NAME, "scheduled alarm for notificationId: " + notificationId);
+        event.setNotificationId(notificationId);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
-                utils.generateNotificationId(),
+                notificationId,
                 notificationIntent,
                 PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
         );
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Log.d(TAG_NAME,"system current time : "+currentTimeMillis);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Log.d(TAG_NAME,"current time : "+selectedTimeMillis);
-                AlarmManagerCompat.setExactAndAllowWhileIdle(
-                        alarmManager,
-                        AlarmManager.RTC_WAKEUP,
-                        selectedTimeMillis,
-                        pendingIntent
-                );
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                Log.d(TAG_NAME,"current time : "+selectedTimeMillis);
-                alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        selectedTimeMillis,
-                        pendingIntent
-                );
-            } else {
-                Log.d(TAG_NAME,"current time : "+selectedTimeMillis);
-                alarmManager.set(
-                        AlarmManager.RTC_WAKEUP,
-                        selectedTimeMillis,
-                        pendingIntent
-                );
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.d(TAG_NAME, "current time : " + event.getSelectedTimeMillis());
+            AlarmManagerCompat.setExactAndAllowWhileIdle(
+                    alarmManager,
+                    AlarmManager.RTC_WAKEUP,
+                    event.getSelectedTimeMillis(),
+                    pendingIntent
+            );
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Log.d(TAG_NAME, "current time : " + event.getSelectedTimeMillis());
+            alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    event.getSelectedTimeMillis(),
+                    pendingIntent
+            );
+        } else {
+            Log.d(TAG_NAME, "current time : " + event.getSelectedTimeMillis());
+            alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    event.getSelectedTimeMillis(),
+                    pendingIntent
+            );
+        }
 
+    }
+
+    // Helper method to cancel and reschedule the notification for an updated event
+    private void cancelAndRescheduleNotification(Eventdata event) {
+        // Cancel the existing notification for the event
+        cancelScheduledNotification(event);
+
+        // Schedule a new notification for the updated event
+        scheduleNotificationTime(event);
+    }
+
+    private void cancelScheduledNotification(Eventdata event) {
+        // Retrieve the notificationId associated with the event
+        int notificationId = event.getNotificationId();
+        Log.d(TAG_NAME, "Canceling alarm for notificationId: " + notificationId);
+
+        Intent notificationIntent = new Intent(this, EventReminderReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                notificationId,
+                notificationIntent,
+                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+        Log.d(TAG_NAME, "Alarm canceled for notificationId: " + notificationId);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
@@ -207,11 +291,11 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         boolean isGranted = false;
         if (PermissionUtils.checkPermissions(this)) {
             isGranted = true;
-            }else{
-            if(shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)){
+        } else {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                 showPermissionRationaleDialog();
-            }else{
-                multiPermissionLancher.launch(new String[] {android.Manifest.permission.POST_NOTIFICATIONS});
+            } else {
+                multiPermissionLancher.launch(new String[]{android.Manifest.permission.POST_NOTIFICATIONS});
             }
         }
         return isGranted;
@@ -224,20 +308,21 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
                     allGranted = allGranted && Boolean.TRUE.equals(result.get(key));
                 }
                 if (allGranted) {
-                    Log.d(TAG_NAME,"ALL Permissions granted");
+                    Log.d(TAG_NAME, "ALL Permissions granted");
                 } else {
                     showPermissionSettingsDialog();
                 }
 
             });
+
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void showPermissionRationaleDialog() {
         PermissionUtils.showCustomDialog(this, "Post Notification Permission",
                 "This app needs the Post Notification permission. Please allow the permission.",
                 getString(R.string.ok), (dialog, which) -> {
 //                        requestPermissionLauncher.launch(Manifest.permission.CAMERA);
-                        multiPermissionLancher.launch(new String[] {Manifest.permission.POST_NOTIFICATIONS});
-                }, getString(R.string.cancel),null);
+                    multiPermissionLancher.launch(new String[]{Manifest.permission.POST_NOTIFICATIONS});
+                }, getString(R.string.cancel), null);
     }
 
 
@@ -246,11 +331,12 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
                 "The app needs permission to function. Please allow this permission in the app settings. ",
                 "Go To Settings", (dialogInterface, i) -> {
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                            Uri.parse("package:"+ BuildConfig.APPLICATION_ID));
+                            Uri.parse("package:" + BuildConfig.APPLICATION_ID));
                     startActivity(intent);
                 },
-                getString(R.string.cancel),null);
+                getString(R.string.cancel), null);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

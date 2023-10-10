@@ -4,11 +4,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 
 @Entity(tableName = "eventsdata")
-public class Eventdata {
+public class Eventdata implements Serializable {
         @PrimaryKey(autoGenerate = true)
-        private long id;
+        private int id;
 
        @ColumnInfo(name = "eventName")
         private String name;
@@ -16,18 +18,22 @@ public class Eventdata {
         private String date;
         @ColumnInfo(name = "time")
         private String time;
+
+        @ColumnInfo(name = "timemillis")
+        private long selectedTimeMillis;
          @ColumnInfo(name = "description")
         private String description;
         @ColumnInfo(name = "eventType")
         private String eventType;
 
+        private int notificationId;
         // Constructors, getters, and setters
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -69,5 +75,21 @@ public class Eventdata {
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
+    }
+
+    public long getSelectedTimeMillis() {
+        return selectedTimeMillis;
+    }
+
+    public void setSelectedTimeMillis(long selectedTimeMillis) {
+        this.selectedTimeMillis = selectedTimeMillis;
+    }
+
+    public int getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(int notificationId) {
+        this.notificationId = notificationId;
     }
 }

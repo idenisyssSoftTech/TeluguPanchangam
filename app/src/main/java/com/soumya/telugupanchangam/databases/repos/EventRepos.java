@@ -1,6 +1,7 @@
 package com.soumya.telugupanchangam.databases.repos;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -24,25 +25,63 @@ public class EventRepos {
         return allEvents;
     }
 
-    public void insert(Eventdata event) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            eventDao.insert(event);
-        });
+    public void insertEventRepo(Eventdata event) {
+        new InsertAsyncTask(eventDao).execute(event);
     }
 
-    public void update(Eventdata event) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            eventDao.update(event);
-        });
+
+    public void updateEventRepo(Eventdata event) {
+        new UpdateAsyncTask(eventDao).execute(event);
     }
 
-    public void delete(Eventdata event) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            eventDao.delete(event);
-        });
+    public void deleteEventRepo(Eventdata event) {
+    new DeleteAsyncTask(eventDao).execute(event);
     }
 
     public LiveData<List<Eventdata>> getEventsByDate(String date) {
         return eventDao.getEventsByDate(date);
+    }
+
+
+    private static class InsertAsyncTask extends AsyncTask<Eventdata, Void, Void> {
+        private final EventDao yourDao;
+
+        private InsertAsyncTask(EventDao yourDao) {
+            this.yourDao = yourDao;
+        }
+
+        @Override
+        protected Void doInBackground(Eventdata... entities) {
+            yourDao.insert(entities[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateAsyncTask extends AsyncTask<Eventdata, Void, Void> {
+        private final EventDao yourDao;
+
+        private UpdateAsyncTask(EventDao yourDao) {
+            this.yourDao = yourDao;
+        }
+
+        @Override
+        protected Void doInBackground(Eventdata... entities) {
+            yourDao.update(entities[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAsyncTask extends AsyncTask<Eventdata, Void, Void> {
+        private final EventDao yourDao;
+
+        private DeleteAsyncTask(EventDao yourDao) {
+            this.yourDao = yourDao;
+        }
+
+        @Override
+        protected Void doInBackground(Eventdata... entities) {
+            yourDao.delete(entities[0]);
+            return null;
+        }
     }
 }

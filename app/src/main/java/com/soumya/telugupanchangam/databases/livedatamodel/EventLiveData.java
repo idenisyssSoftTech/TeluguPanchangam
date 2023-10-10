@@ -20,10 +20,16 @@ public class EventLiveData extends AndroidViewModel {
         LiveData<List<Eventdata>> allEvents = repository.getAllEvents();
     }
 
-    public void insert(Eventdata eventdata){
-        repository.insert(eventdata);
+    public void insertEvent(Eventdata eventdata){
+        repository.insertEventRepo(eventdata);
     }
 
+    public void updateEvent(Eventdata eventdata){
+        repository.updateEventRepo(eventdata);
+    }
+    public void deleteEvent(Eventdata eventdata){
+        repository.deleteEventRepo(eventdata);
+    }
     public LiveData<List<Eventdata>> getAllEvents() {
         return repository.getAllEvents();
     }

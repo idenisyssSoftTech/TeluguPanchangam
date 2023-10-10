@@ -23,4 +23,6 @@ public class AppConstants {
 
     // Define constants for fragments
     public static final int FRAGMENT_NOTIFICATIONS = 1;
+
+    public static final String EXTRA_EVENT_DATA = "extra_event_data_key";
 }

@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,16 +20,18 @@ import android.widget.ScrollView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.soumya.telugupanchangam.R;
 import com.soumya.telugupanchangam.adapters.EventAdapter;
+import com.soumya.telugupanchangam.databases.callbacksinterfaces.DeleteEventItemCallback;
 import com.soumya.telugupanchangam.databases.dbtables.Eventdata;
 import com.soumya.telugupanchangam.databases.livedatamodel.EventLiveData;
 import com.soumya.telugupanchangam.databases.repos.EventRepos;
+import com.soumya.telugupanchangam.receivers.EventReminderReceiver;
 import com.soumya.telugupanchangam.utils.AppConstants;
 import com.soumya.telugupanchangam.utils.utils;
 import java.util.Calendar;
 import java.util.List;
 
-public class EventActivity extends AppCompatActivity implements View.OnClickListener {
-    private final String TAG_NAME = EventActivity.class.getName();
+public class EventActivity extends AppCompatActivity implements View.OnClickListener, DeleteEventItemCallback , EventAdapter.EditEventCallback {
+    private final String TAG_NAME = "EventActivity";
     private CalendarView eventCalenderView;
     private FloatingActionButton event_fab;
     private ScrollView scrollView;
@@ -58,8 +63,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         event_fab.setOnClickListener(this);
         scrollView = findViewById(R.id.eventScrollview);
 
+        eventAdapter = new EventAdapter(this,this);
         eventRecyclerView = findViewById(R.id.event_recyc);
-        eventAdapter = new EventAdapter();
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventRecyclerView.setAdapter(eventAdapter);
 
@@ -70,21 +75,18 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
             // Update the LiveData observation when the user selects a date
             updateLiveDataObservation(selectedDateString);
         });
-        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    // Scrolling down
-                    if (isTextVisible) {
-                        event_fab.hide();
-                        isTextVisible = false;
-                    }
-                } else if (scrollY < oldScrollY) {
-                    // Scrolling up
-                    if (!isTextVisible) {
-                        event_fab.show();
-                        isTextVisible = true;
-                    }
+        scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY) {
+                // Scrolling down
+                if (isTextVisible) {
+                    event_fab.hide();
+                    isTextVisible = false;
+                }
+            } else if (scrollY < oldScrollY) {
+                // Scrolling up
+                if (!isTextVisible) {
+                    event_fab.show();
+                    isTextVisible = true;
                 }
             }
         });
@@ -138,5 +140,42 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     protected void onResume() {
         super.onResume();
         updateLiveDataObservation(selectedDateString);
+    }
+
+    @Override
+    public void onDeleteItem(Eventdata event) {
+        cancelScheduledNotification(event);
+    }
+
+    private void cancelScheduledNotification(Eventdata event) {
+        // Retrieve the notificationId associated with the event
+        int notificationId = event.getNotificationId();
+        Log.d(TAG_NAME, "Canceling alarm for notificationId: " + notificationId);
+
+        Intent notificationIntent = new Intent(EventActivity.this, EventReminderReceiver.class);
+        notificationIntent.putExtra(AppConstants.EXTRA_EVENT_DATA, event);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                notificationId,
+                notificationIntent,
+                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+        Log.d(TAG_NAME, "Alarm canceled for notificationId: " + notificationId);
+
+        // Delete the event from the database
+        eventLiveData.deleteEvent(event);
+        Log.d(TAG_NAME, "Event deleted from the database.");
+
+    }
+
+    @Override
+    public void onEditEvent(Eventdata event) {
+        // Create an intent to start the EditEventActivity
+        Intent intent = new Intent(this, AddEvent_Activity.class);
+        intent.putExtra(AppConstants.EXTRA_EVENT_DATA, event);
+        startActivity(intent);
     }
 }
