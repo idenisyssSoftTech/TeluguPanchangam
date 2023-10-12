@@ -2,12 +2,9 @@ package com.telugu.panchangam.activities;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -64,25 +61,15 @@ public class HomeActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 if (Environment.isExternalStorageManager()) {
                     Log.d(TAG_NAME,"ALL Permissions granted");
-                } else {
-                    openAllFilesAccessSettings();
                 }
             }
         }else{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 multiPermissionLancher.launch(new String[] { Manifest.permission.POST_NOTIFICATIONS});
             }else {
-                multiPermissionLancher.launch(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
+                multiPermissionLancher.launch(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE});
             }
         }
-    }
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    private void openAllFilesAccessSettings() {
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-        intent.setData(uri);
-        startActivity(intent);
     }
 
     private final ActivityResultLauncher<String[]> multiPermissionLancher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),

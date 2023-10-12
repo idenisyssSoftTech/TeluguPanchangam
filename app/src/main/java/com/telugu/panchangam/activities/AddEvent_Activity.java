@@ -97,13 +97,10 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
 
     // Populate UI fields with event data
     private void populateEventData(Eventdata event) {
-        // Pre-fill UI fields with event data for editing
         eventName.setText(eventToEdit.getName());
         eventTime.setText(eventToEdit.getTime());
         eventDescription.setText(eventToEdit.getDescription());
-        // Set the selected date from the event data
         eventDate.setText(eventToEdit.getDate());
-        // Set the selected event type from the event data
         String eventTypeToEdit = eventToEdit.getEventType();
         int spinnerPosition = adapterItems.getPosition(eventTypeToEdit);
         eventType.setSelection(spinnerPosition);

@@ -1,16 +1,17 @@
 package com.telugu.panchangam.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.LocaleList;
+import android.util.DisplayMetrics;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.telugu.panchangam.R;
 import com.telugu.panchangam.utils.PanchangConstants;
@@ -58,26 +59,41 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, SPLASH_DURATION);
     }
+    @SuppressLint("ObsoleteSdkInt")
     public void changeAppLanguage(Context context, String languageCode) {
-        Configuration config = getResources().getConfiguration();
-        Configuration newConfig = new Configuration(config);
-        if(true) {
-            //above or equal to API 24
-            LocaleList currentLocales = config.getLocales();
-            Locale newLocale = new Locale(languageCode); // Change to French
-            LocaleList newLocales = new LocaleList(newLocale);
-            // Update the app's configuration with the new locales
-            newConfig.setLocales(newLocales);
-        }
-        else {
-            // below API 24
-            Locale currentLocale = config.locale;
-            Locale newLocale = new Locale("fr"); // Change to French
-            Locale.setDefault(newLocale);
-            // Update the app's configuration with the new locale
-            newConfig.locale = newLocale;
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            // For Android Nougat (API 24) and above
+            configuration.setLocale(new Locale(languageCode));
+        } else {
+            // For versions below Android Nougat
+            configuration.locale = new Locale(languageCode);
         }
-        getResources().updateConfiguration(newConfig, getResources().getDisplayMetrics());
+
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        resources.updateConfiguration(configuration, displayMetrics);
+
+//        Configuration config = getResources().getConfiguration();
+//        Configuration newConfig = new Configuration(config);
+//        if(true) {
+//            //above or equal to API 24
+//            LocaleList currentLocales = config.getLocales();
+//            Locale newLocale = new Locale(languageCode); // Change to French
+//            LocaleList newLocales = new LocaleList(newLocale);
+//            // Update the app's configuration with the new locales
+//            newConfig.setLocales(newLocales);
+//        }
+//        else {
+//            // below API 24
+//            Locale currentLocale = config.locale;
+//            Locale newLocale = new Locale("fr"); // Change to French
+//            Locale.setDefault(newLocale);
+//            // Update the app's configuration with the new locale
+//            newConfig.locale = newLocale;
+//
+//        }
+//        getResources().updateConfiguration(newConfig, getResources().getDisplayMetrics());
     }
 }
