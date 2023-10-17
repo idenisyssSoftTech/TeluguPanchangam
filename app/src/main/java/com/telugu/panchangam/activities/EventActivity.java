@@ -1,10 +1,5 @@
 package com.telugu.panchangam.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,8 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.CalendarView;
-import android.widget.ScrollView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.telugu.panchangam.R;
@@ -27,6 +28,7 @@ import com.telugu.panchangam.databases.repos.EventRepos;
 import com.telugu.panchangam.receivers.EventReminderReceiver;
 import com.telugu.panchangam.utils.AppConstants;
 import com.telugu.panchangam.utils.utils;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     private final String TAG_NAME = "EventActivity";
     private CalendarView eventCalenderView;
     private FloatingActionButton event_fab;
-    private ScrollView scrollView;
+    private NestedScrollView scrollView;
     private String selectedDateString;
     private EventRepos eventRepos;
     private EventLiveData eventLiveData;
@@ -75,19 +77,25 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
             // Update the LiveData observation when the user selects a date
             updateLiveDataObservation(selectedDateString);
         });
-        scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY > oldScrollY) {
-                // Scrolling down
-                if (isTextVisible) {
-                    event_fab.hide();
-                    isTextVisible = false;
+        final int[] oldScrollY = {scrollView.getScrollY()};
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int scrollY = scrollView.getScrollY();
+                if (scrollY > oldScrollY[0]) {
+                    // Scrolling down
+                    if (isTextVisible) {
+                        event_fab.hide();
+                        isTextVisible = false;
+                    }
+                } else if (scrollY < oldScrollY[0]) {
+                    // Scrolling up
+                    if (!isTextVisible) {
+                        event_fab.show();
+                        isTextVisible = true;
+                    }
                 }
-            } else if (scrollY < oldScrollY) {
-                // Scrolling up
-                if (!isTextVisible) {
-                    event_fab.show();
-                    isTextVisible = true;
-                }
+                oldScrollY[0] = scrollY;
             }
         });
 

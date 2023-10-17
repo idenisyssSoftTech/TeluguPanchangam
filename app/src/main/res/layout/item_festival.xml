@@ -11,6 +11,7 @@
         android:textSize="@dimen/font_sp"
         android:textColor="@color/purple_700"
         android:textAlignment="center"
+        android:padding="@dimen/three_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

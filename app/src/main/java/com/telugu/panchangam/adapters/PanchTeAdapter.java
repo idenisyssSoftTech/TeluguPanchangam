@@ -2,7 +2,6 @@ package com.telugu.panchangam.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,11 +43,11 @@ public class PanchTeAdapter extends RecyclerView.Adapter<PanchTeAdapter.MyPanchT
         String item = panchTeList.get(position);
         Log.d(TAG_NAME, "panchTeList item: " + item);
 
-        if (position == selectedDatePosition) {
-            holder.itemView.setBackgroundColor(Color.RED);
-        } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-        }
+//        if (position == selectedDatePosition) {
+//            holder.itemView.setBackgroundColor(Color.RED);
+//        } else {
+//            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+//        }
 
         String[] parts = item.split(" - ");
         if (parts.length >= 10) {

@@ -2,5 +2,5 @@ package com.telugu.panchangam.customviews.panchangcalenderview;
 
 public interface OnDateChangedCallBack {
 
-    void onDateChanged(int day, int currentMonth, int currentYear);
+    void onDateChanged(int selectedPosition, int previousPosition, int day, int currentMonth, int currentYear);
 }

@@ -7,6 +7,7 @@
     <string name="title_home" translatable="true">Panchangam</string>
     <string name="title_dashboard" translatable="true">Festivals</string>
     <string name="title_notifications" translatable="true">Notifications</string>
+    <string name="title_panchangam" translatable="false">Panchangam</string>
     <string name="app_name_tel" translatable="false">తెలుగు పంచాంగము</string>
     <string name="privacy_policy" translatable="false">Privacy Policy</string>
 
@@ -72,4 +73,7 @@ in this ,we can also go through the app terms and policies. </string>
     <string name="note" translatable="true">Note: "+" Means Next Day</string>
     <string name="delete" translatable="false">Delete</string>
     <string name="edit" translatable="false">Edit</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="oops" translatable="false">Oops!</string>
+    <string name="no_data_found" translatable="false">No Data found</string>
 </resources>

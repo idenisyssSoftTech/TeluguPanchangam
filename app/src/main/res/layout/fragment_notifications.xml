@@ -10,5 +10,41 @@
         android:id="@+id/notification_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <LinearLayout
+        android:id="@+id/linear_notify_no_data"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ImageView
+            android:src="@drawable/notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:contentDescription="@string/todo" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/purple_500"
+            android:textSize="35sp"
+            android:padding="@dimen/four_dp"
+            android:textStyle="bold"
+            android:text="@string/oops"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/purple_500"
+            android:textSize="@dimen/eighteen_sp"
+            android:padding="@dimen/four_dp"
+            android:textStyle="bold|italic"
+            android:text="@string/no_data_found"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
