@@ -7,21 +7,13 @@
     android:padding="@dimen/eight_dp">
 
     <TextView
-        android:id="@+id/weekTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/purple_500"
-        android:importantForAccessibility="yes" />
-    <TextView
         android:id="@+id/dayTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/twentyfive_dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="16sp"
+        android:padding="@dimen/three_dp"
+        android:textSize="@dimen/sixteen_sp"
         />
 
     <TextView

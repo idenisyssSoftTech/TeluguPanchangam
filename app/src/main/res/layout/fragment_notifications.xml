@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/purple_500"
-            android:textSize="35sp"
+            android:textSize="@dimen/thirtyfive_sp"
             android:padding="@dimen/four_dp"
             android:textStyle="bold"
             android:text="@string/oops"
@@ -40,11 +41,7 @@
             android:textColor="@color/purple_500"
             android:textSize="@dimen/eighteen_sp"
             android:padding="@dimen/four_dp"
-            android:textStyle="bold|italic"
             android:text="@string/no_data_found"
             android:textAlignment="center" />
-
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

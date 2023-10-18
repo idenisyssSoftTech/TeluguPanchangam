@@ -27,18 +27,19 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
     private final int currentMonth;
     private final int currentYear,day;
     OnDateChangedCallBack onDateChangedCallBack;
-    private int selectedPosition = RecyclerView.NO_POSITION;
-    private final int lastSelectedPosition = RecyclerView.NO_POSITION;
-//    private int selectedItemPosition = -1; // Initially, no item is selected
+    private int selectedPosition ;
+    private final int previousPosition ;
 
     public CustomCalenderViewAdapter(Context context , List<CalenderItem> items, OnDateChangedCallBack onDateChangedCallBack,
-                                     int currentMonth, int currentYear, int day) {
+                                     int currentMonth, int currentYear, int day, int selectedPosition, int previousPosition) {
         this.context = context;
         this.items = items;
         this.onDateChangedCallBack = onDateChangedCallBack;
         this.currentMonth = currentMonth;
         this.currentYear = currentYear;
         this.day = day;
+        this.selectedPosition = selectedPosition;
+        this.previousPosition = previousPosition;
     }
 
 
@@ -58,62 +59,34 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
         if (position >= 7) { // Exclude the first row (headers) from selection
             if (position == selectedPosition) {
                 holder.dayTextView.setBackgroundResource(R.drawable.circle_background); // Apply the selected background
-                holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
+                holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
             } else {
                 holder.dayTextView.setBackgroundResource(0); // Clear background for non-selected items
                 holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.purple_700));
             }
+            String dayString = item.getDay();
+            if (dayString != null && !dayString.isEmpty()) {
+                holder.date_view_layout.setOnClickListener(view -> {
+                    if (onDateChangedCallBack != null) {
+                        Log.d(TAG_NAME, "Item clicked at position: " + position);
+                        int previousSelected = selectedPosition;
+                        selectedPosition = position;
+                        Log.d(TAG_NAME, "previousSelected: " + previousSelected + ", selectedPosition: " + selectedPosition);
 
-            holder.date_view_layout.setOnClickListener(view -> {
-                if (onDateChangedCallBack != null) {
-                    Log.d(TAG_NAME, "Item clicked at position: " + position);
-                    int previousSelected = selectedPosition;
-                    selectedPosition = holder.getAdapterPosition();
-                    Log.d(TAG_NAME, "previousSelected: " + previousSelected + ", selectedPosition: " + selectedPosition);
+                        notifyItemChanged(previousSelected);
+                        notifyItemChanged(selectedPosition);
 
-                    notifyItemChanged(previousSelected);
-                    notifyItemChanged(selectedPosition);
-                    int clickedDay = Integer.parseInt(item.getDay());
-                    onDateChangedCallBack.onDateChanged(selectedPosition, previousSelected, clickedDay, currentMonth, currentYear);
-                }
-            });
+                        int clickedDay = Integer.parseInt(dayString);
+                        onDateChangedCallBack.onDateChanged(selectedPosition, previousSelected, clickedDay, currentMonth, currentYear);
+
+                    }
+                });
+            }
         } else {
             // Handle the first row (headers), you can set different styling if needed
             holder.dayTextView.setBackgroundResource(0); // Clear background for headers
             holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.purple_700));
         }
-
-//                // Update the background based on the selection state
-//        if (position < 7) {
-//            holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.purple_700));
-//            holder.dayTextView.setBackgroundResource(0); // Clear background
-//        } else {
-//            if (position == selectedPosition) {
-//                holder.dayTextView.setBackgroundResource(R.drawable.circle_background); // Apply the selected background
-//                holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
-//            } else {
-//                holder.dayTextView.setBackgroundResource(0); // Clear background for non-selected items
-//                holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
-//            }
-//        }
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick (View view){
-//                    if (position >= 7 && onDateChangedCallBack != null ){
-//                    Log.d(TAG_NAME, "Item clicked at position: " + position);
-//                    int previousSelected = selectedPosition;
-//                    selectedPosition = holder.getAdapterPosition();
-//                        // Update the isSelected property of items
-//                        for (int i = 0; i < items.size(); i++) {
-//                            items.get(i).setSelected(i == selectedPosition);
-//                        }
-//                    notifyItemChanged(previousSelected);
-//                    notifyItemChanged(selectedPosition);
-//                        int clickedDay = Integer.parseInt(item.getDay());
-//                    onDateChangedCallBack.onDateChanged(selectedPosition,previousSelected,clickedDay, currentMonth, currentYear);
-//                }
-//            }
-//        });
     }
 
     @Override

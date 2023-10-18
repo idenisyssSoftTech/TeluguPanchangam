@@ -21,8 +21,9 @@ import java.util.List;
 
 public class Notificationadapter extends RecyclerView.Adapter<Notificationadapter.MyNotificationAdapter> {
     private List<NotificationsTable> dataList = new ArrayList<>();
-    private final Context context;
-    private NotifyViewModel viewModel;
+
+    public final Context context;
+    private final NotifyViewModel viewModel;
     private final DeleteNotiftyItemCallback deleteNotiftyItemCallback;
 
     public Notificationadapter(Context context, NotifyViewModel viewModel,DeleteNotiftyItemCallback deleteNotiftyItemCallback) {
@@ -57,14 +58,13 @@ public class Notificationadapter extends RecyclerView.Adapter<Notificationadapte
 
     public class MyNotificationAdapter extends RecyclerView.ViewHolder {
 
-        private final TextView event_name, event_desc, event_date, event_time, event_type;
+        private final TextView event_name, event_desc, event_date,  event_type;
 
         public MyNotificationAdapter(@NonNull View itemView) {
             super(itemView);
 
             event_type = itemView.findViewById(R.id.Notify_event_type);
             event_date = itemView.findViewById(R.id.Notify_event_date);
-            event_time = itemView.findViewById(R.id.Notify_event_time);
             event_name = itemView.findViewById(R.id.Notify_event_name);
             event_desc = itemView.findViewById(R.id.Notify_event_desc);
             ImageButton deleteButton = itemView.findViewById(R.id.button_delete);
@@ -80,10 +80,10 @@ public class Notificationadapter extends RecyclerView.Adapter<Notificationadapte
 
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(NotificationsTable entity) {
             event_type.setText(entity.getNotify_eventtype());
-            event_date.setText(entity.getNotify_date());
-            event_time.setText(entity.getNotify_time());
+            event_date.setText(entity.getNotify_date()+ "  "+ entity.getNotify_time());
             event_name.setText(entity.getNotify_event_name());
             event_desc.setText(entity.getNotify_description());
         }

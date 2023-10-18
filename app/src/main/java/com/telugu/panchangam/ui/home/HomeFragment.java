@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +35,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
-    private final String TAG_NAME = HomeFragment.class.getName();
+    private final String TAG_NAME = "HomeFragment";
     private SqliteDBHelper dbHelper;
     private ExtendedFloatingActionButton fab;
     private RecyclerView calenderRecyclerview, panchTeRecyclerView;
@@ -49,11 +48,10 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     private NestedScrollView scrollView;
     private boolean isTextVisible = true;
 
-    private Context context;
-    private int selectedDatePosition = -1;
+    public Context context;
+    private final int selectedDatePosition = -1;
 
     // Constants
-    private static final int DAYS_IN_WEEK = 7;
     private static final int MIN_YEAR = 2022;
     private static final int MAX_YEAR = 2023;
     private static final int MAX_MONTH = 11;
@@ -65,7 +63,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
         initViews(root);
         setListeners();
-        updateCalendar(currentYear, currentMonth,currentDay);
+        updateCalendar(currentYear, currentMonth,currentDay,-1, -1);
         // Log the database path
         String dbPath = requireContext().getDatabasePath(SqliteDBHelper.DATABASE_NAME).getPath();
         Log.d(TAG_NAME, "Database Path: " + dbPath);
@@ -102,25 +100,22 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     private void setListeners() {
 // Initialize oldScrollY with the initial scroll position
         final int[] oldScrollY = {scrollView.getScrollY()};
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int scrollY = scrollView.getScrollY();
-                if (scrollY > oldScrollY[0]) {
-                    // Scrolling down
-                    if (isTextVisible) {
-                        fab.shrink();
-                        isTextVisible = false;
-                    }
-                } else if (scrollY < oldScrollY[0]) {
-                    // Scrolling up
-                    if (!isTextVisible) {
-                        fab.extend();
-                        isTextVisible = true;
-                    }
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            int scrollY = scrollView.getScrollY();
+            if (scrollY > oldScrollY[0]) {
+                // Scrolling down
+                if (isTextVisible) {
+                    fab.shrink();
+                    isTextVisible = false;
                 }
-                oldScrollY[0] = scrollY;
+            } else if (scrollY < oldScrollY[0]) {
+                // Scrolling up
+                if (!isTextVisible) {
+                    fab.extend();
+                    isTextVisible = true;
+                }
             }
+            oldScrollY[0] = scrollY;
         });
         fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
         prevButton.setOnClickListener(view -> onMonthChange(-1));
@@ -129,20 +124,21 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
 
     @SuppressLint("NotifyDataSetChanged")
-    private void updateCalendar(int year, int month, int day) {
+    private void updateCalendar(int year, int month, int day, int selectedPosition, int previousPosition) {
         List<CalenderItem> calendarItems = generateSampleData(year, month,day);
-        CustomCalenderViewAdapter calenderViewAdapter = new CustomCalenderViewAdapter(getActivity(), calendarItems,this,month,year,day);
+        CustomCalenderViewAdapter calenderViewAdapter = new CustomCalenderViewAdapter(getActivity(), calendarItems,
+                this,month,year,day, selectedPosition, previousPosition);
         gridLayoutManager = new GridLayoutManager(getActivity(),7);
         calenderRecyclerview.setLayoutManager(gridLayoutManager);
         calenderRecyclerview.setAdapter(calenderViewAdapter);
 
         String dateVaaram = utils.updateMonth(currentMonth,currentYear,currentDay);
-        updateTextMonth.setText(dateVaaram);
+        updateTextMonth.setText(utils.updateFestivalMonth(currentMonth,currentYear));
         Log.d(TAG_NAME,"full date: "+dateVaaram);
         String[] parts = dateVaaram.split(",");
         String Vaaram = parts[0];
         String date = (parts.length > 1) ? parts[1] : "";
-
+        Log.d(TAG_NAME, "date :"+date);
         List<String> panchTeData = dbHelper.getPanchTeDataForDate(Vaaram, date);
         Log.d(TAG_NAME, "panchTeData : " + panchTeData);
         panchTeAdapter.setData(panchTeData);
@@ -182,11 +178,19 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         int newYear = calendar.get(Calendar.YEAR);
         int newMonth = calendar.get(Calendar.MONTH);
 
-        // Check if the new month is within the allowed range (2023 and 2024)
         if (isValidMonth(newYear, newMonth)) {
-            currentYear = newYear;
-            currentMonth = newMonth;
-            updateCalendar(currentYear, currentMonth, currentDay);
+            // Check if it's the current month
+            if (newYear == Calendar.getInstance().get(Calendar.YEAR) && newMonth == Calendar.getInstance().get(Calendar.MONTH)) {
+                currentYear = newYear;
+                currentMonth = newMonth;
+                currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            } else {
+                // Set the day to 1 to navigate to the first day of the month
+                currentYear = newYear;
+                currentMonth = newMonth;
+                currentDay = 1;
+            }
+            updateCalendar(currentYear, currentMonth, currentDay, -1, -1);
         } else {
             Toast.makeText(requireContext(), getString(R.string.nodatafound), Toast.LENGTH_SHORT).show();
         }
@@ -206,6 +210,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         currentDay = day;
         currentMonth = month;
         currentYear = year;
-        updateCalendar(currentYear, currentMonth,currentDay);
+        updateCalendar(currentYear, currentMonth,currentDay, selectedPosition, previousPosition);
     }
 }
