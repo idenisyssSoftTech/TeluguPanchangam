@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     }
 
     private void setListeners() {
-// Initialize oldScrollY with the initial scroll position
+    // Initialize oldScrollY with the initial scroll position
         final int[] oldScrollY = {scrollView.getScrollY()};
         scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
             int scrollY = scrollView.getScrollY();
@@ -143,9 +143,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         Log.d(TAG_NAME, "panchTeData : " + panchTeData);
         panchTeAdapter.setData(panchTeData);
     }
-
-
-
 
     private List<CalenderItem> generateSampleData(int year, int month,int iday) {
         List<CalenderItem> items = new ArrayList<>();

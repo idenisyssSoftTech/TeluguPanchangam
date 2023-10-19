@@ -1,5 +1,7 @@
 package com.telugu.panchangam.utils;
 
+import com.telugu.panchangam.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -23,6 +25,8 @@ public class AppConstants {
 
     // Define constants for fragments
     public static final int FRAGMENT_NOTIFICATIONS = 1;
+    public static final int FRAGMENT_NOTIFICATIONS1 = R.id.navigation_notifications;
 
     public static final String EXTRA_EVENT_DATA = "extra_event_data_key";
+    public static final String EXTRA_NOTIFICATION_CLICK = "notification_click";
 }

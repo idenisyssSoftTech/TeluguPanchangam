@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalenderViewAdapter.MYCalenderItemView> {
 
-    private final String TAG_NAME = "CustumCalenderViewAdapter";
+    private final String TAG_NAME = "CustomCalenderViewAdapter";
     private final List<CalenderItem> items;
     private final Context context;
     private final int currentMonth;

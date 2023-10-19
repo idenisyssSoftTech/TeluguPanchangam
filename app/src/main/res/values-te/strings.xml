@@ -11,6 +11,7 @@
     <string name="dateTitle">తేదీ:-</string>
     <string name="selectTime">సమయాన్ని ఎంచుకోండి:</string>
     <string name="save_event">సేవ్ ఈవెంట్</string>
+    <string name="update_event">అప్డేట్ ఈవెంట్</string>
     <string name="event_name">పేరు నమోదు చేయండి</string>
     <string name="description">వివరణ:</string>
    <!--   dropdown  -->

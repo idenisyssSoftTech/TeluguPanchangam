@@ -104,6 +104,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         String eventTypeToEdit = eventToEdit.getEventType();
         int spinnerPosition = adapterItems.getPosition(eventTypeToEdit);
         eventType.setSelection(spinnerPosition);
+        btn_saveEvent.setText(getString(R.string.update_event));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)

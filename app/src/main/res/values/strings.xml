@@ -31,6 +31,7 @@ in this ,we can also go through the app terms and policies. </string>
     <string name="event_time" translatable="false">10:25 AM </string>
     <string name="description" translatable="true">Description: </string>
     <string name="save_event" translatable="true">Save Event</string>
+    <string name="update_event" translatable="true">Update Event</string>
 
     <!--  eventData strings -->
     <string name="name" translatable="true">Name: </string>

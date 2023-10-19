@@ -46,8 +46,9 @@
 
 
                     Intent openAppIntent = new Intent(context, HomeActivity.class);
+                    openAppIntent.putExtra("FRAGMENT_TO_SHOW", "notifications");
+//                    openAppIntent.putExtra(AppConstants.EXTRA_FRAGMENT_TO_SHOW, AppConstants.FRAGMENT_NOTIFICATIONS1);
                     openAppIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    openAppIntent.putExtra(AppConstants.EXTRA_FRAGMENT_TO_SHOW, AppConstants.FRAGMENT_NOTIFICATIONS);
 
                     PendingIntent contentIntent = PendingIntent.getActivity(
                             context,
