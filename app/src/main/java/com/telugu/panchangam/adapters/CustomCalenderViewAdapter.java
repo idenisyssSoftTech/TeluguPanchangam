@@ -17,6 +17,7 @@ import com.telugu.panchangam.R;
 import com.telugu.panchangam.customviews.panchangcalenderview.CalenderItem;
 import com.telugu.panchangam.customviews.panchangcalenderview.OnDateChangedCallBack;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalenderViewAdapter.MYCalenderItemView> {
@@ -25,7 +26,7 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
     private final List<CalenderItem> items;
     private final Context context;
     private final int currentMonth;
-    private final int currentYear,day;
+    private final int currentYear,currentDay;
     OnDateChangedCallBack onDateChangedCallBack;
     private int selectedPosition ;
     private final int previousPosition ;
@@ -37,7 +38,7 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
         this.onDateChangedCallBack = onDateChangedCallBack;
         this.currentMonth = currentMonth;
         this.currentYear = currentYear;
-        this.day = day;
+        this.currentDay = day;
         this.selectedPosition = selectedPosition;
         this.previousPosition = previousPosition;
     }
@@ -57,15 +58,34 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
         holder.dayTextView.setText(String.valueOf(item.getDay()));
 
         if (position >= 7) { // Exclude the first row (headers) from selection
-            if (position == selectedPosition) {
-                holder.dayTextView.setBackgroundResource(R.drawable.circle_background); // Apply the selected background
+            String dayString = item.getDay();
+            int dayOfMonth; // Default value for dayOfMonth
+
+            if (!dayString.isEmpty() && dayString.matches("\\d+")) {
+                dayOfMonth = Integer.parseInt(dayString);
+            } else {
+                dayOfMonth = -1;
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, currentYear);
+            calendar.set(Calendar.MONTH, currentMonth);
+//            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.DAY_OF_MONTH, currentDay);
+            int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+            if (dayOfMonth == currentDay) {
+                holder.dayTextView.setBackgroundResource(R.drawable.current_day_background);
                 holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
             } else {
-                holder.dayTextView.setBackgroundResource(0); // Clear background for non-selected items
-                holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.purple_700));
+                holder.dayTextView.setBackgroundResource(0);
+                holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
             }
-            String dayString = item.getDay();
-            if (dayString != null && !dayString.isEmpty()) {
+
+            if (position == selectedPosition) {
+                holder.dayTextView.setBackgroundResource(R.drawable.circle_background);
+                holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
+            }
+            if (dayOfMonth != -1) {
                 holder.date_view_layout.setOnClickListener(view -> {
                     if (onDateChangedCallBack != null) {
                         Log.d(TAG_NAME, "Item clicked at position: " + position);
@@ -76,15 +96,14 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
                         notifyItemChanged(previousSelected);
                         notifyItemChanged(selectedPosition);
 
-                        int clickedDay = Integer.parseInt(dayString);
+                        int clickedDay = dayOfMonth;
                         onDateChangedCallBack.onDateChanged(selectedPosition, previousSelected, clickedDay, currentMonth, currentYear);
-
                     }
                 });
             }
         } else {
             // Handle the first row (headers), you can set different styling if needed
-            holder.dayTextView.setBackgroundResource(0); // Clear background for headers
+            holder.date_view_layout.setBackgroundResource(0);
             holder.dayTextView.setTextColor(ContextCompat.getColor(context, R.color.purple_700));
         }
     }
@@ -93,7 +112,7 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
     public int getItemCount() {
         return items.size();
     }
-    public static class MYCalenderItemView extends RecyclerView.ViewHolder{
+    public class MYCalenderItemView extends RecyclerView.ViewHolder{
         TextView dayTextView;
         TextView eventTextView;
         LinearLayout date_view_layout;

@@ -174,7 +174,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
         int newYear = calendar.get(Calendar.YEAR);
         int newMonth = calendar.get(Calendar.MONTH);
-
         if (isValidMonth(newYear, newMonth)) {
             // Check if it's the current month
             if (newYear == Calendar.getInstance().get(Calendar.YEAR) && newMonth == Calendar.getInstance().get(Calendar.MONTH)) {

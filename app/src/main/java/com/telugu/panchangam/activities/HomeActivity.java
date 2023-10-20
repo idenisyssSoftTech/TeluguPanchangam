@@ -35,10 +35,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private final String TAG_NAME = "HomeActivity";
     private Context context;
-//    String fragmentToShow;
     PanchangSharedPref sharedPreferences;
     boolean initialNavigationPerformed = false;
-    private AppBarConfiguration appBarConfiguration;
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
@@ -69,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
-        appBarConfiguration = new AppBarConfiguration.Builder(
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
 
