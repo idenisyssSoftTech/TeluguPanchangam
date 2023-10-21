@@ -8,12 +8,12 @@
 
     <TextView
         android:id="@+id/dayTextView"
-        android:layout_width="@dimen/twentyfive_dp"
+        android:layout_width="@dimen/thirty_dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="@dimen/three_dp"
-        android:textSize="@dimen/sixteen_sp"
+        android:textSize="@dimen/fourteen_sp"
         />
 
     <TextView

@@ -5,6 +5,7 @@
     <string name="title_home">పంచాంగం</string>
     <string name="title_dashboard" >పండుగలు</string>
     <string name="title_notifications">నోటిఫికేషన్‌లు</string>
+    <string name="title_settings">సెట్టింగులు</string>
 
     <!--   addEvent Strings  -->
     <string name="events">ఈవెంట్స్</string>

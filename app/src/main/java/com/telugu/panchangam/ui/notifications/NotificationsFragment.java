@@ -54,18 +54,18 @@ public class NotificationsFragment extends Fragment implements DeleteNotiftyItem
         notification_recycler_view.setHasFixedSize(true);
         notification_recycler_view.setAdapter(notificationadapter);
 
-        notifyViewModel.getAllData().observe(getViewLifecycleOwner(), notifications ->{
-            notificationsList = notifications;
-            notificationadapter.setDataList(notifications);
-            Log.d(TAG_NAME, "notification count : "+notifications.size());
-            if(notifications.size() > 0){
-                notification_recycler_view.setVisibility(View.VISIBLE);
-                linearLayout.setVisibility(View.GONE);
-            }else {
-                notification_recycler_view.setVisibility(View.GONE);
-                linearLayout.setVisibility(View.VISIBLE);
-            }
-        });
+        notifyViewModel.getAllData().observe(getViewLifecycleOwner(), notifications -> requireActivity().runOnUiThread(() -> {
+        notificationsList = notifications;
+        notificationadapter.setDataList(notifications);
+        Log.d(TAG_NAME, "notification count : "+notifications.size());
+        if(notifications.size() > 0){
+            linearLayout.setVisibility(View.GONE);
+            notification_recycler_view.setVisibility(View.VISIBLE);
+        }else {
+            notification_recycler_view.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+        }));
         return root;
     }
 

@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="350dp"/>
 
-            <solid android:color="@color/red" tools:ignore="StateListReachable" />
+            <solid android:color="?attr/colorAccent" tools:ignore="StateListReachable" />
         </shape>
     </item>
     <item tools:ignore="StateListReachable">

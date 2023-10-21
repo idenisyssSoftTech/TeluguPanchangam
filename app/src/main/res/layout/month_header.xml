@@ -4,42 +4,43 @@
     android:layout_height="wrap_content"
     android:background="@color/bg_color"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout
-        android:id="@+id/month_ll"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        android:weightSum="3"
-        android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/previous_month"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
-            android:background="@color/bg_color"
-            android:src="@drawable/arrow_back"
-            android:scaleType="center"
-            android:layout_weight="1.3"
-            android:contentDescription="@string/previoues_month_but"/>
+    <ImageButton
+        android:id="@+id/previous_month"
+        android:layout_width="@dimen/fifty_dp"
+        android:layout_height="@dimen/fifty_dp"
+        android:background="@color/bg_color"
+        android:contentDescription="@string/previoues_month_but"
+        android:scaleType="center"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/monthName"
-            android:layout_width="match_parent"
-            android:layout_weight="0.4"
-            android:gravity="center"
-            android:textSize="@dimen/eighteen_sp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:layout_height="@dimen/fifty_dp"/>
-        <ImageButton
-            android:id="@+id/next_month"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
-            android:background="@color/bg_color"
-            android:src="@drawable/arrow_forward"
-            android:scaleType="center"
-            android:layout_weight="1.3"
-            android:contentDescription="@string/next_month_but"/>
+    <TextView
+        android:id="@+id/monthName"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fifty_dp"
+        android:layout_toEndOf="@+id/previous_month"
+        android:gravity="center"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/eighteen_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/next_month"
+        android:layout_width="@dimen/fifty_dp"
+        android:layout_height="@dimen/fifty_dp"
+        android:layout_toEndOf="@+id/monthName"
+        android:background="@color/bg_color"
+        android:contentDescription="@string/next_month_but"
+        android:scaleType="center"
+        android:src="@drawable/arrow_forward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

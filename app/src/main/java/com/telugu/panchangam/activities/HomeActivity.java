@@ -34,7 +34,7 @@ import java.util.Objects;
 public class HomeActivity extends AppCompatActivity {
 
     private final String TAG_NAME = "HomeActivity";
-    private Context context;
+    private Context      context;
     PanchangSharedPref sharedPreferences;
     boolean initialNavigationPerformed = false;
 
@@ -71,6 +71,10 @@ public class HomeActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
 
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_settings)
+//                .build();
+
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
@@ -105,6 +109,9 @@ public class HomeActivity extends AppCompatActivity {
             } else if (itemId == R.id.navigation_notifications) {
                 navController.navigate(R.id.navigation_notifications);
             }
+//            else if (itemId == R.id.navigation_settings) {
+//                navController.navigate(R.id.navigation_settings);
+//            }
             return true;
         });
     }

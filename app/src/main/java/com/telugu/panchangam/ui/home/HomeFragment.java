@@ -1,6 +1,5 @@
 package com.telugu.panchangam.ui.home;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +38,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     private SqliteDBHelper dbHelper;
     private ExtendedFloatingActionButton fab;
     private RecyclerView calenderRecyclerview, panchTeRecyclerView;
-    private CustomCalenderViewAdapter calenderViewAdapter;
     private PanchTeAdapter panchTeAdapter;
     private int currentDay, currentMonth, currentYear;
     GridLayoutManager gridLayoutManager;
@@ -49,7 +47,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     private boolean isTextVisible = true;
 
     public Context context;
-    private final int selectedDatePosition = -1;
 
     // Constants
     private static final int MIN_YEAR = 2022;
@@ -98,7 +95,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     }
 
     private void setListeners() {
-    // Initialize oldScrollY with the initial scroll position
         final int[] oldScrollY = {scrollView.getScrollY()};
         scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
             int scrollY = scrollView.getScrollY();
@@ -122,8 +118,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         nextButton.setOnClickListener(view -> onMonthChange(1));
     }
 
-
-    @SuppressLint("NotifyDataSetChanged")
     private void updateCalendar(int year, int month, int day, int selectedPosition, int previousPosition) {
         List<CalenderItem> calendarItems = generateSampleData(year, month,day);
         CustomCalenderViewAdapter calenderViewAdapter = new CustomCalenderViewAdapter(getActivity(), calendarItems,
@@ -167,6 +161,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         return items;
     }
 
+    /** click button to change months **/
     private void onMonthChange(int change) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(currentYear, currentMonth, 1);
@@ -175,25 +170,38 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         int newYear = calendar.get(Calendar.YEAR);
         int newMonth = calendar.get(Calendar.MONTH);
         if (isValidMonth(newYear, newMonth)) {
+            currentYear = newYear;
+            currentMonth = newMonth;
             // Check if it's the current month
             if (newYear == Calendar.getInstance().get(Calendar.YEAR) && newMonth == Calendar.getInstance().get(Calendar.MONTH)) {
-                currentYear = newYear;
-                currentMonth = newMonth;
                 currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             } else {
-                // Set the day to 1 to navigate to the first day of the month
-                currentYear = newYear;
-                currentMonth = newMonth;
                 currentDay = 1;
             }
             updateCalendar(currentYear, currentMonth, currentDay, -1, -1);
         } else {
             Toast.makeText(requireContext(), getString(R.string.nodatafound), Toast.LENGTH_SHORT).show();
         }
+        updateButtonVisibility();
+    }
+
+    private void updateButtonVisibility() {
+        if (isValidMonth(currentYear, currentMonth - 1)) {
+            prevButton.setVisibility(View.VISIBLE);
+        } else {
+            prevButton.setVisibility(View.GONE);
+        }
+
+        if (isValidMonth(currentYear, currentMonth + 1)) {
+            nextButton.setVisibility(View.VISIBLE);
+        } else {
+            nextButton.setVisibility(View.GONE);
+        }
     }
 
     private boolean isValidMonth(int year, int month) {
-        return (year == MIN_YEAR || year == MAX_YEAR && month <= MAX_MONTH);
+        return (year > MIN_YEAR || (year == MIN_YEAR && month >= 0)) &&
+                (year < MAX_YEAR || (year == MAX_YEAR && month <= MAX_MONTH));
     }
     @Override
     public void onDestroyView() {
