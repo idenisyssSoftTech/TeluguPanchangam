@@ -45,13 +45,13 @@ in this ,we can also go through the app terms and policies. </string>
     <string name="nodatafound" translatable="true">No Data Found?..</string>
 
     <!--    week Names-->
-    <string name="sun" translatable="true">Sun</string>
-    <string name="mon" translatable="true">Mon</string>
-    <string name="tue" translatable="true">Tue</string>
-    <string name="wed" translatable="true">Wed</string>
-    <string name="thu" translatable="true">Thu</string>
-    <string name="fri" translatable="true">Fri</string>
-    <string name="sat" translatable="true">Sat</string>
+    <string name="sun" translatable="true">Su</string>
+    <string name="mon" translatable="true">M</string>
+    <string name="tue" translatable="true">Tu</string>
+    <string name="wed" translatable="true">W</string>
+    <string name="thu" translatable="true">Th</string>
+    <string name="fri" translatable="true">F</string>
+    <string name="sat" translatable="true">Sa</string>
     <string name="previoues_month_but" translatable="false">previouesmonth</string>
 
     <!--  panchangamItem strings  -->

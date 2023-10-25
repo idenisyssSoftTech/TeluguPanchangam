@@ -26,6 +26,7 @@ import com.telugu.panchangam.adapters.PanchTeAdapter;
 import com.telugu.panchangam.customviews.panchangcalenderview.CalenderItem;
 import com.telugu.panchangam.customviews.panchangcalenderview.OnDateChangedCallBack;
 import com.telugu.panchangam.sqliteDB.database.SqliteDBHelper;
+import com.telugu.panchangam.utils.AppConstants;
 import com.telugu.panchangam.utils.utils;
 
 import java.util.ArrayList;
@@ -48,10 +49,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
     public Context context;
 
-    // Constants
-    private static final int MIN_YEAR = 2022;
-    private static final int MAX_YEAR = 2023;
-    private static final int MAX_MONTH = 11;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -200,8 +197,8 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     }
 
     private boolean isValidMonth(int year, int month) {
-        return (year > MIN_YEAR || (year == MIN_YEAR && month >= 0)) &&
-                (year < MAX_YEAR || (year == MAX_YEAR && month <= MAX_MONTH));
+        return (year > AppConstants.MIN_YEAR || (year == AppConstants.MIN_YEAR && month >= 0)) &&
+                (year < AppConstants.MAX_YEAR || (year == AppConstants.MAX_YEAR && month <= AppConstants.MAX_MONTH));
     }
     @Override
     public void onDestroyView() {

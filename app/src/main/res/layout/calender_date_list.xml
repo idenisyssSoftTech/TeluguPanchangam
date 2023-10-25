@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="48dp"
     android:id="@+id/date_view_layout"
-    android:layout_height="wrap_content"
+    android:layout_height="48dp"
     android:orientation="vertical"
     android:padding="@dimen/eight_dp">
 
     <TextView
         android:id="@+id/dayTextView"
-        android:layout_width="@dimen/thirty_dp"
+        android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"

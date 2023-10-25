@@ -28,5 +28,7 @@ public class AppConstants {
     public static final int FRAGMENT_NOTIFICATIONS1 = R.id.navigation_notifications;
 
     public static final String EXTRA_EVENT_DATA = "extra_event_data_key";
-    public static final String EXTRA_NOTIFICATION_CLICK = "notification_click";
+    public static final int MIN_YEAR = 2022;
+    public static final int MAX_YEAR = 2023;
+    public static final int MAX_MONTH = 11;
 }

@@ -29,13 +29,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/purple_200" />
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_dp"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/panchTeRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/four_dp"
-                android:layout_marginTop="@dimen/ten_dp" />
+                android:layout_marginTop="@dimen/five_dp" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -43,7 +53,7 @@
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/forty_eight_dp"
         android:backgroundTint="@color/purple_500"
         android:layout_marginBottom="@dimen/twenty_dp"
         android:layout_marginEnd="@dimen/twenty_dp"
@@ -51,7 +61,7 @@
         app:icon="@drawable/event"
         app:iconTint="@color/white"
         android:text="@string/event"
-        android:textSize="@dimen/sixteen_sp"
+        android:textSize="@dimen/font_sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

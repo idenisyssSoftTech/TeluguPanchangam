@@ -57,6 +57,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @SuppressLint("ResourceType")
     private void initViews() {
         //actionBar Title
         utils.setupActionBar(this,getResources().getString(R.string.events));
@@ -70,6 +71,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventRecyclerView.setAdapter(eventAdapter);
 
+        eventCalenderView.setWeekDayTextAppearance(R.color.purple_700);
         eventCalenderView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             Calendar selectedDate = Calendar.getInstance();
             selectedDate.set(year, month, dayOfMonth);

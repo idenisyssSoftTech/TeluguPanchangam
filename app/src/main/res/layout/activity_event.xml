@@ -18,7 +18,7 @@
                             android:id="@+id/EventCalenderView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:weekDayTextAppearance="@color/purple_700"
+                            android:weekSeparatorLineColor="@color/purple_700"
                             android:background="@drawable/bg_calender"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

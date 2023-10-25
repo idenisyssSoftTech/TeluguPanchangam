@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.telugu.panchangam.R;
 import com.telugu.panchangam.adapters.FestivalAdapter;
 import com.telugu.panchangam.sqliteDB.database.SqliteDBHelper;
+import com.telugu.panchangam.utils.AppConstants;
 import com.telugu.panchangam.utils.utils;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class FestivalFragment extends Fragment {
         prevButton.setOnClickListener(view -> onMonthChange(-1));
         nextButton.setOnClickListener(view -> onMonthChange(1));
     }
+
     private void onMonthChange(int change) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(currentYear, currentMonth, 1);
@@ -75,15 +77,39 @@ public class FestivalFragment extends Fragment {
 
         int newYear = calendar.get(Calendar.YEAR);
         int newMonth = calendar.get(Calendar.MONTH);
-
-        // Check if the new month is within the allowed range (2023 and 2024)
-        if (newYear == 2022 || newYear == 2023 && newMonth <= 11) {
+        if (isValidMonth(newYear, newMonth)) {
             currentYear = newYear;
             currentMonth = newMonth;
+            // Check if it's the current month
+            if (newYear == Calendar.getInstance().get(Calendar.YEAR) && newMonth == Calendar.getInstance().get(Calendar.MONTH)) {
+                currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            } else {
+                currentDay = 1;
+            }
             updateFestivalData();
         } else {
-            Toast.makeText(requireContext(), "సమాచారం అందుబాటులో లేదు", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), getString(R.string.nodatafound), Toast.LENGTH_SHORT).show();
         }
+        updateButtonVisibility();
+    }
+
+    private void updateButtonVisibility() {
+        if (isValidMonth(currentYear, currentMonth - 1)) {
+            prevButton.setVisibility(View.VISIBLE);
+        } else {
+            prevButton.setVisibility(View.GONE);
+        }
+
+        if (isValidMonth(currentYear, currentMonth + 1)) {
+            nextButton.setVisibility(View.VISIBLE);
+        } else {
+            nextButton.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean isValidMonth(int year, int month) {
+        return (year > AppConstants.MIN_YEAR || (year == AppConstants.MIN_YEAR && month >= 0)) &&
+                (year < AppConstants.MAX_YEAR || (year == AppConstants.MAX_YEAR && month <= AppConstants.MAX_MONTH));
     }
 
     // Method to update festival data based on the current month and year
