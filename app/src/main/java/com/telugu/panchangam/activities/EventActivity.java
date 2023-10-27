@@ -49,6 +49,8 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        //actionBar Title
+        utils.setupActionBar(this,getResources().getString(R.string.events));
         initViews();
         eventRepos = new EventRepos(this.getApplication());
         eventLiveData = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(EventLiveData.class);
@@ -59,8 +61,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     @SuppressLint("ResourceType")
     private void initViews() {
-        //actionBar Title
-        utils.setupActionBar(this,getResources().getString(R.string.events));
+
         eventCalenderView = findViewById(R.id.EventCalenderView);
         event_fab = findViewById(R.id.event_fab);
         event_fab.setOnClickListener(this);

@@ -2,6 +2,10 @@ package com.telugu.panchangam.ui.festivals;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,25 +16,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.telugu.panchangam.BuildConfig;
 import com.telugu.panchangam.R;
 import com.telugu.panchangam.adapters.FestivalAdapter;
 import com.telugu.panchangam.sqliteDB.database.SqliteDBHelper;
 import com.telugu.panchangam.utils.AppConstants;
 import com.telugu.panchangam.utils.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class FestivalFragment extends Fragment {
     private final String TAG_NAME = FestivalFragment.class.getName();
     private SqliteDBHelper dbHelper;
     private int currentDay, currentMonth, currentYear;
-    private ImageButton prevButton,nextButton;
+    private ImageButton prevButton,nextButton, share_festival_screenshot;
     private TextView updateTextMonth;
     private RecyclerView recyclerView;
     private FestivalAdapter festivalAdapter;
@@ -61,6 +70,7 @@ public class FestivalFragment extends Fragment {
         recyclerView.setAdapter(festivalAdapter);
         prevButton = root.findViewById(R.id.previous_month);
         nextButton = root.findViewById(R.id.next_month);
+        share_festival_screenshot = root.findViewById(R.id.share_screenshot);
         updateTextMonth = root.findViewById(R.id.monthName);
         updateFestivalData();
 
@@ -68,6 +78,49 @@ public class FestivalFragment extends Fragment {
     private void setListeners() {
         prevButton.setOnClickListener(view -> onMonthChange(-1));
         nextButton.setOnClickListener(view -> onMonthChange(1));
+        share_festival_screenshot.setOnClickListener(view -> captureAndShareScreenshot());
+    }
+
+    private void captureAndShareScreenshot() {
+        ConstraintLayout rootView = requireView().findViewById(R.id.festival_header_and_recycler_layout);
+        Bitmap screenshot = takeScreenshot(rootView);
+        File tempFile = utils.saveBitmapToFile(requireContext(), screenshot);
+        if (tempFile != null) {
+            Uri screenshotUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID, Objects.requireNonNull(tempFile));
+            String appUrl = "https://play.google.com/store/apps/details?id=com.abhiram.qrbarscanner";
+            // Share the screenshot using an intent
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/*");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Checkout TeluguPanchangam App: \n ANDROID:" + appUrl);
+            startActivity(Intent.createChooser(shareIntent, "Share Screenshot"));
+        }else {
+            // Handle the case where tempFile is null
+            Log.e("Capture Error", "Failed to save screenshot as a temp file.");
+        }
+    }
+
+    private Bitmap takeScreenshot(ConstraintLayout view) {
+        view.setDrawingCacheEnabled(true);
+        Bitmap screenshot = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        return screenshot;
+    }
+
+    private Bitmap takeScreenshot(RecyclerView recyclerView) {
+
+        Bitmap screenshot;
+        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+
+        if (adapter != null) {
+            screenshot = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(screenshot);
+            recyclerView.draw(canvas);
+        } else {
+            // Handle the case where the adapter is null
+            screenshot = null;
+        }
+        return screenshot;
     }
 
     private void onMonthChange(int change) {

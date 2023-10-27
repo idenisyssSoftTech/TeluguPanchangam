@@ -6,6 +6,15 @@ android {
     namespace 'com.telugu.panchangam'
     compileSdk 34
 
+    signingConfigs {
+        config {
+            keyAlias 'telugu_panchagam'
+            storeFile file('D:/Idenisyss_Application/TeluguPanchangam/keystore/TeluguPanchagam.jks')
+            keyPassword 'idenisyss'
+            storePassword 'idenisyss'
+        }
+    }
+
     defaultConfig {
         applicationId "com.telugu.panchangam"
         minSdk 24
@@ -20,6 +29,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            debuggable true
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
@@ -28,6 +42,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 

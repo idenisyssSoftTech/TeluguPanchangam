@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/ten_dp"
+    android:paddingTop="?attr/actionBarSize"
     tools:context=".ui.settings.fragment_settings"
     android:orientation="vertical">
 
@@ -12,23 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="@dimen/ten_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/contact_button"
+            android:id="@+id/rate_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/ten_dp"
             android:background="@drawable/button_shap"
-            android:paddingStart="30dp"
-            android:text="@string/contact_us"
+            android:text="@string/rate_us"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/twenty_dp"
             android:textSize="@dimen/font_sp"
-            app:icon="@drawable/contact_phone"
-            app:iconGravity="start"
+            app:iconPadding="@dimen/twenty_dp"
+            app:icon="@drawable/rate_us"
+            app:iconGravity="textStart"
             tools:ignore="RtlSymmetry" />
 
         <Button
@@ -37,13 +38,28 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/ten_dp"
             android:background="@drawable/button_shap"
-            android:paddingStart="30dp"
             android:text="@string/shareapp"
             android:textAllCaps="false"
             android:textSize="@dimen/font_sp"
             app:cornerRadius="@dimen/twenty_dp"
             app:icon="@drawable/share"
-            app:iconGravity="start"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/twenty_dp"
+            tools:ignore="RtlSymmetry" />
+
+        <Button
+            android:id="@+id/screenshot_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ten_dp"
+            android:background="@drawable/button_shap"
+            android:text="@string/share_data_app"
+            android:textAllCaps="false"
+            android:textSize="@dimen/font_sp"
+            app:cornerRadius="@dimen/twenty_dp"
+            app:icon="@drawable/share"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/twenty_dp"
             tools:ignore="RtlSymmetry" />
     </LinearLayout>
 
@@ -64,7 +80,7 @@
 
             />
         <TextView
-            android:id="@+id/Abtversions"
+            android:id="@+id/version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""

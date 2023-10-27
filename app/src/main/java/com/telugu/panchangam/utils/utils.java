@@ -1,6 +1,7 @@
 package com.telugu.panchangam.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -13,6 +14,9 @@ import androidx.core.content.ContextCompat;
 
 import com.telugu.panchangam.R;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -78,6 +82,20 @@ public class utils {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         return spannableString;
+    }
+
+    public static File saveBitmapToFile(Context context, Bitmap bitmap) {
+        File tempFile = null;
+        try {
+            tempFile = File.createTempFile("temp_image", ".jpg",context.getCacheDir());
+            FileOutputStream outStream = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tempFile;
     }
     public static int generateNotificationId() {
         return (int) System.currentTimeMillis();

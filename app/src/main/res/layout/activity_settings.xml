@@ -29,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_margin="@dimen/twenty_dp"
-            android:layout_toStartOf="@id/circularImageView"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -56,31 +55,31 @@
         </LinearLayout>
 
 
-        <!-- Circular ImageView with Camera Button -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circularImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/telugu_app_icon"
-            app:civ_border_color="@color/gold"
-            app:civ_border_width="@dimen/two_dp" />
+<!--        &lt;!&ndash; Circular ImageView with Camera Button &ndash;&gt;-->
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:id="@+id/circularImageView"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:src="@mipmap/telugu_app_icon"-->
+<!--            app:civ_border_color="@color/gold"-->
+<!--            app:civ_border_width="@dimen/two_dp" />-->
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="@dimen/fifty_dp"
-            android:layout_height="@dimen/fifty_dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="@dimen/twenty_dp"
-            android:padding="@dimen/two_dp"
-            android:src="@drawable/camera"
-            android:visibility="gone"
-            app:civ_border_color="@color/white"
-            app:civ_border_width="@dimen/one_dp">
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:layout_width="@dimen/fifty_dp"-->
+<!--            android:layout_height="@dimen/fifty_dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginBottom="@dimen/twenty_dp"-->
+<!--            android:padding="@dimen/two_dp"-->
+<!--            android:src="@drawable/camera"-->
+<!--            android:visibility="gone"-->
+<!--            app:civ_border_color="@color/white"-->
+<!--            app:civ_border_width="@dimen/one_dp">-->
 
-        </de.hdodenhof.circleimageview.CircleImageView>
+<!--        </de.hdodenhof.circleimageview.CircleImageView>-->
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

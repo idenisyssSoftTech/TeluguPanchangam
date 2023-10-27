@@ -19,7 +19,7 @@
         import androidx.core.content.ContextCompat;
 
         import com.telugu.panchangam.R;
-        import com.telugu.panchangam.activities.HomeActivity;
+        import com.telugu.panchangam.HomeActivity;
         import com.telugu.panchangam.databases.dbtables.Eventdata;
         import com.telugu.panchangam.databases.dbtables.NotificationsTable;
         import com.telugu.panchangam.databases.repos.MyNotifyRepo;

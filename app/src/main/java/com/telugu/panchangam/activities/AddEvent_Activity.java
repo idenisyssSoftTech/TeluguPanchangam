@@ -37,7 +37,11 @@ import com.telugu.panchangam.utils.AppConstants;
 import com.telugu.panchangam.utils.PermissionUtils;
 import com.telugu.panchangam.utils.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.BuildConfig;
 
@@ -55,6 +59,8 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
     private EventLiveData eventLiveData;
     private Eventdata eventToEdit;
     private int selectedHour, selectedMinute;
+    long selectedTimeMillis;
+    long currentTimeMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +118,11 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.btnSaveEvent) {
             if (checkPermissionMethod()) {
-                saveEvent();
+                try {
+                    saveEvent();
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } else if (v.getId() == R.id.eTime_btn) {
             showTimePickerDialog();
@@ -142,7 +152,7 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void saveEvent() {
+    private void saveEvent() throws ParseException {
         String name = eventName.getText().toString();
         String date = eventDate.getText().toString();
         String time = eventTime.getText().toString();
@@ -153,28 +163,17 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
             Toast.makeText(this, AppConstants.emptyFields, Toast.LENGTH_SHORT).show();
             return;
         }
-        // Calculate the delay based on the selected time
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
-        calendar.set(Calendar.MINUTE, selectedMinute);
-        calendar.set(Calendar.SECOND, 0);
-        long selectedTimeMillis = calendar.getTimeInMillis();
+        // Extract the year, month, and day from the date string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        Date selectDate = dateFormat.parse(date);
+        Calendar selectedDateCalendar = Calendar.getInstance();
+        selectedDateCalendar.setTime(selectDate);
+        selectedDateCalendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+        selectedDateCalendar.set(Calendar.MINUTE, selectedMinute);
+        selectedDateCalendar.set(Calendar.SECOND, 0);
+        long selectedTimeMillis = selectedDateCalendar.getTimeInMillis();
         long currentTimeMillis = System.currentTimeMillis();
 
-        if (selectedTimeMillis > currentTimeMillis) {
-            if (eventToEdit == null) {
-                // New event: Insert the event into the Room Database
-                insertEvent(name, date, time, description, selectedEventType, selectedTimeMillis);
-            } else {
-                // Edit existing event: Update the event in the Room Database
-                updateEvent(name, date, time, description, selectedEventType, selectedTimeMillis);
-            }
-        } else {
-            Toast.makeText(this, "Event time has already passed, please select a future time!", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void insertEvent(String name, String date, String time, String description, String selectedEventType, long selectedTimeMillis) {
         Eventdata event = new Eventdata();
         event.setName(name);
         event.setDate(date);
@@ -183,6 +182,27 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
         event.setEventType(selectedEventType);
         event.setSelectedTimeMillis(selectedTimeMillis);
 
+        Log.d(TAG_NAME,"selectedTimeMillis : "+selectedTimeMillis);
+        Log.d(TAG_NAME,"currentTimeMillis : "+currentTimeMillis);
+//        if (selectedTimeMillis > currentTimeMillis) {
+            if (eventToEdit == null) {
+                // New event: Insert the event into the Room Database
+//                insertEvent(name, date, time, description, selectedEventType, selectedTimeMillis);
+                insertEvent(event);
+            } else {
+                // Edit existing event: Update the event in the Room Database
+                updateEvent(event);
+            }
+//        } else {
+//            Toast.makeText(this, "Event time has already passed, please select a future time!", Toast.LENGTH_LONG).show();
+//        }
+        if (selectedTimeMillis > currentTimeMillis) {
+            scheduleNotificationTime(event);
+        }
+    }
+
+//    private void insertEvent(String name, String date, String time, String description, String selectedEventType, long selectedTimeMillis) {
+    private void insertEvent(Eventdata event) {
         new Thread(() -> {
             eventLiveData.insertEvent(event);
             runOnUiThread(() -> {
@@ -191,17 +211,16 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
             });
         }).start();
 
-        scheduleNotificationTime(event);
+//        scheduleNotificationTime(event);
     }
 
-    private void updateEvent(String name, String date, String time,
-                             String description, String selectedEventType, long selectedTimeMillis) {
-        eventToEdit.setName(name);
-        eventToEdit.setDate(date);
-        eventToEdit.setTime(time);
-        eventToEdit.setDescription(description);
-        eventToEdit.setEventType(selectedEventType);
-        eventToEdit.setSelectedTimeMillis(selectedTimeMillis);
+    private void updateEvent(Eventdata event) {
+        eventToEdit.setName(event.getName());
+        eventToEdit.setDate(event.getDate());
+        eventToEdit.setTime(event.getTime());
+        eventToEdit.setDescription(event.getDescription());
+        eventToEdit.setEventType(event.getEventType());
+        eventToEdit.setSelectedTimeMillis(event.getSelectedTimeMillis());
 
         new Thread(() -> {
             eventLiveData.updateEvent(eventToEdit);
@@ -211,7 +230,9 @@ public class AddEvent_Activity extends AppCompatActivity implements View.OnClick
             });
         }).start();
 
-        cancelAndRescheduleNotification(eventToEdit);
+        if (selectedTimeMillis > currentTimeMillis) {
+            cancelAndRescheduleNotification(eventToEdit);
+        }
     }
 
     @SuppressLint("ScheduleExactAlarm")

@@ -9,9 +9,9 @@
         android:id="@+id/previous_month"
         android:layout_width="@dimen/fifty_dp"
         android:layout_height="@dimen/fifty_dp"
-        android:background="@color/bg_color"
         android:contentDescription="@string/previoues_month_but"
         android:scaleType="center"
+        android:background="@android:color/transparent"
         android:src="@drawable/arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,14 +31,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ImageButton
+        android:id="@+id/share_screenshot"
+        android:layout_width="@dimen/fifty_dp"
+        android:layout_height="@dimen/fifty_dp"
+        android:layout_toEndOf="@+id/monthName"
+        android:contentDescription="@string/next_month_but"
+        android:scaleType="center"
+        android:background="@android:color/transparent"
+        android:src="@drawable/share_white"
+        app:iconTint="@color/white"
+        android:layout_marginEnd="@dimen/ten_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/next_month"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/next_month"
         android:layout_width="@dimen/fifty_dp"
         android:layout_height="@dimen/fifty_dp"
         android:layout_toEndOf="@+id/monthName"
-        android:background="@color/bg_color"
         android:contentDescription="@string/next_month_but"
         android:scaleType="center"
+        android:background="@android:color/transparent"
         android:src="@drawable/arrow_forward"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -119,7 +119,6 @@ public class CustomCalenderViewAdapter extends RecyclerView.Adapter<CustomCalend
         public MYCalenderItemView(@NonNull View itemView) {
             super(itemView);
             dayTextView = itemView.findViewById(R.id.dayTextView);
-            eventTextView = itemView.findViewById(R.id.eventTextView);
             date_view_layout = itemView.findViewById(R.id.date_view_layout);
         }
     }

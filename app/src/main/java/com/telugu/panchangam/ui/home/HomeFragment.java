@@ -2,6 +2,9 @@ package com.telugu.panchangam.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.telugu.panchangam.BuildConfig;
 import com.telugu.panchangam.R;
 import com.telugu.panchangam.activities.EventActivity;
 import com.telugu.panchangam.adapters.CustomCalenderViewAdapter;
@@ -29,9 +34,11 @@ import com.telugu.panchangam.sqliteDB.database.SqliteDBHelper;
 import com.telugu.panchangam.utils.AppConstants;
 import com.telugu.panchangam.utils.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
@@ -42,7 +49,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
     private PanchTeAdapter panchTeAdapter;
     private int currentDay, currentMonth, currentYear;
     GridLayoutManager gridLayoutManager;
-    ImageButton prevButton,nextButton;
+    ImageButton prevButton,nextButton, share_screenshotData;
     private TextView updateTextMonth;
     private NestedScrollView scrollView;
     private boolean isTextVisible = true;
@@ -83,6 +90,8 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
         prevButton = root.findViewById(R.id.previous_month);
         nextButton = root.findViewById(R.id.next_month);
+        share_screenshotData = root.findViewById(R.id.share_screenshot);
+        share_screenshotData.setOnClickListener(view -> captureAndShareScreenshot());
         updateTextMonth = root.findViewById(R.id.monthName);
 
         scrollView = root.findViewById(R.id.home_scrollView);
@@ -113,8 +122,46 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
         prevButton.setOnClickListener(view -> onMonthChange(-1));
         nextButton.setOnClickListener(view -> onMonthChange(1));
+
     }
 
+    private void captureAndShareScreenshot() {
+//        View rootView = requireActivity().getWindow().getDecorView().findViewById(R.id.panchTeRecyclerView);
+        Bitmap screenshot = takeScreenshot(panchTeRecyclerView);
+            File tempFile = utils.saveBitmapToFile(requireContext(), screenshot);
+            if (tempFile != null) {
+                Uri screenshotUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID, Objects.requireNonNull(tempFile));
+                String appUrl = "https://play.google.com/store/apps/details?id=com.abhiram.qrbarscanner";
+                // Share the screenshot using an intent
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("image/*");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Checkout TeluguPanchangam App: \n ANDROID:" + appUrl);
+                startActivity(Intent.createChooser(shareIntent, "Share Screenshot"));
+            }else {
+                // Handle the case where tempFile is null
+                Log.e("Capture Error", "Failed to save screenshot as a temp file.");
+            }
+    }
+
+    private Bitmap takeScreenshot(RecyclerView recyclerView) {
+
+        Bitmap screenshot;
+        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+
+        if (adapter != null) {
+            screenshot = Bitmap.createBitmap(recyclerView.getWidth(), recyclerView.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(screenshot);
+            recyclerView.draw(canvas);
+        } else {
+            // Handle the case where the adapter is null
+            screenshot = null;
+        }
+//        view.setDrawingCacheEnabled(true);
+//        Bitmap screenshot = Bitmap.createBitmap(view.getDrawingCache());
+//        view.setDrawingCacheEnabled(false);
+        return screenshot;
+    }
     private void updateCalendar(int year, int month, int day, int selectedPosition, int previousPosition) {
         List<CalenderItem> calendarItems = generateSampleData(year, month,day);
         CustomCalenderViewAdapter calenderViewAdapter = new CustomCalenderViewAdapter(getActivity(), calendarItems,

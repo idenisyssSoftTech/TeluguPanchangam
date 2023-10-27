@@ -9,6 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/festival_header_and_recycler_layout"
         android:layout_height="wrap_content">
         <include
             android:id="@+id/festival_header"
@@ -20,6 +21,7 @@
             android:id="@+id/festivalRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
