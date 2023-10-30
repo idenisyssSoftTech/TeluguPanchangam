@@ -30,10 +30,19 @@ import com.telugu.panchangam.utils.PermissionUtils;
 
 import java.util.Locale;
 import java.util.Objects;
+
+/****************************************************************
+ * Copy right @Idenisyss Software Solutions Pvt Ltd.
+ * Name : HomeActivity
+ * author:  E Krishna kumar
+ * Description : The bottom navigation view to the navigation controller for easy navigation
+                 between specific fragments in the app.rf
+ * Created Data : 20-09-2023
+ ****************************************************************/
 public class HomeActivity extends AppCompatActivity {
 
     private final String TAG_NAME = "HomeActivity";
-    private Context      context;
+    private Context  context;
     PanchangSharedPref sharedPreferences;
     boolean initialNavigationPerformed = false;
 
@@ -66,9 +75,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-//                .build();
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_settings)
@@ -76,8 +82,6 @@ public class HomeActivity extends AppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
-
 
         Log.d(TAG_NAME,"initialNavigationPref :"+initialNavigationPerformed);
         if (!initialNavigationPerformed) {
@@ -92,7 +96,6 @@ public class HomeActivity extends AppCompatActivity {
                 navController.navigate(R.id.navigation_home);
                 Log.d(TAG_NAME, "INSIDE HOME FRAGMENT" );
             }
-
         }else{
             navController.navigate(R.id.navigation_home);
             Log.d(TAG_NAME, "OUTSIDE HOME FRAGMENT");
@@ -148,7 +151,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
-
     private final ActivityResultLauncher<String[]> multiPermissionLancher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
             result -> {
                 boolean allGranted = true;

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.telugu.panchangam.utils.AppConstants;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,14 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqliteDBHelper extends SQLiteOpenHelper {
-    private final String TAG_NAME = SqliteDBHelper.class.getName();
-    public static final String DATABASE_NAME = "TPCData14.db";
-    private static final int DATABASE_VERSION = 2;
-    private static final String TAG = SqliteDBHelper.class.getName();
+    private final String TAG_NAME = "SqliteDBHelper";
     private final Context context;
 
     public SqliteDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, AppConstants.DATABASE_NAME, null, AppConstants.DATABASE_VERSION);
         this.context = context;
     }
 
@@ -48,8 +47,8 @@ public class SqliteDBHelper extends SQLiteOpenHelper {
     // Copy the database from assets to internal storage on the first run
     public void copyDatabaseFromAssets() {
         try {
-            InputStream inputStream = context.getAssets().open(DATABASE_NAME);
-            String outFileName = context.getDatabasePath(DATABASE_NAME).getPath();
+            InputStream inputStream = context.getAssets().open(AppConstants.DATABASE_NAME);
+            String outFileName = context.getDatabasePath(AppConstants.DATABASE_NAME).getPath();
             OutputStream outputStream = new FileOutputStream(outFileName);
 
             byte[] buffer = new byte[1024];
@@ -62,7 +61,7 @@ public class SqliteDBHelper extends SQLiteOpenHelper {
             outputStream.close();
             inputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, "Error copying database", e);
+            Log.e(TAG_NAME, "Error copying database", e);
         }
     }
 

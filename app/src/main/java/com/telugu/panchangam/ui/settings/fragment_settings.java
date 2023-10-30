@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.telugu.panchangam.BuildConfig;
 import com.telugu.panchangam.R;
+import com.telugu.panchangam.utils.AppConstants;
 
 
 public class fragment_settings extends Fragment implements View.OnClickListener {
@@ -52,8 +53,7 @@ public class fragment_settings extends Fragment implements View.OnClickListener 
 
 
     private void rateUsMethod() {
-        String appPackageName = "com.abhiram.qrbarscanner";
-        Uri contentUri = Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName);
+        Uri contentUri = Uri.parse(AppConstants.appUrl);
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, contentUri);
             startActivity(intent);
@@ -64,11 +64,9 @@ public class fragment_settings extends Fragment implements View.OnClickListener 
 
 
     private void shareAppMethod() {
-        String appUrl = "https://play.google.com/store/apps/details?id=com.abhiram.qrbarscanner";
-
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, appUrl);
+        intent.putExtra(Intent.EXTRA_TEXT, AppConstants.appUrl);
         startActivity(Intent.createChooser(intent, "Share with"));
     }
 

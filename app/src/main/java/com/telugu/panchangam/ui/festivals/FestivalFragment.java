@@ -53,7 +53,7 @@ public class FestivalFragment extends Fragment {
         intiViews(root);
         setListeners();
         // Log the database path
-        String dbPath = requireContext().getDatabasePath(SqliteDBHelper.DATABASE_NAME).getPath();
+        String dbPath = requireContext().getDatabasePath(AppConstants.DATABASE_NAME).getPath();
         Log.d(TAG_NAME, "Database Path: " + dbPath);
 
         return root;
@@ -80,33 +80,29 @@ public class FestivalFragment extends Fragment {
         nextButton.setOnClickListener(view -> onMonthChange(1));
         share_festival_screenshot.setOnClickListener(view -> captureAndShareScreenshot());
     }
-
     private void captureAndShareScreenshot() {
         ConstraintLayout rootView = requireView().findViewById(R.id.festival_header_and_recycler_layout);
         Bitmap screenshot = takeScreenshot(rootView);
         File tempFile = utils.saveBitmapToFile(requireContext(), screenshot);
         if (tempFile != null) {
             Uri screenshotUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID, Objects.requireNonNull(tempFile));
-            String appUrl = "https://play.google.com/store/apps/details?id=com.abhiram.qrbarscanner";
             // Share the screenshot using an intent
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("image/*");
             shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Checkout TeluguPanchangam App: \n ANDROID:" + appUrl);
-            startActivity(Intent.createChooser(shareIntent, "Share Screenshot"));
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Checkout TeluguPanchangam App: \n ANDROID:" + AppConstants.appUrl);
+            startActivity(Intent.createChooser(shareIntent, "Share With"));
         }else {
             // Handle the case where tempFile is null
             Log.e("Capture Error", "Failed to save screenshot as a temp file.");
         }
     }
-
     private Bitmap takeScreenshot(ConstraintLayout view) {
         view.setDrawingCacheEnabled(true);
         Bitmap screenshot = Bitmap.createBitmap(view.getDrawingCache());
         view.setDrawingCacheEnabled(false);
         return screenshot;
     }
-
     private Bitmap takeScreenshot(RecyclerView recyclerView) {
 
         Bitmap screenshot;
@@ -152,19 +148,16 @@ public class FestivalFragment extends Fragment {
         } else {
             prevButton.setVisibility(View.GONE);
         }
-
         if (isValidMonth(currentYear, currentMonth + 1)) {
             nextButton.setVisibility(View.VISIBLE);
         } else {
             nextButton.setVisibility(View.GONE);
         }
     }
-
     private boolean isValidMonth(int year, int month) {
         return (year > AppConstants.MIN_YEAR || (year == AppConstants.MIN_YEAR && month >= 0)) &&
                 (year < AppConstants.MAX_YEAR || (year == AppConstants.MAX_YEAR && month <= AppConstants.MAX_MONTH));
     }
-
     // Method to update festival data based on the current month and year
     @SuppressLint("NotifyDataSetChanged")
     private void updateFestivalData() {

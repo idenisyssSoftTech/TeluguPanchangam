@@ -40,6 +40,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+/****************************************************************
+ * Copy right @Idenisyss Software Solutions Pvt Ltd.
+ * Name : HomeFragment
+ * author:  E Krishna kumar
+ * Description : To show panchangam data based on selected date Listener
+ * Created Data : 20-09-2023
+ ****************************************************************/
+
 public class HomeFragment extends Fragment implements OnDateChangedCallBack{
 
     private final String TAG_NAME = "HomeFragment";
@@ -66,7 +74,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         setListeners();
         updateCalendar(currentYear, currentMonth,currentDay,-1, -1);
         // Log the database path
-        String dbPath = requireContext().getDatabasePath(SqliteDBHelper.DATABASE_NAME).getPath();
+        String dbPath = requireContext().getDatabasePath(AppConstants.DATABASE_NAME).getPath();
         Log.d(TAG_NAME, "Database Path: " + dbPath);
 
         return root;
@@ -122,7 +130,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         fab.setOnClickListener(view -> startActivity(new Intent(requireContext(), EventActivity.class)));
         prevButton.setOnClickListener(view -> onMonthChange(-1));
         nextButton.setOnClickListener(view -> onMonthChange(1));
-
     }
 
     private void captureAndShareScreenshot() {
@@ -131,13 +138,12 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
             File tempFile = utils.saveBitmapToFile(requireContext(), screenshot);
             if (tempFile != null) {
                 Uri screenshotUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID, Objects.requireNonNull(tempFile));
-                String appUrl = "https://play.google.com/store/apps/details?id=com.abhiram.qrbarscanner";
                 // Share the screenshot using an intent
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("image/*");
                 shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "Checkout TeluguPanchangam App: \n ANDROID:" + appUrl);
-                startActivity(Intent.createChooser(shareIntent, "Share Screenshot"));
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Checkout TeluguPanchangam App: \n ANDROID:" + AppConstants.appUrl);
+                startActivity(Intent.createChooser(shareIntent, "Share With"));
             }else {
                 // Handle the case where tempFile is null
                 Log.e("Capture Error", "Failed to save screenshot as a temp file.");
@@ -157,9 +163,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
             // Handle the case where the adapter is null
             screenshot = null;
         }
-//        view.setDrawingCacheEnabled(true);
-//        Bitmap screenshot = Bitmap.createBitmap(view.getDrawingCache());
-//        view.setDrawingCacheEnabled(false);
         return screenshot;
     }
     private void updateCalendar(int year, int month, int day, int selectedPosition, int previousPosition) {
