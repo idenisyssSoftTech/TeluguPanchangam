@@ -8,6 +8,7 @@
     <string name="title_dashboard" translatable="true">Festivals</string>
     <string name="title_notifications" translatable="true">Notifications</string>
     <string name="title_settings" translatable="true">Settings</string>
+    <string name="title_others" translatable="true">Others</string>
     <string name="title_panchangam" translatable="false">Panchangam</string>
     <string name="app_name_tel" translatable="false">తెలుగు పంచాంగము</string>
     <string name="privacy_policy" translatable="false">Privacy Policy</string>
@@ -81,6 +82,7 @@ in this ,we can also go through the app terms and policies. </string>
     <string name="next_month_but" translatable="false">next_month_but</string>
     <string name="shareapp" translatable="false">ShareApp</string>
     <string name="share_data_app" translatable="false">ShareData</string>
+    <string name="more_apps" translatable="false">MoreApps</string>
     <string name="contact_us" translatable="false">Contact Us</string>
     <string name="rate_us" translatable="false">Rate Us</string>
     <string name="app_version" translatable="false">App Version</string>

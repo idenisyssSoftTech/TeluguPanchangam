@@ -164,7 +164,7 @@ public class FestivalFragment extends Fragment {
         List<String> festivalDataList = dbHelper.getFestivalDataForMonth(utils.getMonthName(currentMonth), currentYear);
         Log.d(TAG_NAME, "Festival_Names : " + festivalDataList);
         festivalAdapter.setData(festivalDataList);
-        updateTextMonth.setText(utils.updateFestivalMonth(currentMonth,currentYear));
+        updateTextMonth.setText(utils.updateFestivalMonth(currentMonth,currentYear,requireContext()));
     }
     @Override
     public void onDestroyView() {

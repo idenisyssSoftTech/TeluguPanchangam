@@ -17,7 +17,7 @@ import com.telugu.panchangam.utils.AppConstants;
 
 
 public class fragment_settings extends Fragment implements View.OnClickListener {
-    private Button shareApp, rateUs, shareData;
+    private Button shareApp, rateUs, MoreApps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,8 +31,8 @@ public class fragment_settings extends Fragment implements View.OnClickListener 
         rateUs = root.findViewById(R.id.rate_button);
         rateUs.setOnClickListener(this);
 
-        shareData = root.findViewById(R.id.screenshot_button);
-        shareData.setOnClickListener(this);
+        MoreApps = root.findViewById(R.id.moreApps_button);
+        MoreApps.setOnClickListener(this);
         return root;
     }
 
@@ -46,8 +46,9 @@ public class fragment_settings extends Fragment implements View.OnClickListener 
         if(v == shareApp){
             shareAppMethod();
         } else if (v == rateUs) {
-//            openDailpad();
             rateUsMethod();
+        }else if (v == MoreApps) {
+            moreAppsMethod();
         }
     }
 
@@ -81,8 +82,8 @@ public class fragment_settings extends Fragment implements View.OnClickListener 
             // Handle the case where the phone dialer app is not available (you can add a message or alternative action).
         }
     }
-    private void openAppInPlayStore() {
-        String appName = "QRBarScanner"; // Replace with your app's name
+    private void moreAppsMethod() {
+        String appName = "TeluguPanchangam"; // Replace with your app's name
         // Create a Uri for the Play Store search
         Uri searchUri = Uri.parse("https://play.google.com/store/search?q=" + Uri.encode(appName));
 

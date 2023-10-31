@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         calenderRecyclerview.setAdapter(calenderViewAdapter);
 
         String dateVaaram = utils.updateMonth(currentMonth,currentYear,currentDay);
-        updateTextMonth.setText(utils.updateFestivalMonth(currentMonth,currentYear));
+        updateTextMonth.setText(utils.updateFestivalMonth(currentMonth,currentYear,requireContext()));
         Log.d(TAG_NAME,"full date: "+dateVaaram);
         String[] parts = dateVaaram.split(",");
         String Vaaram = parts[0];
@@ -238,7 +238,6 @@ public class HomeFragment extends Fragment implements OnDateChangedCallBack{
         } else {
             prevButton.setVisibility(View.GONE);
         }
-
         if (isValidMonth(currentYear, currentMonth + 1)) {
             nextButton.setVisibility(View.VISIBLE);
         } else {

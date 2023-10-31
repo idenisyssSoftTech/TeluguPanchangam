@@ -15,4 +15,19 @@
         <item>@string/fri</item>
         <item>@string/sat</item>
     </string-array>
+
+    <string-array name="telugu_month_names">
+        <item>జనవరి</item>
+        <item>ఫిబ్రవరి</item>
+        <item>మార్చి</item>
+        <item>ఏప్రిల్</item>
+        <item>మే</item>
+        <item>జూన్</item>
+        <item>జూలై</item>
+        <item>ఆగస్టు</item>
+        <item>సెప్టెంబర్</item>
+        <item>అక్టోబర్</item>
+        <item>నవంబర్</item>
+        <item>డిసెంబర్</item>
+    </string-array>
 </resources>

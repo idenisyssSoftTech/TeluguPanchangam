@@ -1,6 +1,7 @@
 package com.telugu.panchangam.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -10,7 +11,6 @@ import android.text.style.StyleSpan;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 
 import com.telugu.panchangam.R;
 
@@ -49,17 +49,25 @@ public class utils {
         return monthFormat.format(calendar.getTime());
     }
 
-    public static String updateFestivalMonth(int currentMonth, int currentYear){
-        // Set the locale to Telugu
-        Locale teluguLocale = new Locale("te");
-        // Create a DateFormat to display the month name
-        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM - yyyy", teluguLocale);
+    public static String updateFestivalMonth(int currentMonth, int currentYear, Context context){
+//        // Set the locale to Telugu
+//        Locale teluguLocale = new Locale("te");
+//        // Create a DateFormat to display the month name
+//        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM - yyyy", teluguLocale);
+//
+//        // Set the formatted month and year as the TextView's text
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.YEAR, currentYear);
+//        calendar.set(Calendar.MONTH, currentMonth);
+//        return monthFormat.format(calendar.getTime());
 
-        // Set the formatted month and year as the TextView's text
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, currentYear);
-        calendar.set(Calendar.MONTH, currentMonth);
-        return monthFormat.format(calendar.getTime());
+        Resources res = context.getResources();
+        String[] teluguMonthNames = res.getStringArray(R.array.telugu_month_names);
+        // Get the Telugu month name for the current month
+        String teluguMonthName = teluguMonthNames[currentMonth];
+        // Format the month name along with the year
+
+        return teluguMonthName + " - " + currentYear;
     }
 
     public static SpannableStringBuilder spanString(Context context, String eventsText, String textToColor){

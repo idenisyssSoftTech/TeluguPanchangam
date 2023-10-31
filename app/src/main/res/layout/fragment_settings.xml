@@ -48,18 +48,19 @@
             tools:ignore="RtlSymmetry" />
 
         <Button
-            android:id="@+id/screenshot_button"
+            android:id="@+id/moreApps_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/ten_dp"
             android:background="@drawable/button_shap"
-            android:text="@string/share_data_app"
+            android:text="@string/more_apps"
             android:textAllCaps="false"
             android:textSize="@dimen/font_sp"
             app:cornerRadius="@dimen/twenty_dp"
-            app:icon="@drawable/share"
+            app:icon="@drawable/more"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/twenty_dp"
+            android:contentDescription="@string/more_apps"
             tools:ignore="RtlSymmetry" />
     </LinearLayout>
 
