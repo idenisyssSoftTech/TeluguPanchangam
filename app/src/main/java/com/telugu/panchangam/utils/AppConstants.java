@@ -35,6 +35,7 @@ public class AppConstants {
     public static final String DATABASE_NAME = "TPCData15.db";
     public static final int DATABASE_VERSION = 2;
     public static String appUrl = "https://play.google.com/store/apps/details?id=com.telugu.panchangam";
+    public static String QrBarAppUrl = "https://play.google.com/store/apps/details?id=com.abhiram.qrbarscanner";
 
 
 }

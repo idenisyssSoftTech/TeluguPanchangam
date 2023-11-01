@@ -29,6 +29,7 @@ import androidx.core.app.AlarmManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.telugu.panchangam.BuildConfig;
 import com.telugu.panchangam.R;
 import com.telugu.panchangam.databases.dbtables.Eventdata;
 import com.telugu.panchangam.databases.livedatamodel.EventLiveData;
@@ -43,7 +44,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import de.hdodenhof.circleimageview.BuildConfig;
 
 public class AddEvent_Activity extends AppCompatActivity implements View.OnClickListener {
 

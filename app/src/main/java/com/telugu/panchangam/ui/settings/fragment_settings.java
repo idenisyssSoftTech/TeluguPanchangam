@@ -83,12 +83,12 @@ public class fragment_settings extends Fragment implements View.OnClickListener 
         }
     }
     private void moreAppsMethod() {
-        String appName = "TeluguPanchangam"; // Replace with your app's name
+        String appName = "QrBarScanner"; // Replace with your app's name
         // Create a Uri for the Play Store search
         Uri searchUri = Uri.parse("https://play.google.com/store/search?q=" + Uri.encode(appName));
-
+        Uri moreAppsUri = Uri.parse(AppConstants.QrBarAppUrl);
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, searchUri);
+            Intent intent = new Intent(Intent.ACTION_VIEW, moreAppsUri);
             intent.setPackage("com.android.vending"); // Specify the Play Store app package name
             startActivity(intent);
         } catch (android.content.ActivityNotFoundException e) {
